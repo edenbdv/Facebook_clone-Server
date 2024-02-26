@@ -9,8 +9,16 @@ router.route('/')
 
 
 router.route('/:id')
-//    .get(userController.getArticle)
-//    .patch(userController.updateArticle) //update spesific field (title)
-//    .delete(userController.deleteArticle)
+   .get(userController.getUser)
+
+   .patch(userController.updateUserN) //update spesific field (username)
+   .patch(userController.updatePass) //update spesific field (password)
+   //.patch(userController.updateDisplay) //update spesific field (display name)
+   //.patch(userController.updatePic) //update spesific field (profile pic)
+
+
+
+
+   .delete(userController.deleteUser)
 
 module.exports = router;

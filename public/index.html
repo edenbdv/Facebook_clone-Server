@@ -10,47 +10,122 @@
 <body>
     <form id="userForm">
         <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br>
+        <input type="text" id="username" name="username" required>
+        <button onclick="updateUserN()">Update</button><br>
+
 
         <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br>
+        <input type="password" id="password" name="password" required>
+        <button onclick="updatePass()">Update</button><br>
+
 
         <label for="displayName">Display Name:</label><br>
-        <input type="text" id="displayName" name="displayName" required><br>
+        <input type="text" id="displayName" name="displayName" required>
+        <button onclick="updateDisplay()">Update</button><br>
+
 
         <label for="profilePic">Profile Picture:</label><br>
-        <input type="text" id="profilePic" name="profilePic" required><br>
+        <input type="text" id="profilePic" name="profilePic" required>
+        <button onclick="updatePic()">Update</button><br>
 
-        <button type="button" onclick="create()">Add User</button>
+
+        <button type="button" onclick="create()">Add User</button><br>
+        <input id="userIdInput"><button onclick="get()">Get one</button>
+        <button onclick="del()">Delete</button><br>
+
+
+
     </form>
 
 
     <script>
         async function create() {
-
-            const formData = {
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value,
-                displayName: document.getElementById('displayName').value,
-                profilePic: document.getElementById('profilePic').value
-            };
-
-            const response  = await fetch('http://localhost:12345/api/users', { //we did await becgase then is promise also
+            const data   = await fetch('http://localhost:12345/api/users', { //we did await becgase then is promise also
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData)
-                //we will pass the json->string content in input to /article
+                body: JSON.stringify({   username: document.getElementById('username').value,
+                    password: document.getElementById('password').value,
+                    displayName: document.getElementById('displayName').value,
+                    profilePic: document.getElementById('profilePic').value   
+            })
             });
 
-             if (response.ok) {
-                const newUser = await response.json();
-                console.log("User added successfully:", newUser);
+            user = await data.json() //await - because of promise convert answer to json
+            console.log(user)
+        }
+
+        async function get() {
+            const userId = await document.getElementById('userIdInput').value; 
+            const url = `http://localhost:12345/api/users/${userId }`;
+            const data = await fetch(url)
+                .then(data => data.json())
+
+            console.log(data)
+        }
+
+        async function updateUserN() {
+            const userId = await document.getElementById('userIdInput').value;
+            console.log(userId)
+            const url = `http://localhost:12345/api/users/${userId}`;
+            console.log(url)
+            const response = await fetch(url, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username: document.getElementById('username').value })
+            });
+
+            console.log(response)
+
+            if (response.ok) {
+                const updatedUser = await response.json(); // Parse the response JSON
+                console.log("username updated successfully:", updatedUser); // Log the updated article data
             } else {
-                console.error("Failed to add user.");
+                console.error("Failed to update article");
             }
         }
+
+        async function updatePass() {
+            const userId = await document.getElementById('userIdInput').value;
+            console.log(userId)
+            const url = `http://localhost:12345/api/users/${userId}`;
+            console.log(url)
+            const response = await fetch(url, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ password: document.getElementById('password').value })
+            });
+
+            console.log(response)
+
+            if (response.ok) {
+                const updatedUser = await response.json(); // Parse the response JSON
+                console.log("password updated successfully:", updatedUser); // Log the updated article data
+            } else {
+                console.error("Failed to update article");
+            }
+        }
+
+        async function del() {
+            const userId = await  document.getElementById('userIdInput').value; 
+            const url = `http://localhost:12345/api/users/${userId }`;
+            const response = await fetch(url, {
+                method: "DELETE",
+            });
+
+            if (response.ok) {
+                const deletedUser = await response.json(); // Parse the response JSON
+                console.log("User deleted successfully:", deletedUser); // Log the deleted article data
+            } else {
+                console.error("Failed to delete User");
+            }
+        }
+
       
     </script>
 </body>
