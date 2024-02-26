@@ -15,18 +15,14 @@ app.use(cors());
 // console.log(process.env.CONNECTION_STRING)
 // console.log(process.env.PORT)
 CONNECTION_STRING = "mongodb://localhost:27017"
-PORT = 12345
+PORT = 8080
 
 const mongoose = require('mongoose');
 mongoose.connect(CONNECTION_STRING);
 
-
-
 app.use(express.static('public'))
 
-
-const users = require('./routes/user');
-app.use('/api/users', users);
-
+const posts = require('./routes/post');
+app.use('/api/posts', posts);
 
 app.listen(PORT);

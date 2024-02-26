@@ -1,58 +1,39 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create Post</title>
 </head>
-
 <body>
-    <form id="userForm">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br>
+    <form id="postForm">
+        <label for="text">Text:</label><br>
+        <input type="text" id="text" name="text" required><br>
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br>
+        <label for="picture">Picture:</label><br>
+        <input type="text" id="picture" name="picture" required><br>
 
-        <label for="displayName">Display Name:</label><br>
-        <input type="text" id="displayName" name="displayName" required><br>
-
-        <label for="profilePic">Profile Picture:</label><br>
-        <input type="text" id="profilePic" name="profilePic" required><br>
-
-        <button type="button" onclick="create()">Add User</button>
+        <button type="button" onclick=createPost()>Add Post</button>
     </form>
 
-
     <script>
-        async function create() {
-
+        async function createPost() {
             const formData = {
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value,
-                displayName: document.getElementById('displayName').value,
-                profilePic: document.getElementById('profilePic').value
+                text: document.getElementById('text').value,
+                picture: document.getElementById('picture').value
             };
 
-            const response  = await fetch('http://localhost:12345/api/users', { //we did await becgase then is promise also
+            const response = await fetch('http://localhost:8080/api/posts', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(formData)
-                //we will pass the json->string content in input to /article
             });
 
-             if (response.ok) {
-                const newUser = await response.json();
-                console.log("User added successfully:", newUser);
-            } else {
-                console.error("Failed to add user.");
-            }
+            // Handle response here
         }
-      
     </script>
 </body>
-
 </html>
