@@ -8,18 +8,16 @@ const createUser = async (username, password, displayName, profilePic) => {
     return await user.save(); //await because we want the object, not promise 
 };
 
-const updateUserN = async (id, username) => { //update user username
+const updateUser = async (id, updatedField) => { //update user username
     const user = await getUserById(id);
     if (!user) return null;
-    user.username = username;
-    await user.save();
-    return user;
-};
 
-const updatePass = async (id, password) => { //update user password
-    const user = await getUserById(id);
-    if (!user) return null;
-    user.password = password;
+     // Update each property in the user object based on the request body
+     Object.keys(updatedField).forEach(key => {
+        if (key !== '_id') { // Exclude _id field from being updated
+            user[key] = updatedField[key];
+        }
+    });
     await user.save();
     return user;
 };
@@ -31,4 +29,4 @@ const deleteUser = async (id) => {
 };
 
 
-module.exports = { createUser, getUserById, updateUserN ,updatePass, deleteUser }
+module.exports = { createUser, getUserById,updateUser, deleteUser }

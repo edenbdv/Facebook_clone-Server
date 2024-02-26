@@ -11,22 +11,22 @@
     <form id="userForm">
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username" required>
-        <button onclick="updateUserN()">Update</button><br>
+        <button onclick="update('username')">Update</button><br>
 
 
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required>
-        <button onclick="updatePass()">Update</button><br>
+        <button onclick="update('password')">Update</button><br>
 
 
         <label for="displayName">Display Name:</label><br>
         <input type="text" id="displayName" name="displayName" required>
-        <button onclick="updateDisplay()">Update</button><br>
+        <button onclick="update('displayName')">Update</button><br>
 
 
         <label for="profilePic">Profile Picture:</label><br>
         <input type="text" id="profilePic" name="profilePic" required>
-        <button onclick="updatePic()">Update</button><br>
+        <button onclick="update('profilePic')">Update</button><br>
 
 
         <button type="button" onclick="create()">Add User</button><br>
@@ -40,16 +40,17 @@
 
     <script>
         async function create() {
-            const data   = await fetch('http://localhost:12345/api/users', { //we did await becgase then is promise also
+            const data = await fetch('http://localhost:12345/api/users', { //we did await becgase then is promise also
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({   username: document.getElementById('username').value,
+                body: JSON.stringify({
+                    username: document.getElementById('username').value,
                     password: document.getElementById('password').value,
                     displayName: document.getElementById('displayName').value,
-                    profilePic: document.getElementById('profilePic').value   
-            })
+                    profilePic: document.getElementById('profilePic').value
+                })
             });
 
             user = await data.json() //await - because of promise convert answer to json
@@ -57,63 +58,130 @@
         }
 
         async function get() {
-            const userId = await document.getElementById('userIdInput').value; 
-            const url = `http://localhost:12345/api/users/${userId }`;
+            const userId = await document.getElementById('userIdInput').value;
+            const url = `http://localhost:12345/api/users/${userId}`;
             const data = await fetch(url)
                 .then(data => data.json())
 
             console.log(data)
         }
 
-        async function updateUserN() {
-            const userId = await document.getElementById('userIdInput').value;
-            console.log(userId)
+        // async function updateUser() {
+        //     const userId = await document.getElementById('userIdInput').value;
+        //     console.log(userId)
+
+        //     // Check each input field and update the first non-empty field encountered
+        //     const fields = ['username', 'password', 'displayName', 'profilePic'];
+        //     let updatedField = null;
+
+        //     for (const field of fields) {
+        //         const value = document.getElementById(field).value;
+        //         if (value) {
+        //             updatedField = field;
+        //             break;
+        //         }
+        //     }
+
+        //     if (!updatedField) {
+        //         console.error("No field provided for update");
+        //         return;
+        //     }
+
+        //     // Construct the updated field object
+        //     const updatedFields = {
+        //         [updatedField]: document.getElementById(updatedField).value
+        //     };
+
+        //     const url = `http://localhost:12345/api/users/${userId}`;
+        //     console.log(url)
+        //     const response = await fetch(url, {
+        //         method: "PATCH",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(updatedFields)
+        //     });
+
+        //     console.log(response)
+
+        //     if (response.ok) {
+        //         const updatedUser = await response.json(); // Parse the response JSON
+        //         console.log("User updated successfully:", updatedUser); // Log the updated user data
+        //     } else {
+        //         console.error("Failed to update user");
+        //     }
+        // }
+
+        async function update(fieldName) {
+            const userId = document.getElementById('userIdInput').value;
+            const fieldValue = document.getElementById(fieldName).value;
+
             const url = `http://localhost:12345/api/users/${userId}`;
-            console.log(url)
             const response = await fetch(url, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username: document.getElementById('username').value })
+                body: JSON.stringify({ [fieldName]: fieldValue }) // Dynamically set the field to update
             });
 
-            console.log(response)
-
             if (response.ok) {
-                const updatedUser = await response.json(); // Parse the response JSON
-                console.log("username updated successfully:", updatedUser); // Log the updated article data
+                const updatedUser = await response.json();
+                console.log(`${fieldName} updated successfully:`, updatedUser);
             } else {
-                console.error("Failed to update article");
+                console.error("Failed to update", fieldName);
             }
         }
 
-        async function updatePass() {
-            const userId = await document.getElementById('userIdInput').value;
-            console.log(userId)
-            const url = `http://localhost:12345/api/users/${userId}`;
-            console.log(url)
-            const response = await fetch(url, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ password: document.getElementById('password').value })
-            });
 
-            console.log(response)
+        
 
-            if (response.ok) {
-                const updatedUser = await response.json(); // Parse the response JSON
-                console.log("password updated successfully:", updatedUser); // Log the updated article data
-            } else {
-                console.error("Failed to update article");
-            }
-        }
+
+        // async function updateUser() {
+        //     const userId = await document.getElementById('userIdInput').value;
+        //     console.log(userId)
+
+        //     // Initialize an empty object to store the fields to be updated
+        //     const updatedFields = {};
+
+        //     // Check each input field and add it to the updatedFields object if it has a value
+        //     const username = document.getElementById('username').value;
+        //     if (username) updatedFields.username = username;
+
+        //     const password = document.getElementById('password').value;
+        //     if (password) updatedFields.password = password;
+
+        //     const displayName = document.getElementById('displayName').value;
+        //     if (displayName) updatedFields.displayName = displayName;
+
+        //     const profilePic = document.getElementById('profilePic').value;
+        //     if (profilePic) updatedFields.profilePic = profilePic;
+
+        //     const url = `http://localhost:12345/api/users/${userId}`;
+        //     console.log(url)
+        //     const response = await fetch(url, {
+        //         method: "PATCH",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(updatedFields)
+        //     });
+
+        //     console.log(response)
+
+        //     if (response.ok) {
+        //         const updatedUser = await response.json(); // Parse the response JSON
+        //         console.log("username updated successfully:", updatedUser); // Log the updated article data
+        //     } else {
+        //         console.error("Failed to update article");
+        //     }
+        // }
+
+
 
         async function del() {
-            const userId = await  document.getElementById('userIdInput').value; 
-            const url = `http://localhost:12345/api/users/${userId }`;
+            const userId = await document.getElementById('userIdInput').value;
+            const url = `http://localhost:12345/api/users/${userId}`;
             const response = await fetch(url, {
                 method: "DELETE",
             });
@@ -126,7 +194,7 @@
             }
         }
 
-      
+
     </script>
 </body>
 

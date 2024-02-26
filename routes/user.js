@@ -11,13 +11,8 @@ router.route('/')
 router.route('/:id')
    .get(userController.getUser)
 
-   .patch(userController.updateUserN) //update spesific field (username)
-   .patch(userController.updatePass) //update spesific field (password)
-   //.patch(userController.updateDisplay) //update spesific field (display name)
-   //.patch(userController.updatePic) //update spesific field (profile pic)
-
-
-
+   .patch(userController.updateUser) 
+  
 
    .delete(userController.deleteUser)
 
