@@ -24,7 +24,7 @@
                 picture: document.getElementById('picture').value
             };
 
-            const response = await fetch('http://localhost:8080/api/posts', {
+            const response = await fetch('http://localhost:8080/api/users/${userId}/posts', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

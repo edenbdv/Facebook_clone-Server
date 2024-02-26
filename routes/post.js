@@ -4,7 +4,7 @@ const express = require('express');
 var router = express.Router();
 
 
-router.route('/')
+router.route('/api/users/:id/posts')
     .get(postController.getPosts)
     .post(postController.createPost);
 
