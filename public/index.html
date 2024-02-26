@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="userForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br>
+
+        <label for="displayName">Display Name:</label><br>
+        <input type="text" id="displayName" name="displayName" required><br>
+
+        <label for="profilePic">Profile Picture:</label><br>
+        <input type="text" id="profilePic" name="profilePic" required><br>
+
+        <button type="button" onclick="create()">Add User</button>
+    </form>
+
+
+    <script>
+        async function create() {
+
+            const formData = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                displayName: document.getElementById('displayName').value,
+                profilePic: document.getElementById('profilePic').value
+            };
+
+            const response  = await fetch('http://localhost:12345/api/users', { //we did await becgase then is promise also
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData)
+                //we will pass the json->string content in input to /article
+            });
+
+             if (response.ok) {
+                const newUser = await response.json();
+                console.log("User added successfully:", newUser);
+            } else {
+                console.error("Failed to add user.");
+            }
+        }
+      
+    </script>
+</body>
+
+</html>
