@@ -19,7 +19,18 @@ const User = new Schema({
         type: String, // Storing the image as a string
         required: true
 
-    }
+    },
+
+    friends: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+
+    friendRequests: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
+    
 });
 
 module.exports = mongoose.model('User', User);

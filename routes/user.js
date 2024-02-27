@@ -1,4 +1,6 @@
 const userController = require('../controllers/user');
+const userFreindsController = require('../controllers/userFriends');
+
 
 const express = require('express');
 var router = express.Router();
@@ -9,11 +11,19 @@ router.route('/')
 
 
 router.route('/:id')
-   .get(userController.getUser)
+    .get(userController.getUser)
+    .patch(userController.updateUser)
+    .delete(userController.deleteUser)
 
-   .patch(userController.updateUser) 
-  
+router.route('/:id/friends')
+    .get(userFreindsController.getUserFriends)
+    .post(userFreindsController.addFriendReq)
 
-   .delete(userController.deleteUser)
+
+router.route('/:id/friends/:fid')
+    .patch(userFreindsController.acceptReq)
+    // .delete(userController.cancelReq)   //need to check what need to do here - asked in forum
+
+
 
 module.exports = router;

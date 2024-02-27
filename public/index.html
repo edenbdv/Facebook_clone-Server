@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>User</title>
 </head>
 
 <body>
@@ -29,9 +29,14 @@
         <button onclick="update('profilePic')">Update</button><br>
 
 
-        <button type="button" onclick="create()">Add User</button><br>
-        <input id="userIdInput"><button onclick="get()">Get one</button>
+        <button type="button" onclick="create()">Add User</button><br><br>
+        <input id="userIdInput" placeholder="Receiver's ID"><button onclick="get()">Get one</button>
         <button onclick="del()">Delete</button><br>
+
+        <!-- Button to get user friends -->
+        <button onclick="getUserFriends()">Get User Friends</button>
+        <button onclick="addFriendRequest()">Add Friend Request</button>
+        <button onclick="acceptReq()">accept Friend Request</button>
 
 
 
@@ -60,57 +65,12 @@
         async function get() {
             const userId = await document.getElementById('userIdInput').value;
             const url = `http://localhost:12345/api/users/${userId}`;
-            const data = await fetch(url)
-                .then(data => data.json())
-
-            console.log(data)
+            const response = await fetch(url);
+            const userData = await response.json();
+            console.log(userData)
+            return userData; // Return the fetched user data
         }
 
-        // async function updateUser() {
-        //     const userId = await document.getElementById('userIdInput').value;
-        //     console.log(userId)
-
-        //     // Check each input field and update the first non-empty field encountered
-        //     const fields = ['username', 'password', 'displayName', 'profilePic'];
-        //     let updatedField = null;
-
-        //     for (const field of fields) {
-        //         const value = document.getElementById(field).value;
-        //         if (value) {
-        //             updatedField = field;
-        //             break;
-        //         }
-        //     }
-
-        //     if (!updatedField) {
-        //         console.error("No field provided for update");
-        //         return;
-        //     }
-
-        //     // Construct the updated field object
-        //     const updatedFields = {
-        //         [updatedField]: document.getElementById(updatedField).value
-        //     };
-
-        //     const url = `http://localhost:12345/api/users/${userId}`;
-        //     console.log(url)
-        //     const response = await fetch(url, {
-        //         method: "PATCH",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(updatedFields)
-        //     });
-
-        //     console.log(response)
-
-        //     if (response.ok) {
-        //         const updatedUser = await response.json(); // Parse the response JSON
-        //         console.log("User updated successfully:", updatedUser); // Log the updated user data
-        //     } else {
-        //         console.error("Failed to update user");
-        //     }
-        // }
 
         async function update(fieldName) {
             const userId = document.getElementById('userIdInput').value;
@@ -134,51 +94,6 @@
         }
 
 
-        
-
-
-        // async function updateUser() {
-        //     const userId = await document.getElementById('userIdInput').value;
-        //     console.log(userId)
-
-        //     // Initialize an empty object to store the fields to be updated
-        //     const updatedFields = {};
-
-        //     // Check each input field and add it to the updatedFields object if it has a value
-        //     const username = document.getElementById('username').value;
-        //     if (username) updatedFields.username = username;
-
-        //     const password = document.getElementById('password').value;
-        //     if (password) updatedFields.password = password;
-
-        //     const displayName = document.getElementById('displayName').value;
-        //     if (displayName) updatedFields.displayName = displayName;
-
-        //     const profilePic = document.getElementById('profilePic').value;
-        //     if (profilePic) updatedFields.profilePic = profilePic;
-
-        //     const url = `http://localhost:12345/api/users/${userId}`;
-        //     console.log(url)
-        //     const response = await fetch(url, {
-        //         method: "PATCH",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(updatedFields)
-        //     });
-
-        //     console.log(response)
-
-        //     if (response.ok) {
-        //         const updatedUser = await response.json(); // Parse the response JSON
-        //         console.log("username updated successfully:", updatedUser); // Log the updated article data
-        //     } else {
-        //         console.error("Failed to update article");
-        //     }
-        // }
-
-
-
         async function del() {
             const userId = await document.getElementById('userIdInput').value;
             const url = `http://localhost:12345/api/users/${userId}`;
@@ -194,6 +109,77 @@
             }
         }
 
+        async function getUserFriends() {
+            const userId = await document.getElementById('userIdInput').value;
+            const url = `http://localhost:12345/api/users/${userId}/friends`;
+            const response = await fetch(url);
+            const data = await response.json();
+
+            friendDisplayNames = []
+            for (const friend of data.friends) {
+                //console.log(friend)
+
+                friendDisplayNames.push(friend.displayName);
+            }
+
+            console.log(friendDisplayNames); // Log the array of friend display names
+
+            return friendDisplayNames;
+        }
+
+
+        async function addFriendRequest() {
+            try {
+                // need to put here the user that logged in as the sender !!!!!!!!!!!!
+                // const senderId = hardcodedUserId; // for now, Eden always send friendRequests
+
+                const recieverId = await document.getElementById('userIdInput').value; //the receiver
+
+                const url = `http://localhost:12345/api/users/${recieverId}/friends`;
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    console.log('Friend request sent successfully');
+                    // Optionally, you can reload the friend list or perform any other action
+                } else {
+                    console.error('Failed to send friend request');
+                }
+            } catch (error) {
+                console.error('Error adding friend request:', error);
+            }
+        }
+
+        const hardcodedUserId = '65dca9a17c19003dd20aecd2'; // Eden's id
+
+        async function acceptReq() {
+            try {
+            // need to put here   the user that logged in as the sender !!!!!!!!!!!!
+                const senderId = hardcodedUserId; // for now, Eden always send friendRequests
+                const recieverId = await document.getElementById('userIdInput').value; //the receiver
+
+                const url = `http://localhost:12345/api/users/${recieverId}/friends/${senderId}`;
+                const response = await fetch(url, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    console.log('Friend request accept successfully');
+                    // Optionally, you can reload the friend list or perform any other action
+                } else {
+                    console.error('Failed to accept  friend request');
+                }
+            } catch (error) {
+                console.error('Error adding friend request:', error);
+            }
+        }
 
     </script>
 </body>

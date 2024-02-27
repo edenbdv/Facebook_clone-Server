@@ -34,14 +34,7 @@ const updateUser = async (req, res) => {
       console.error("Error updating user:", error);
       res.status(500).json({ errors: ['Failed to update user'] });
   }
-
-      // const user = await UserService.updateUser(req.params.id, req.body);
-      // // const user = await UserService.updateUserN(req.params.id, req.body.username);
-      // if (!user) {
-      //    return res.status(404).json({ errors: ['User not found'] });
-      //    // try and catch!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      // }
-      // res.json(user);
+    
    };
 
 
