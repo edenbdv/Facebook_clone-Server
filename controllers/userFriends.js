@@ -3,6 +3,10 @@ const UserFriendsService = require('../services/userFriends');
 const getUserFriends = async (req, res) => {
     try {
 
+        // Extract and validate JWT token
+        const token = req.headers.authorization.split(' ')[1];
+        const decodedToken = jwt.verify(token, 'your_secret_key'); // Replace 'your_secret_key' with your actual secret key
+
         const userId = req.params.id;
         if (!userId) {
             return res.status(404).json({ errors: ['User ID not provided'] });
@@ -44,7 +48,7 @@ const acceptReq = async (req, res) => {
     //only id can do it!!! (reciever)
     try {
         const senderId = hardcodedUserId; // for now, Eden always send friendRequests
-        const recieverId = req.params.id; 
+        const recieverId = req.params.id;
         // const senderId = req.params.fid;
 
         const result = await UserFriendsService.acceptReq(senderId, recieverId);
