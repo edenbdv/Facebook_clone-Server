@@ -3,10 +3,6 @@ const UserFriendsService = require('../services/userFriends');
 const getUserFriends = async (req, res) => {
     try {
 
-        // Extract and validate JWT token
-        const token = req.headers.authorization.split(' ')[1];
-        const decodedToken = jwt.verify(token, 'your_secret_key'); // Replace 'your_secret_key' with your actual secret key
-
         const userId = req.params.id;
         if (!userId) {
             return res.status(404).json({ errors: ['User ID not provided'] });
@@ -25,13 +21,11 @@ const getUserFriends = async (req, res) => {
 };
 
 
-const hardcodedUserId = '65dca9a17c19003dd20aecd2'; // Eden's id
 
-
-const addFriendReq = async (req, res) => { //need to do jwt!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const addFriendReq = async (req, res) => { 
     try {
 
-        const senderId = hardcodedUserId; // for now, Eden always send friendRequests
+        const senderId = req.body.senderId;
         const recieverId = req.params.id;
         // Call the service function to add the friend request
         const result = await UserFriendsService.addFriendReq(senderId, recieverId);
@@ -45,11 +39,9 @@ const addFriendReq = async (req, res) => { //need to do jwt!!!!!!!!!!!!!!!!!!!!!
 
 
 const acceptReq = async (req, res) => {
-    //only id can do it!!! (reciever)
     try {
-        const senderId = hardcodedUserId; // for now, Eden always send friendRequests
+       const senderId  = req.params.fid;
         const recieverId = req.params.id;
-        // const senderId = req.params.fid;
 
         const result = await UserFriendsService.acceptReq(senderId, recieverId);
         res.json(result);
@@ -61,4 +53,23 @@ const acceptReq = async (req, res) => {
 
 };
 
-module.exports = { getUserFriends, addFriendReq, acceptReq };
+
+
+const deleteFriend = async (req, res) => {
+    try {
+
+        const senderId  = req.params.fid;
+        const receiverId = req.params.id;
+
+        const result = await UserFriendsService.deleteFriend(senderId,receiverId);
+        res.json(result);
+    } catch (error) {
+        console.error('Error deleting friend request:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+    
+    
+
+module.exports = { getUserFriends, addFriendReq, acceptReq, deleteFriend };

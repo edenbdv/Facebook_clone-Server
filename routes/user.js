@@ -22,7 +22,7 @@ router.route('/:id/friends')
 
 router.route('/:id/friends/:fid')
     .patch(userFreindsController.acceptReq)
-    // .delete(userController.cancelReq)   //need to check what need to do here - asked in forum
+    .delete(userFreindsController.deleteFriend)  
 
 
 
