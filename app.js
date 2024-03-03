@@ -5,12 +5,16 @@ const bodyParser = require('body-parser'); //post
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json()); // req will be in json 
 
+// Increase the maximum request body size limit
+app.use(bodyParser.json({ limit: '180mb' }));
+app.use(bodyParser.urlencoded({ limit: '180mb', extended: true }));
+
 
 const cors = require('cors');
 app.use(cors());
 
 
-//const customEnv = require('custom-env');
+// const customEnv = require('custom-env');
 // customEnv.env(process.env.NODE_ENV, './config');
 // console.log(process.env.CONNECTION_STRING)
 // console.log(process.env.PORT)
