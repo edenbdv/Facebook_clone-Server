@@ -1,0 +1,51 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+</head>
+
+<body>
+    <form id="postForm">
+        <input id="userIdInput" placeholder="user's ID"><br><br>
+
+        <label for="text">Text:</label><br>
+        <input type="text" id="text" name="text" required><br>
+
+        <label for="picture">Picture:</label><br>
+        <input type="text" id="picture" name="picture" required><br>
+
+        <button type="button" onclick=createPost()>Add Post</button>
+    </form>
+
+    <script>
+        async function createPost() {
+            const formData = {
+                text: document.getElementById('text').value,
+                picture: document.getElementById('picture').value
+            };
+            const userId = await document.getElementById('userIdInput').value;
+
+            const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                const post = await response.json();
+                console.log(`post created successfully:`, post);
+            } else {
+                console.error("Failed to create post");
+            }
+
+        }
+    </script>
+</body>
+
+</html>

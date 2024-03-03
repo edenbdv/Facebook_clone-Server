@@ -6,8 +6,9 @@ const createUser = async (req, res) => {
 
 
 const getUser = async (req, res) => {
-   const user = await UserService.getUserById(req.params.id);
-   if (!user) {
+   const username = req.params.id; // Get username from request parameters
+   const user = await UserService.getUserByUsername(username);  
+    if (!user) {
       return res.status(404).json({ errors: ['User not found'] });
       // add try and catch!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    }
@@ -15,7 +16,7 @@ const getUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-   const userId = req.params.id;
+   const username  = req.params.id;
    const updatedField = req.body;
 
    // Check if any fields are provided for update
@@ -24,7 +25,7 @@ const updateUser = async (req, res) => {
    }
 
    try {
-      const user = await UserService.updateUser(userId, updatedField);
+      const user = await UserService.updateUser(username , updatedField);
 
       if (!user) {
          return res.status(404).json({ errors: ['User not found'] });
@@ -40,7 +41,8 @@ const updateUser = async (req, res) => {
 
 
    const deleteUser = async (req, res) => {
-      const user = await UserService.deleteUser(req.params.id);
+      const username = req.params.id; // Get username from request parameters
+      const user = await UserService.deleteUser(username);
       if (!user) {
          return res.status(404).json({ errors: ['User not found'] });
          // add try and catch!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

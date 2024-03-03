@@ -1,9 +1,10 @@
 const UserModel = require('../models/user');
+const UserService = require('../services/user');
 
-const getUserFriends = async (userId) => {
+const getUserFriends = async (username) => {
     try {
         // Retrieve the user document from the database based on the provided ID
-        const user = await UserModel.findById(userId);
+        const user = await UserService.getUserByUsername(username);
 
         if (!user) {
             return null; // Return null if user is not found
@@ -14,6 +15,7 @@ const getUserFriends = async (userId) => {
 
         // Fetch the friend documents from the database based on the IDs stored in the friends field
         const friends = await UserModel.find({ _id: { $in: friendIds } });
+        
         return friends;
     } catch (error) {
         console.error('Error fetching user friends:', error);
@@ -22,17 +24,23 @@ const getUserFriends = async (userId) => {
 };
 
 
-const addFriendReq = async (senderId, receiverId) => {
+const addFriendReq = async (senderUsername, receiverUsername) => {
     try {
         // Find the user document of recieverId
-        const recipientUser = await UserModel.findById(receiverId);
+        const recipientUser = await UserService.getUserByUsername(receiverUsername);
 
         if (!recipientUser) {
-            throw new Error(`User with ID ${receiverId} not found`);
+            throw new Error(`User with ID ${receiverUsername} not found`);
+        }
+
+        // Find the user document of senderUsername
+        const senderUser = await UserService.getUserByUsername(senderUsername)
+        if (!senderUser) {
+            throw new Error(`User with username ${senderUsername} not found`);
         }
 
         // Add senderId to the friendRequests array
-        recipientUser.friendRequests.push(senderId);
+        recipientUser.friendRequests.push(senderUser._id);
 
         // Save the updated user document
         await recipientUser.save();
@@ -46,30 +54,31 @@ const addFriendReq = async (senderId, receiverId) => {
 
 
 
-const acceptReq = async (senderId, receiverId) => {
+const acceptReq = async (senderUsername, receiverUsername) => {
     //only id can do it!!! (receiver)
     try {
         // Update list of friends for both of them:
 
-        // Find the user document of receiverId
-        const recipientUser = await UserModel.findById(receiverId);
+        // Find the user document of recieverId
+        const recipientUser = await UserService.getUserByUsername(receiverUsername);
 
         if (!recipientUser) {
-            throw new Error(`Recipient user with ID ${receiverId} not found`);
+            throw new Error(`Recipient user with ID ${receiverUsername} not found`);
         }
 
-        // Find the user document of senderId
-        const senderUser = await UserModel.findById(senderId);
+      
+         // Find the user document of senderUsername
+         const senderUser = await UserService.getUserByUsername(senderUsername)
+         if (!senderUser) {
+             throw new Error(`User with username ${senderUsername} not found`);
+         }
 
-        if (!senderUser) {
-            throw new Error(`Sender user with ID ${senderId} not found`);
-        }
-
-        recipientUser.friends.push(senderId);
-        senderUser.friends.push(receiverId);
+         
+        recipientUser.friends.push(senderUser._id);
+        senderUser.friends.push(recipientUser._id);
 
         // Remove the friend request
-        recipientUser.friendRequests.pull(senderId);
+        recipientUser.friendRequests.pull(senderUser._id);
 
         // Save the updated user documents
         await Promise.all([recipientUser.save(), senderUser.save()]);
@@ -84,25 +93,26 @@ const acceptReq = async (senderId, receiverId) => {
 };
 
 
-const deleteFriend = async (senderId, receiverId) => {
+const deleteFriend = async (senderUsername, receiverUsername) => {
 
     //only id can do it!!! (receiver)
     try {
-        // Update list of friends for both of them:
+         // Find the user document of recieverId
+         const recipientUser = await UserService.getUserByUsername(receiverUsername);
 
-        // Find the user document of receiverId
-        const recipientUser = await UserModel.findById(receiverId);
+         if (!recipientUser) {
+             throw new Error(`Recipient user with ID ${receiverUsername} not found`);
+         }
+       
+          // Find the user document of senderUsername
+          const senderUser = await UserService.getUserByUsername(senderUsername)
+          if (!senderUser) {
+              throw new Error(`User with username ${senderUsername} not found`);
+          }
 
-        if (!recipientUser) {
-            throw new Error(`Recipient user with ID ${receiverId} not found`);
-        }
+          senderId =senderUser._id;
+          receiverId = recipientUser._id
 
-        // Find the user document of senderId
-        const senderUser = await UserModel.findById(senderId);
-
-        if (!senderUser) {
-            throw new Error(`Sender user with ID ${senderId} not found`);
-        }
 
         // Check if sender and receiver are friends
         if (recipientUser.friends.includes(senderId) && senderUser.friends.includes(receiverId)) {
