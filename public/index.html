@@ -30,13 +30,17 @@
 
 
         <button type="button" onclick="create()">Add User</button><br><br>
+        <input id="friendIdInput" placeholder="Sender's ID">
+        <button onclick="addFriendRequest()">Add Friend Request</button><br>
         <input id="userIdInput" placeholder="Receiver's ID"><button onclick="get()">Get one</button>
-        <button onclick="del()">Delete</button><br>
+        <button onclick="del()">Delete</button>
+        <button onclick="getUserFriends()">Get User Friends</button><br>
 
-        <!-- Button to get user friends -->
-        <button onclick="getUserFriends()">Get User Friends</button>
-        <button onclick="addFriendRequest()">Add Friend Request</button>
+
+
         <button onclick="acceptReq()">accept Friend Request</button>
+        <button onclick="deleteFriend()">delete Friend/Friend Request</button>
+
 
     </form>
 
@@ -128,21 +132,23 @@
 
         async function addFriendRequest() {
             try {
-                // need to put here the user that logged in as the sender !!!!!!!!!!!!
-                // const senderId = hardcodedUserId; // for now, Eden always send friendRequests
+                // Get the senderId and receiverId from the input fields
+                const senderId = await document.getElementById('friendIdInput').value;
 
-                const recieverId = await document.getElementById('userIdInput').value; //the receiver
+                const recieverId = await document.getElementById('userIdInput').value;
+
 
                 const url = `http://localhost:12345/api/users/${recieverId}/friends`;
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                     body: JSON.stringify({ senderId })
                 });
 
                 if (response.ok) {
-                    console.log('Friend request sent successfully');
+                    console.log('Friend request sent successfully from: ',senderId, ' to: ', recieverId);
                     // Optionally, you can reload the friend list or perform any other action
                 } else {
                     console.error('Failed to send friend request');
@@ -152,12 +158,11 @@
             }
         }
 
-        const hardcodedUserId = '65dca9a17c19003dd20aecd2'; // Eden's id
 
         async function acceptReq() {
             try {
-            // need to put here   the user that logged in as the sender !!!!!!!!!!!!
-                const senderId = hardcodedUserId; // for now, Eden always send friendRequests
+                
+                const senderId = await document.getElementById('friendIdInput').value;
                 const recieverId = await document.getElementById('userIdInput').value; //the receiver
 
                 const url = `http://localhost:12345/api/users/${recieverId}/friends/${senderId}`;
@@ -176,6 +181,32 @@
                 }
             } catch (error) {
                 console.error('Error adding friend request:', error);
+            }
+        }
+
+        
+        async function deleteFriend() {
+            try {
+                
+                const senderId = await document.getElementById('friendIdInput').value;
+                const recieverId = await document.getElementById('userIdInput').value; //the receiver
+
+                const url = `http://localhost:12345/api/users/${recieverId}/friends/${senderId}`;
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    console.log('Friend /Friend request deleted successfully');
+                    // Optionally, you can reload the friend list or perform any other action
+                } else {
+                    console.error('Failed to delete  friend / friend request');
+                }
+            } catch (error) {
+                console.error('Error deleting friend  /friend request:', error);
             }
         }
 
