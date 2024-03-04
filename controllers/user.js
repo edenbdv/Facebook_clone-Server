@@ -6,8 +6,14 @@ const createUser = async (req, res) => {
        const newUser = await UserService.createUser(req.body.username, req.body.password, req.body.displayName, req.body.profilePic);
        res.json(newUser);
    } catch (error) {
-       // If an error occurs during user creation, handle the error and send an error response to the client
-       res.status(400).json({ error: error.message });
+        // Check if the error message is the custom message for existing username
+        if (error.message === 'Username already exists') {
+         // Send custom error message as response
+         res.status(400).json({ error: 'Username already exists' });
+     } else {
+         // For other errors, send a generic error message
+         res.status(500).json({ error: 'Internal Server Error' });
+     }
    }
 };
 

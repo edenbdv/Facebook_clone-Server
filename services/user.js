@@ -1,23 +1,30 @@
 const UserModel = require('../models/user');
 const PostModel = require('../models/post');
+//const UserService = require('../services/user');
+
 
 const getUserByUsername = async (username) => {
     return await UserModel.findOne({ username: username });
 };
 
 const createUser = async (username, password, displayName, profilePic) => {
-    // Check if a user with the provided username already exists
-    const existingUser = await UserModel.findOne({ username });
+    try {
+        // Check if a user with the provided username already exists
+        const existingUser = await UserModel.findOne({ username });
 
-    if (existingUser) {
-        throw new Error('Username already exists');
+        if (existingUser) {
+            throw new Error('Username already exists');
+        }
+
+        const user = new UserModel({ username, password, displayName, profilePic });
+        return await user.save(); //await because we want the object, not promise 
+    } catch (error) {
+
+        console.error('Error creating user:', error);
     }
 
-    const user = new UserModel({ username, password, displayName, profilePic });
-    return await user.save(); //await because we want the object, not promise 
+
 };
-
-
 
 
 const updateUser = async (username, updatedField) => { //update user username

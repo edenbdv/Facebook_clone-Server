@@ -1,3 +1,4 @@
+
 const express = require('express');
 var app = express();
 
@@ -25,6 +26,9 @@ const mongoose = require('mongoose');
 mongoose.connect(CONNECTION_STRING);
 
 
+// Call the initializeDatabase function
+const  Init = require('./initializeDB');
+Init.initializeDatabase();
 
 app.use(express.static('public'))
 
