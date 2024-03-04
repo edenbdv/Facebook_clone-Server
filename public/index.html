@@ -117,16 +117,16 @@
             const response = await fetch(url);
             const data = await response.json();
 
-            friendDisplayNames = []
+            friendUsernames = []
             for (const friend of data.friends) {
                 //console.log(friend)
 
-                friendDisplayNames.push(friend.displayName);
+                friendUsernames.push(friend.username);
             }
 
-            console.log(friendDisplayNames); // Log the array of friend display names
+            console.log(friendUsernames); // Log the array of friend display names
 
-            return friendDisplayNames;
+            return friendUsernames;
         }
 
 

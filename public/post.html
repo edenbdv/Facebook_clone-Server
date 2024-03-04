@@ -10,15 +10,26 @@
 
 <body>
     <form id="postForm">
-        <input id="userIdInput" placeholder="user's ID"><br><br>
+        <input id="userIdInput" placeholder="username">
+        <button type="button" onclick=getPosts()>Show Posts</button><br><br>
+
+        <input id="postIdInput" placeholder="post's Id"><br><br>
+
 
         <label for="text">Text:</label><br>
-        <input type="text" id="text" name="text" required><br>
+        <input type="text" id="text" name="text" required>
+        <button onclick="update('text')">Update</button><br>
+
 
         <label for="picture">Picture:</label><br>
-        <input type="text" id="picture" name="picture" required><br>
+        <input type="text" id="picture" name="picture" required>
+        <button onclick="update('picture')">Update</button><br>
+
 
         <button type="button" onclick=createPost()>Add Post</button>
+        <button type="button" onclick=deletePost()>Delete Post</button>
+
+
     </form>
 
     <script>
@@ -45,6 +56,73 @@
             }
 
         }
+
+        async function getPosts() {
+            const userId = await document.getElementById('userIdInput').value;
+
+            const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`);
+            if (response.ok) {
+                const data = await response.json();
+                postLst = []
+                for (const post of data) {
+                    postLst.push(post);
+                }
+                console.log(postLst);
+                return postLst;
+            } else {
+                console.error("Failed to get posts");
+            }
+
+        }
+
+        async function update(fieldName) {
+            const userId = document.getElementById('userIdInput').value;
+            const postId = await document.getElementById('postIdInput').value;
+            const fieldValue = document.getElementById(fieldName).value;
+
+            const url = `http://localhost:12345/api/users/${userId}/posts/${postId}`;
+            const response = await fetch(url, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ [fieldName]: fieldValue }) // Dynamically set the field to update
+            });
+
+            if (response.ok) {
+                const updatedPost = await response.json();
+                console.log(`${fieldName} updated successfully:`, updatedPost);
+            } else {
+                console.error("Failed to update", fieldName);
+            }
+        }
+
+
+
+
+
+        async function deletePost() {
+            const userId = await document.getElementById('userIdInput').value;
+            const postId = await document.getElementById('postIdInput').value;
+
+
+            const response = await fetch(`http://localhost:12345/api/users/${userId}/posts/${postId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.ok) {
+                const post = await response.json();
+                console.log(`post deleted successfully:`, post);
+            } else {
+                console.error("Failed to delete post");
+            }
+
+        }
+
+
     </script>
 </body>
 

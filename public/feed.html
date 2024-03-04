@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed:</title>
+</head>
+
+<body>
+    <input id="userIdInput" placeholder="username">
+    <button type="button" onclick=getPosts()>See updated posts</button>
+
+    <script>
+        async function getPosts() {
+            const userId = await document.getElementById('userIdInput').value;
+
+            const response = await fetch(`http://localhost:12345/api/posts?username=${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                postLst = []
+                for (const post of data) {
+                    postLst.push(post);
+                }
+                console.log(postLst);
+                return postLst;
+            } else {
+                console.error("Failed to get posts");
+            }
+
+        }
+    </script>
+
+
+</body>
+
+</html>

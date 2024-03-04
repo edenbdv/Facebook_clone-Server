@@ -15,6 +15,15 @@ const Post = new Schema({
             return !this.text; // Picture is required if text is not provided
         }
     },
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User', // Reference to the User model
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now // Set default value to the current timestamp when a post is created
+    },
     comments: [{
         type: String,
         required: true

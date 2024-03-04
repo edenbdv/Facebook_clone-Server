@@ -32,9 +32,13 @@ router.route('/:id/friends/:fid')
 
 //posts: 
 router.route('/:id/posts')
-    // .get(userPostsController.getPosts)
+    .get(userPostsController.getPosts)
     .post(userPostsController.createPost)
 
+
+router.route('/:id/posts/:pid')
+    .patch(userPostsController.updatePost)
+    .delete(userPostsController.deletePost)
 
 
 module.exports = router;
