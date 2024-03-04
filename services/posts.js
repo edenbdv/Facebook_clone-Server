@@ -20,12 +20,12 @@ const getPosts = async (username) => {
         let friendPosts = [];
 
         // Loop through each friend to get their posts
-        for (const friendId  of friends) {
+        for (const friendId of friends) {
             const friend = await UserModel.findById(friendId); // Fetch user details by _id
             friendUsername = friend.username;
 
             const posts = await userPostsService.getPosts(friendUsername); // Get posts of friend
-            
+
             console.log('Posts for', friendUsername, ':', posts); // Log the posts
 
             // Only concatenate non-empty arrays of posts
@@ -34,10 +34,62 @@ const getPosts = async (username) => {
             }
         }
 
+
         // Sort the friendPosts array by creation date (newest to oldest)
         friendPosts.sort((a, b) => b.createdAt - a.createdAt);
 
-        return friendPosts.slice(0, 20); // Return the last 20 posts
+        friendPosts = friendPosts.slice(0, 20); // save only the newest 20 posts
+
+
+
+
+        // 5  non friends posts :
+
+        const allUsers = await UserModel.find();
+
+        console.log("all users:",allUsers);
+        // Filter out friends
+        const nonFriendUsers = allUsers.filter(user => !friends.includes(user._id.toString()));
+
+        console.log("non friends:", nonFriendUsers);
+
+        let nonFriendPosts = [];
+
+        // Loop through each non-friend to get their posts
+        for (const nonFriendId of nonFriendUsers) {
+            const nonFriend = await UserModel.findById(nonFriendId); 
+            nonFriendUsername  = nonFriend.username;
+
+            const posts = await userPostsService.getPosts(nonFriendUsername ); // Get posts of non-friend
+
+            console.log('Posts for', nonFriendUsername, ':', posts);
+
+            // Only concatenate non-empty arrays of posts
+            if (posts && posts.length > 0) {
+                nonFriendPosts = nonFriendPosts.concat(posts); 
+            }
+        }
+
+
+        // Sort the friendPosts array by creation date (newest to oldest) and svae only the newest 5 posts
+        nonFriendPosts.sort((a, b) => b.createdAt - a.createdAt);
+
+        nonFriendPosts = nonFriendPosts.slice(0, 5); 
+
+
+
+         // Combine friend and non-friend posts, and sort them by creation date
+         const combinedPosts = friendPosts.concat(nonFriendPosts);
+
+         combinedPosts.sort((a, b) => b.createdAt - a.createdAt);
+ 
+         return combinedPosts; 
+
+
+
+
+
+        
 
     } catch (error) {
         console.error('Error getting posts:', error);
