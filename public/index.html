@@ -30,6 +30,10 @@
 
 
         <button type="button" onclick="create()">Add User</button><br><br>
+
+        <input id="token" placeholder="token"><br><br>
+
+
         <input id="friendIdInput" placeholder="Sender's username">
         <button onclick="addFriendRequest()">Add Friend Request</button><br>
         <input id="userIdInput" placeholder="Receiver's username"><button onclick="get()">Get one</button>
@@ -47,7 +51,7 @@
 
     <script>
         async function create() {
-            const data = await fetch('http://localhost:12345/api/users', { //we did await becgase then is promise also
+            const data = await fetch('http://localhost:12345/api/users', { 
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -60,7 +64,7 @@
                 })
             });
 
-            user = await data.json() //await - because of promise convert answer to json
+            user = await data.json() 
             console.log(user)
         }
 
@@ -70,19 +74,22 @@
             const response = await fetch(url);
             const userData = await response.json();
             console.log(userData)
-            return userData; // Return the fetched user data
+            return userData; 
         }
 
 
         async function update(fieldName) {
-            const userId = document.getElementById('userIdInput').value;
+            const userId = document.getElementById('userIdInput').value; //thats also the username
             const fieldValue = document.getElementById(fieldName).value;
+
+            const jwtToken= document.getElementById('token').value;  //noga should send from local storage
 
             const url = `http://localhost:12345/api/users/${userId}`;
             const response = await fetch(url, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
                 },
                 body: JSON.stringify({ [fieldName]: fieldValue }) // Dynamically set the field to update
             });

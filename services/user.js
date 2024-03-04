@@ -1,6 +1,5 @@
 const UserModel = require('../models/user');
 const PostModel = require('../models/post');
-//const UserService = require('../services/user');
 
 
 const getUserByUsername = async (username) => {

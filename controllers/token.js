@@ -1,6 +1,7 @@
 
 const tokenService = require('../services/token');
 
+
 const createToken = async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -14,4 +15,6 @@ const createToken = async (req, res) => {
     }
 };
 
-module.exports = { createToken };
+
+
+module.exports = { createToken  };
