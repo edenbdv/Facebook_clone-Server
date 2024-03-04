@@ -1,7 +1,14 @@
 const UserService = require('../services/user');
 
+
 const createUser = async (req, res) => {
-   res.json(await UserService.createUser(req.body.username, req.body.password, req.body.displayName, req.body.profilePic));
+   try {
+       const newUser = await UserService.createUser(req.body.username, req.body.password, req.body.displayName, req.body.profilePic);
+       res.json(newUser);
+   } catch (error) {
+       // If an error occurs during user creation, handle the error and send an error response to the client
+       res.status(400).json({ error: error.message });
+   }
 };
 
 
@@ -50,5 +57,7 @@ const updateUser = async (req, res) => {
       res.json(user);
 
    };
+
+
 
    module.exports = { createUser, getUser, updateUser, deleteUser }
