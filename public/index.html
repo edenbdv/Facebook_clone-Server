@@ -104,10 +104,18 @@
 
 
         async function del() {
+
+            const jwtToken= document.getElementById('token').value;  //noga should send from local storage
             const userId = await document.getElementById('userIdInput').value;
+
+            
             const url = `http://localhost:12345/api/users/${userId}`;
             const response = await fetch(url, {
                 method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
             });
 
             if (response.ok) {
