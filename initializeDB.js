@@ -64,11 +64,11 @@ const initializeDatabase = async () => {
         // Create users and their posts
         for (const userData of usersData) {
             try {
-                const existingUser = await UserModel.findOne({ username: userData.username });
-                if (existingUser) {
-                    console.log('No need to initialize - User already exists:', userData.username);
-                    continue; // Skip creating posts if user already exists
-                }
+                // const existingUser = await UserModel.findOne({ username: userData.username });
+                // if (existingUser) {
+                //     console.log('No need to initialize - User already exists:', userData.username);
+                //     continue; // Skip creating posts if user already exists
+                // }
 
                 const user = await UserService.createUser(userData.username, userData.password, userData.displayName, userData.profilePic);
                 if (!user) {

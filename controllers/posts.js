@@ -16,6 +16,8 @@ const getPosts = async (req, res) => {
         }
         
         res.json(await postsService.getPosts(loggedUsername));
+
+        
     } catch (error) {
         console.error('Error getting posts:', error);
         res.status(500).json({ error: 'Internal Server Error' });

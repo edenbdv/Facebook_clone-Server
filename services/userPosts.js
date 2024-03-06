@@ -7,11 +7,15 @@ const UserFriendService = require('../services/userFriends');
 const createPost = async (creatorUsername, text, picture) => {
     try {
 
-        const creatorUser = await UserService.getUserByUsername(creatorUsername);
-        const creatorId = creatorUser._id;
+         // Fetch the user by username to get their ID
+         const creatorUser = await UserService.getUserByUsername(creatorUsername);
+         const creatorId = creatorUser._id;
+         if (!creatorUser) {
+             throw new Error(`User with username ${creatorUsername} not found`);
+         }
 
-
-        const post = new PostModel({ text: text, picture: picture, createdBy: creatorId, comments: [] });
+        // const post = new PostModel({ text: text, picture: picture, createdBy: creatorId, comments: [] });
+        const post = new PostModel({ text: text, picture: picture, createdBy: creatorUsername, comments: [] });
         const savedPost = await post.save();
 
         // Update the user's posts list with the newly created post ID

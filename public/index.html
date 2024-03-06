@@ -184,7 +184,7 @@
                 });
 
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
 
                 if (data.error) {
                     console.error('Error fetching user friends:', data.error);
@@ -195,7 +195,7 @@
                 const friendUsernames = data.friends.map(friend => friend.username);
                 console.log(friendUsernames); // Log the array of friend display names
 
-                return friendUsernames;
+                return data;
             } catch (error) {
                 console.error('Error fetching user friends:', error);
                 // Handle error here, such as displaying an error message to the user
