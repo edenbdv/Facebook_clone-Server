@@ -1,8 +1,5 @@
 const UserModel = require('../models/user');
 const PostModel = require('../models/post');
-//const UserFriendsService = require('../services/userFriends');
-
-
 
 const getUserByUsername = async (username) => {
     return await UserModel.findOne({ username: username });
@@ -24,54 +21,6 @@ const getDataUserByUsername = async (username) => {
     }
 
 };
-
-// const getUserByUsername = async (username) => {
-//     return await UserModel.findOne({ username: username });
-// };
-
-// const getUserByUsername = async (username, loggedUsername) => {
-//     try {
-//         // Find the user by username
-//         const user = await UserModel.findOne({ username: username });
-
-//         if (!user) {
-//             throw new Error('User not found');
-//         }
-
-//         // // Check if the requester is friends with the user
-//         // friends = await  UserFriendsService.getUserFriends(username)
-
-//          // Access the friends field from the user document
-//          const friendIds = user.friends;
-
-//          // Fetch the friend documents from the database based on the IDs stored in the friends field
-//          const friends = await UserModel.find({ _id: { $in: friendIds } });
-
-//         const isFriend = friends.some(friend => friend.username === loggedUsername);
-
-//         let userData = {
-//             username: user.username,
-//             displayName: user.displayName,
-//             profilePic: user.profilePic
-//         };
-
-//         // If the requester is a friend, return all details except the password
-//         if (isFriend) {
-//             console.log('friend');
-//             userData.friends = friends;
-//             // add here also posts!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//             return userData;
-
-//         } else {
-//             // If not a friend, return only basic details except the password
-//             console.log('not friend')
-//             return userData;        
-//         }
-//     } catch (error) {
-//         throw new Error('Error fetching user by username: ' + error.message);
-//     }
-// };
-
 
 const createUser = async (username, password, displayName, profilePic) => {
     try {
@@ -108,8 +57,6 @@ const updateUser = async (username, updatedField) => { //update user username
 };
 
 
-
-
 const deleteUser = async (username) => {
     try {
         const user = await UserModel.findOne({ username });
@@ -141,7 +88,6 @@ const deleteUser = async (username) => {
         throw error;
     }
 };
-
 
 
 module.exports = { createUser, getUserByUsername, updateUser, deleteUser, getDataUserByUsername }

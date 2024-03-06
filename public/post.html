@@ -24,7 +24,7 @@
 
 
         <label for="picture">Picture:</label><br>
-        <input type="text" id="picture" name="picture" required>
+        <input type="file" id="picture" name="picture" required>
         <button onclick="update('picture')">Update</button><br>
 
 
@@ -35,35 +35,47 @@
     </form>
 
     <script>
-        async function createPost() {
 
+        const createPost = async () => {
             const jwtToken = document.getElementById('token').value;
 
-            const formData = {
-                text: document.getElementById('text').value,
-                picture: document.getElementById('picture').value
+            // Get the selected image file from the file input
+            const fileInput = document.getElementById('profilePic');
+            const file = fileInput.files[0];
+
+            // Read the image file as base64
+            const reader = new FileReader();
+            reader.onloadend = async function () {
+                const base64Data = reader.result.split(',')[1]; // Extract base64 data
+                const base64String = `data:${file.type};base64,${base64Data}`; // Add data URL prefix
+
+                const formData = {
+                    text: document.getElementById('text').value,
+                    picture: base64String
+                };
+                const userId = document.getElementById('userIdInput').value;
+
+                const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${jwtToken}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    const post = await response.json();
+                    console.log(`post created successfully:`, post);
+                } else {
+                    console.error("Failed to create post");
+                }
             };
-            const userId = await document.getElementById('userIdInput').value;
-
-            const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${jwtToken}`
-
-                },
-                body: JSON.stringify(formData)
-            });
+            // Read the file as Data URL
+            reader.readAsDataURL(file);
+        }; // Closing curly brace for the createPost function
 
 
-            if (response.ok) {
-                const post = await response.json();
-                console.log(`post created successfully:`, post);
-            } else {
-                console.error("Failed to create post");
-            }
-
-        }
 
         async function getUserPosts() {
 
@@ -101,6 +113,7 @@
 
             const userId = document.getElementById('userIdInput').value;
             const postId = await document.getElementById('postIdInput').value;
+            console.log(postId)
             const fieldValue = document.getElementById(fieldName).value;
 
             const url = `http://localhost:12345/api/users/${userId}/posts/${postId}`;
