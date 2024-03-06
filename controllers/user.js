@@ -37,39 +37,6 @@ const getUser = async (req, res) => {
 };
 
 
-// const getUser = async (req, res) => {
-//    try {
-//       const username = req.params.id;
-//       const user = await UserService.getUserByUsername(username);
-
-
-//       if (!user) {
-//          return res.status(404).json({ errors: ['User not found'] });
-//       }
-
-//       // Extract the token from the request headers
-//       const token = req.headers.authorization.split(' ')[1];
-
-//       // Verify the token using the token service
-//       const loggedUsername = await tokenService.verifyToken(token);
-
-//       console.log("logged on userane: ", loggedUsername);
-//       console.log("actual useranme: ", username);
-
-//       const userData = await UserService.getUserByUsername(username, loggedUsername);
-
-//       res.json(userData);
-
-//    } catch (error) {
-//       console.error("Error fetching user:", error);
-//       res.status(500).json({ errors: ['Failed to fetch user'] });
-//    }
-
-// };
-
-
-
-
 const updateUser = async (req, res) => {
    try {
       const username = req.params.id;

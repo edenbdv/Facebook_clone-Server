@@ -11,9 +11,11 @@
 <body>
     <form id="postForm">
         <input id="userIdInput" placeholder="username">
-        <button type="button" onclick=getPosts()>Show Posts</button><br><br>
+        <button type="button" onclick=getUserPosts()>Show Posts</button><br><br>
 
         <input id="postIdInput" placeholder="post's Id"><br><br>
+        <input id="token" placeholder="token"><br><br>
+
 
 
         <label for="text">Text:</label><br>
@@ -34,6 +36,9 @@
 
     <script>
         async function createPost() {
+
+            const jwtToken = document.getElementById('token').value;
+
             const formData = {
                 text: document.getElementById('text').value,
                 picture: document.getElementById('picture').value
@@ -44,9 +49,12 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+
                 },
                 body: JSON.stringify(formData)
             });
+
 
             if (response.ok) {
                 const post = await response.json();
@@ -57,10 +65,22 @@
 
         }
 
-        async function getPosts() {
+        async function getUserPosts() {
+
+            const jwtToken = document.getElementById('token').value;
+
             const userId = await document.getElementById('userIdInput').value;
 
-            const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`);
+            const url = `http://localhost:12345/api/users/${userId}/posts`;
+
+            const response = await fetch(url, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                }
+            });
+
+
             if (response.ok) {
                 const data = await response.json();
                 postLst = []
@@ -76,15 +96,22 @@
         }
 
         async function update(fieldName) {
+
+            const jwtToken = document.getElementById('token').value;
+
             const userId = document.getElementById('userIdInput').value;
             const postId = await document.getElementById('postIdInput').value;
             const fieldValue = document.getElementById(fieldName).value;
 
             const url = `http://localhost:12345/api/users/${userId}/posts/${postId}`;
+
+            console.log("url:", url);
+
             const response = await fetch(url, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
                 },
                 body: JSON.stringify({ [fieldName]: fieldValue }) // Dynamically set the field to update
             });
@@ -93,15 +120,18 @@
                 const updatedPost = await response.json();
                 console.log(`${fieldName} updated successfully:`, updatedPost);
             } else {
-                console.error("Failed to update", fieldName);
+                const errorData = await response.json();
+                console.error("Failed to update", fieldName, errorData);
+
             }
         }
 
 
 
-
-
         async function deletePost() {
+
+            const jwtToken = document.getElementById('token').value;
+
             const userId = await document.getElementById('userIdInput').value;
             const postId = await document.getElementById('postIdInput').value;
 
@@ -110,6 +140,8 @@
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+
                 },
             });
 

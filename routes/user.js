@@ -32,7 +32,7 @@ router.route('/:id/friends/:fid')
 
 //posts: 
 router.route('/:id/posts')
-    .get(userPostsController.getPosts)
+    .get(userPostsController.getUserPosts)
     .post(userPostsController.createPost)
 
 

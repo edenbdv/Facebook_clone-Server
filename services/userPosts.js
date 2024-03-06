@@ -1,6 +1,7 @@
 const PostModel = require('../models/post');
 const UserModel = require('../models/user');
 const UserService = require('../services/user');
+const UserFriendService = require('../services/userFriends');
 
 
 const createPost = async (creatorUsername, text, picture) => {
@@ -26,22 +27,36 @@ const createPost = async (creatorUsername, text, picture) => {
 };
 
 
-const getPosts = async (username) => {
+const getUserPosts = async (loggedUsername, username) => {
 
-    const user = await UserService.getUserByUsername(username);
-    console.log(user)
+    try {
+        const user = await UserService.getUserByUsername(username);
+        
+        if (!user) {
+            return null; // Return null if user is not found
+        }
 
-    if (!user) {
-        return null; // Return null if user is not found
+        if ((!await UserFriendService.areFriends(loggedUsername,username)) && (username !== loggedUsername)) {
+            console.log('not forbidden')
+            return { error: 'User is not authorized to access the friend list' };
+        }
+    
+        const postsUserId = user.posts;
+    
+        //sort posts by creation date (new to old)
+        const postsUser = await PostModel.find({ _id: { $in: postsUserId } }).sort({ createdAt: -1 });
+    
+    
+        return postsUser; // Retrieve all user's posts from the database
+
+
+
+    } catch {
+        console.error('Error fetching user posts:', error);
+        throw error; // Propagate the error to the controller
     }
 
-    const postsUserId = user.posts;
-
-    //sort posts by creation date (new to old)
-    const postsUser = await PostModel.find({ _id: { $in: postsUserId } }).sort({ createdAt: -1 });
-
-
-    return postsUser; // Retrieve all user's posts from the database
+   
 };
 
 
@@ -80,4 +95,14 @@ const deletePost = async (username, postId) => {
     }
 };
 
-module.exports = { createPost, getPosts, updatePost ,deletePost };
+const getPostById = async (postId) => {
+    try {
+        const post = await PostModel.findById(postId);
+        return post;
+    } catch (error) {
+        console.error('Error fetching post by ID:', error);
+        throw error;
+    }
+};
+
+module.exports = { createPost, getUserPosts, updatePost ,deletePost, getPostById };

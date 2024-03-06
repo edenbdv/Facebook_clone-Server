@@ -38,7 +38,7 @@ const areFriends = async (username1, username2) => {
         const user2 = await UserService.getUserByUsername(username2);
 
         const user1Friends = user1.friends;
-        console.log("user1 friends:", user1Friends)
+        
         if (!user1Friends) {
             return false;
         }
@@ -47,7 +47,6 @@ const areFriends = async (username1, username2) => {
           // Check if user2's ID is in user1's friends list
           const bool = user1Friends.includes(user2._id.toString());
 
-        console.log(bool);
         return bool;
     } catch (error) {
         console.error('Error checking friendship:', error);

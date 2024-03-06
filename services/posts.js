@@ -15,7 +15,7 @@ const getPosts = async (username) => {
         }
 
         const friends = currentUser.friends;
-        console.log(friends)
+        console.log("friends:", friends)
 
         let friendPosts = [];
 
@@ -24,7 +24,16 @@ const getPosts = async (username) => {
             const friend = await UserModel.findById(friendId); // Fetch user details by _id
             friendUsername = friend.username;
 
-            const posts = await userPostsService.getPosts(friendUsername); // Get posts of friend
+            //const posts = friend.posts;
+             // Fetch post objects using post IDs
+             const friendPostsData = friend.posts;
+             const posts = await Promise.all(friendPostsData.map(postId => userPostsService.getPostById(postId)));
+            
+    
+            //sort posts by creation date (new to old)
+           // const posts = await PostModel.find({ _id: { $in: postsUserId } }).sort({ createdAt: -1 });
+        
+            //const posts = await userPostsService.getPosts(username,friendUsername); // Get posts of friend
 
             console.log('Posts for', friendUsername, ':', posts); // Log the posts
 
@@ -34,14 +43,12 @@ const getPosts = async (username) => {
             }
         }
 
+        console.log(friendPosts)
 
         // Sort the friendPosts array by creation date (newest to oldest)
         friendPosts.sort((a, b) => b.createdAt - a.createdAt);
 
         friendPosts = friendPosts.slice(0, 20); // save only the newest 20 posts
-
-
-
 
         // 5  non friends posts :
 
@@ -60,7 +67,15 @@ const getPosts = async (username) => {
             const nonFriend = await UserModel.findById(nonFriendId); 
             nonFriendUsername  = nonFriend.username;
 
-            const posts = await userPostsService.getPosts(nonFriendUsername ); // Get posts of non-friend
+            //const posts = await userPostsService.getPosts(nonFriendUsername ); // Get posts of non-friend
+
+            //const posts = nonFriend.posts;
+
+             // Fetch post objects using post IDs
+             const friendPostsData = nonFriend.posts;
+             const posts = await Promise.all(friendPostsData.map(postId => userPostsService.getPostById(postId)));
+            
+
 
             console.log('Posts for', nonFriendUsername, ':', posts);
 
@@ -85,12 +100,7 @@ const getPosts = async (username) => {
  
          return combinedPosts; 
 
-
-
-
-
-        
-
+    
     } catch (error) {
         console.error('Error getting posts:', error);
         throw error; // Propagate the error to the caller

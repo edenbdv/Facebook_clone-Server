@@ -134,44 +134,6 @@
             }
         }
 
-        // async function getUserFriends() {
-        //     try {
-
-        //         const jwtToken = document.getElementById('token').value;  //noga should send from local storage
-
-        //         const userId = await document.getElementById('userIdInput').value;
-        //         const url = `http://localhost:12345/api/users/${userId}/friends`;
-        //         const response = await fetch(url, {
-        //             method: 'GET',
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //                 "Authorization": `Bearer ${jwtToken}`
-        //             },
-        //         });
-
-        //         const data = await response.json();
-        //         console.log(data)
-
-        //         if (data.error) {
-        //             console.error('Error fetching user friends:', data.error);
-        //             return;
-        //         }
-
-        //         friendUsernames = []
-        //         for (const friend of data.friends) {
-        //             friendUsernames.push(friend.username);
-        //         }
-
-        //         console.log(friendUsernames); // Log the array of friend display names
-
-        //         return friendUsernames; console.log(friendUsernames); // Log the array of friend display names
-
-        //         return friendUsernames;
-        //     } catch (error) {
-        //         console.error('Error fetching user friends:', error);
-        //         // Handle error here, such as displaying an error message to the user
-        //     }
-        // }
 
         async function getUserFriends() {
             try {

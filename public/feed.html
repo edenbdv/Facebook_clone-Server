@@ -8,17 +8,18 @@
 </head>
 
 <body>
-    <input id="userIdInput" placeholder="username">
+    <input id="token" placeholder="token">
     <button type="button" onclick=getPosts()>See updated posts</button>
 
     <script>
         async function getPosts() {
-            const userId = await document.getElementById('userIdInput').value;
+            const jwtToken = document.getElementById('token').value;
 
-            const response = await fetch(`http://localhost:12345/api/posts?username=${userId}`, {
+            const response = await fetch(`http://localhost:12345/api/posts`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${jwtToken}`
                 },
             });
 
