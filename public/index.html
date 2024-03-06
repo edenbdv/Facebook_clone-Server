@@ -51,7 +51,7 @@
 
     <script>
         async function create() {
-            const data = await fetch('http://localhost:12345/api/users', { 
+            const data = await fetch('http://localhost:12345/api/users', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -64,17 +64,25 @@
                 })
             });
 
-            user = await data.json() 
+            user = await data.json()
             console.log(user)
         }
 
+
         async function get() {
             const userId = await document.getElementById('userIdInput').value;
+            const jwtToken = document.getElementById('token').value;
+
             const url = `http://localhost:12345/api/users/${userId}`;
-            const response = await fetch(url);
+            const response = await fetch(url, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                }
+            });
             const userData = await response.json();
             console.log(userData)
-            return userData; 
+            return userData;
         }
 
 
@@ -82,7 +90,7 @@
             const userId = document.getElementById('userIdInput').value; //thats also the username
             const fieldValue = document.getElementById(fieldName).value;
 
-            const jwtToken= document.getElementById('token').value;  //noga should send from local storage
+            const jwtToken = document.getElementById('token').value;  //noga should send from local storage
 
             const url = `http://localhost:12345/api/users/${userId}`;
             const response = await fetch(url, {
@@ -105,10 +113,10 @@
 
         async function del() {
 
-            const jwtToken= document.getElementById('token').value;  //noga should send from local storage
+            const jwtToken = document.getElementById('token').value;  //noga should send from local storage
             const userId = await document.getElementById('userIdInput').value;
 
-            
+
             const url = `http://localhost:12345/api/users/${userId}`;
             const response = await fetch(url, {
                 method: "DELETE",
@@ -126,29 +134,86 @@
             }
         }
 
+        // async function getUserFriends() {
+        //     try {
+
+        //         const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+
+        //         const userId = await document.getElementById('userIdInput').value;
+        //         const url = `http://localhost:12345/api/users/${userId}/friends`;
+        //         const response = await fetch(url, {
+        //             method: 'GET',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 "Authorization": `Bearer ${jwtToken}`
+        //             },
+        //         });
+
+        //         const data = await response.json();
+        //         console.log(data)
+
+        //         if (data.error) {
+        //             console.error('Error fetching user friends:', data.error);
+        //             return;
+        //         }
+
+        //         friendUsernames = []
+        //         for (const friend of data.friends) {
+        //             friendUsernames.push(friend.username);
+        //         }
+
+        //         console.log(friendUsernames); // Log the array of friend display names
+
+        //         return friendUsernames; console.log(friendUsernames); // Log the array of friend display names
+
+        //         return friendUsernames;
+        //     } catch (error) {
+        //         console.error('Error fetching user friends:', error);
+        //         // Handle error here, such as displaying an error message to the user
+        //     }
+        // }
+
         async function getUserFriends() {
-            const userId = await document.getElementById('userIdInput').value;
-            const url = `http://localhost:12345/api/users/${userId}/friends`;
-            const response = await fetch(url);
-            const data = await response.json();
+            try {
+                const jwtToken = document.getElementById('token').value; // Noga should send from local storage
+                const userId = await document.getElementById('userIdInput').value;
+                const url = `http://localhost:12345/api/users/${userId}/friends`;
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${jwtToken}`
+                    },
+                });
 
-            friendUsernames = []
-            for (const friend of data.friends) {
-                //console.log(friend)
+                const data = await response.json();
+                console.log(data);
 
-                friendUsernames.push(friend.username);
+                if (data.error) {
+                    console.error('Error fetching user friends:', data.error);
+                    // Handle error here, such as displaying an error message to the user
+                    return;
+                }
+
+                const friendUsernames = data.friends.map(friend => friend.username);
+                console.log(friendUsernames); // Log the array of friend display names
+
+                return friendUsernames;
+            } catch (error) {
+                console.error('Error fetching user friends:', error);
+                // Handle error here, such as displaying an error message to the user
             }
-
-            console.log(friendUsernames); // Log the array of friend display names
-
-            return friendUsernames;
         }
+
 
 
         async function addFriendRequest() {
             try {
+
+                const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+
                 // Get the senderId and receiverId from the input fields
-                const senderId = await document.getElementById('friendIdInput').value;
+                // const senderId = await document.getElementById('friendIdInput').value;
 
                 const recieverId = await document.getElementById('userIdInput').value;
 
@@ -157,13 +222,14 @@
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${jwtToken}`
                     },
-                     body: JSON.stringify({ senderId })
+
                 });
 
                 if (response.ok) {
-                    console.log('Friend request sent successfully from: ',senderId, ' to: ', recieverId);
+                    console.log('Friend request sent successfully to: ', recieverId);
                     // Optionally, you can reload the friend list or perform any other action
                 } else {
                     console.error('Failed to send friend request');
@@ -176,7 +242,8 @@
 
         async function acceptReq() {
             try {
-                
+                const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+
                 const senderId = await document.getElementById('friendIdInput').value;
                 const recieverId = await document.getElementById('userIdInput').value; //the receiver
 
@@ -184,7 +251,8 @@
                 const response = await fetch(url, {
                     method: 'PATCH',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${jwtToken}`
                     }
                 });
 
@@ -199,10 +267,13 @@
             }
         }
 
-        
+
+
         async function deleteFriend() {
             try {
-                
+                const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+
+
                 const senderId = await document.getElementById('friendIdInput').value;
                 const recieverId = await document.getElementById('userIdInput').value; //the receiver
 
@@ -210,7 +281,8 @@
                 const response = await fetch(url, {
                     method: 'DELETE',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${jwtToken}`
                     }
                 });
 

@@ -2,6 +2,7 @@ const UserService = require('../services/user');
 const tokenService = require('../services/token');
 
 
+
 const createUser = async (req, res) => {
    try {
       const newUser = await UserService.createUser(req.body.username, req.body.password, req.body.displayName, req.body.profilePic);
@@ -20,14 +21,52 @@ const createUser = async (req, res) => {
 
 
 const getUser = async (req, res) => {
-   const username = req.params.id; // Get username from request parameters
-   const user = await UserService.getUserByUsername(username);
-   if (!user) {
-      return res.status(404).json({ errors: ['User not found'] });
-      // add try and catch!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   try {
+      const username = req.params.id; // Get username from request parameters
+      const dataUser = await UserService.getDataUserByUsername(username);
+      if (!dataUser) {
+         return res.status(404).json({ errors: ['User not found'] });
+      }
+      res.json(dataUser);
+
+   } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ errors: ['Failed to fetch user'] });
    }
-   res.json(user);
+
 };
+
+
+// const getUser = async (req, res) => {
+//    try {
+//       const username = req.params.id;
+//       const user = await UserService.getUserByUsername(username);
+
+
+//       if (!user) {
+//          return res.status(404).json({ errors: ['User not found'] });
+//       }
+
+//       // Extract the token from the request headers
+//       const token = req.headers.authorization.split(' ')[1];
+
+//       // Verify the token using the token service
+//       const loggedUsername = await tokenService.verifyToken(token);
+
+//       console.log("logged on userane: ", loggedUsername);
+//       console.log("actual useranme: ", username);
+
+//       const userData = await UserService.getUserByUsername(username, loggedUsername);
+
+//       res.json(userData);
+
+//    } catch (error) {
+//       console.error("Error fetching user:", error);
+//       res.status(500).json({ errors: ['Failed to fetch user'] });
+//    }
+
+// };
+
 
 
 
@@ -48,8 +87,7 @@ const updateUser = async (req, res) => {
       const token = req.headers.authorization.split(' ')[1];
 
       // Verify the token using the token service
-      const decodedToken = tokenService.verifyToken(token);
-      const loggedUsername = decodedToken.username;
+      const loggedUsername = await tokenService.verifyToken(token);
 
       console.log("logged on userane: ", loggedUsername);
       console.log("actual useranme: ", username);
@@ -64,7 +102,7 @@ const updateUser = async (req, res) => {
          return res.status(400).json({ errors: ['No fields provided for update'] });
       }
 
-      const updatedUser  = await UserService.updateUser(username, updatedField);
+      const updatedUser = await UserService.updateUser(username, updatedField);
       res.json(updatedUser);
 
 
@@ -76,35 +114,35 @@ const updateUser = async (req, res) => {
 };
 
 
-   const deleteUser = async (req, res) => {
-      try {
-         const username = req.params.id; // Get username from request parameters
-   
-         // Extract the token from the request headers
-         const token = req.headers.authorization.split(' ')[1];
-   
-         // Verify the token using the token service
-         const decodedToken = tokenService.verifyToken(token);
-         const loggedUsername = decodedToken.username;
-   
-         console.log("logged on username: ", loggedUsername);
-         console.log("actual username: ", username);
-   
-         // Check if the user is authorized to delete the profile
-         if (username !== loggedUsername) {
-            return res.status(403).json({ errors: ['User is not authorized to delete this profile'] });
-         }
-   
-         const user = await UserService.deleteUser(username);
-         if (!user) {
-            return res.status(404).json({ errors: ['User not found'] });
-         }
-         res.json(user);
-      } catch (error) {
-         console.error("Error deleting user:", error);
-         res.status(500).json({ errors: ['Failed to delete user'] });
+const deleteUser = async (req, res) => {
+   try {
+      const username = req.params.id; // Get username from request parameters
+
+      // Extract the token from the request headers
+      const token = req.headers.authorization.split(' ')[1];
+
+      // Verify the token using the token service
+      const decodedToken = tokenService.verifyToken(token);
+      const loggedUsername = decodedToken.username;
+
+      console.log("logged on username: ", loggedUsername);
+      console.log("actual username: ", username);
+
+      // Check if the user is authorized to delete the profile
+      if (username !== loggedUsername) {
+         return res.status(403).json({ errors: ['User is not authorized to delete this profile'] });
       }
-   };
+
+      const user = await UserService.deleteUser(username);
+      if (!user) {
+         return res.status(404).json({ errors: ['User not found'] });
+      }
+      res.json(user);
+   } catch (error) {
+      console.error("Error deleting user:", error);
+      res.status(500).json({ errors: ['Failed to delete user'] });
+   }
+};
 
 
 
