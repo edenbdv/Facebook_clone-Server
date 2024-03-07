@@ -22,12 +22,14 @@ const User = new Schema({
     },
 
     friends: [{
-        type: Schema.Types.ObjectId,
+        type: String, // Storing usernames as Strings
+        //type: Schema.Types.ObjectId,
         ref: 'User'
     }],
 
     friendRequests: [{
-        type: Schema.Types.ObjectId,
+        type: String, // Storing usernames as Strings
+        //type: Schema.Types.ObjectId,
         ref: 'User'
     }],
 

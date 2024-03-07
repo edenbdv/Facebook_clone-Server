@@ -52,14 +52,20 @@ const updateUser = async (username, updatedField) => { //update user username
     // Check if the updatedField contains the 'username' key
     if (updatedField.hasOwnProperty('username')) {
 
-        console.log(updatedField.username)
+        const newUsername = updatedField.username;
 
+        // Update references to this user in the posts and tokens collections
+        await PostModel.updateMany({ createdBy: user.username }, { createdBy: newUsername });
+        await TokenModel.updateMany({ username: user.username }, { username: newUsername });
 
-        user.username = updatedField.username;
+         // Update friends lists of other users
+         await UserModel.updateMany({ 'friends': username }, { $set: { 'friends.$': newUsername } });
 
-        // Update references to this user in the posts collection
-        await PostModel.updateMany({ createdBy: user.username }, { createdBy: updatedField.username });
-        await TokenModel.updateMany({ username: user.username }, { username: updatedField.username });
+        // Update friendRequests lists of other users
+        await UserModel.updateMany({ 'friendRequests': username }, { $set: { 'friendRequests.$': newUsername } });
+
+        // just after all the updates:
+        user.username = newUsername
 
 
         // Save the updated user
