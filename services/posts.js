@@ -90,9 +90,7 @@ const getPosts = async (username) => {
         // Sort the friendPosts array by creation date (newest to oldest) and svae only the newest 5 posts
         nonFriendPosts.sort((a, b) => b.createdAt - a.createdAt);
 
-        nonFriendPosts = nonFriendPosts.slice(0, 5);
-
-
+        nonFriendPosts = nonFriendPosts.slice(0, 5); 
 
         // Combine friend and non-friend posts, and sort them by creation date
         const combinedPosts = friendPosts.concat(nonFriendPosts);

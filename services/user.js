@@ -1,6 +1,7 @@
 const UserModel = require('../models/user');
 const PostModel = require('../models/post');
 
+
 const getUserByUsername = async (username) => {
     return await UserModel.findOne({ username: username });
 };
@@ -55,7 +56,7 @@ const updateUser = async (username, updatedField) => { //update user username
             user.username = updatedField.username;
 
             // Update references to this user in the posts collection
-            await Post.updateMany({ createdBy: user.username }, { createdBy: updatedField.username });
+            await PostModel.updateMany({ createdBy: user.username }, { createdBy: updatedField.username });
         
 
             // Save the updated user
@@ -66,7 +67,7 @@ const updateUser = async (username, updatedField) => { //update user username
 
     // Update each property in the user object based on the request body
     Object.keys(updatedField).forEach(key => {
-        if (key !== '_id' && key !== 'username') { // Exclude _id  and usernamefield from being updated
+        if (key !== '_id' && key !== 'username') { // Exclude _id  and username fields from being updated
             user[key] = updatedField[key];
         }
     });

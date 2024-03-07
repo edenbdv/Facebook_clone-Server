@@ -8,15 +8,17 @@ const Post = new Schema({
         required: function() {
             return !this.picture; // Text is required if picture is not provided
         }
+      
     },
     picture: {
         type: String,
         required: function() {
             return !this.text; // Picture is required if text is not provided
         }
+       
     },
     createdBy: {
-        // type: Schema.Types.ObjectId,
+         //type: Schema.Types.ObjectId,
         type: String,
         ref: 'User', // Reference to the User model
         required: true

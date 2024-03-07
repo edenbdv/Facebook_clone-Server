@@ -24,7 +24,8 @@
 
 
         <label for="picture">Picture:</label><br>
-        <input type="file" id="picture" name="picture" required>
+        <input type="text" id="picture" name="picture" required>
+        <!-- <input type="file" id="picture" name="picture" required> -->
         <button onclick="update('picture')">Update</button><br>
 
 
@@ -36,9 +37,8 @@
 
     <script>
 
-        const createPost = async () => {
-            const jwtToken = document.getElementById('token').value;
 
+<<<<<<< HEAD
             // Get the text input value
             const text = document.getElementById('text').value;
 
@@ -104,6 +104,77 @@
                 }
             }
         };
+=======
+const createPost = async () => {
+        const jwtToken = document.getElementById('token').value;
+
+        const formData = {
+            text: document.getElementById('text').value,
+            picture: document.getElementById('picture').value
+
+        };
+
+            const userId = document.getElementById('userIdInput').value;
+
+            const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                const post = await response.json();
+                console.log(`post created successfully:`, post);
+            } else {
+                console.error("Failed to create post");
+            }
+        };
+
+
+    //  const createPost = async () => {
+    //     const jwtToken = document.getElementById('token').value;
+
+    //     const formData = {
+    //         text: document.getElementById('text').value,
+    //     };
+
+    //     // Get the selected image file from the file input
+    //     const fileInput = document.getElementById('picture');
+    //     const file = fileInput.files[0];
+
+    //     const reader = new FileReader();
+    //     reader.onloadend = async function () {
+    //         const buffer = Buffer.from(reader.result);
+    //         formData.picture = buffer;
+
+    //         const userId = document.getElementById('userIdInput').value;
+
+    //         const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": `Bearer ${jwtToken}`
+    //             },
+    //             body: JSON.stringify(formData)
+    //         });
+
+    //         if (response.ok) {
+    //             const post = await response.json();
+    //             console.log(`post created successfully:`, post);
+    //         } else {
+    //             console.error("Failed to create post");
+    //         }
+    //     };
+
+    //     // Read the file as ArrayBuffer
+    //     reader.readAsArrayBuffer(file);
+    // };
+
+
+>>>>>>> 8339d3df
 
 
         async function getUserPosts() {
