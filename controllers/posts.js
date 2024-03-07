@@ -15,8 +15,9 @@ const getPosts = async (req, res) => {
             return res.status(400).json({ error: 'Username is required' });
         }
         
-        res.json(await postsService.getPosts(loggedUsername));
-
+        const posts = await postsService.getPosts(loggedUsername);
+        //console.log('response data',posts);
+        res.json(posts);
         
     } catch (error) {
         console.error('Error getting posts:', error);

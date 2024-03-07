@@ -22,10 +22,16 @@ const usersData = [
         username: 'JohnDoe@gmail.com',
         password: 'Password1',
         displayName: 'John Doe',
-        profilePic: imageToBase64('pictures/john/jhonProfile.jpg'),
+        // profilePic: imageToBase64('pictures/john/jhonProfile.jpg'),
+        profilePic: 'jgon.png',
+
         posts: [
-            { text: 'who is a good boyyy?', picture: imageToBase64('pictures/john/dog.jpg')},
-            { text: 'You must *RUN* to Shake-Shake', picture: imageToBase64('pictures/john/hamburger.webp') },
+            { text: 'who is a good boyyy?', picture: 'dog.jpg'},
+            // { text: 'who is a good boyyy?', picture: imageToBase64('pictures/john/dog.jpg')},
+            { text: 'You must *RUN* to Shake-Shake', picture: 'food' },
+
+            // { text: 'You must *RUN* to Shake-Shake', picture: imageToBase64('pictures/john/hamburger.webp') },
+            
         ]
     },
 
@@ -33,10 +39,14 @@ const usersData = [
         username: 'misUmbarella@gmail.com',
         password: 'Password2',
         displayName: 'Sharry Popins',
+        // profilePic:  imageToBase64('pictures/marry/MarryPopings.png'),
         profilePic:  imageToBase64('pictures/marry/MarryPopings.png'),
+
         posts: [
             { text: 'Supercalifragilisticexpialidocious' },
-            { text: 'there is rain outside!!', picture: imageToBase64('pictures/marry/umbarella.jpeg') },
+            { text: 'there is rain outside!!', picture: 'rain' },
+            // { text: 'there is rain outside!!', picture: imageToBase64('pictures/marry/umbarella.jpeg') },
+
 
         ]
     },
@@ -45,9 +55,13 @@ const usersData = [
         username: 'Davidmowie1@gmail.com',
         password: 'Password3',
         displayName: 'David Mowie',
-        profilePic: imageToBase64('pictures/david/david.jpg'),
+        // profilePic: imageToBase64('pictures/david/david.jpg'),
+        profilePic: 'david',
+
         posts: [
-            { text: 'Lets Dance', picture: imageToBase64('pictures/david/thunder.jpg') },
+            { text: 'Lets Dance', picture: 'thunder' },
+            // { text: 'Lets Dance', picture: imageToBase64('pictures/david/thunder.jpg') },
+
         ]
     }
 ];

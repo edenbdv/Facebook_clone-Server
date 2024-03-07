@@ -1,5 +1,6 @@
 const UserModel = require('../models/user');
 const PostModel = require('../models/post');
+const TokenModel = require('../models/token');
 
 
 const getUserByUsername = async (username) => {
@@ -48,23 +49,22 @@ const updateUser = async (username, updatedField) => { //update user username
     if (!user) return null;
 
 
-     // Check if the updatedField contains the 'username' key
-     if (updatedField.hasOwnProperty('username')) {
+    // Check if the updatedField contains the 'username' key
+    if (updatedField.hasOwnProperty('username')) {
 
-        if (updatedField.username !== user.username) {
-            
-            user.username = updatedField.username;
+        console.log(updatedField.username)
 
-            // Update references to this user in the posts collection
-            await PostModel.updateMany({ createdBy: user.username }, { createdBy: updatedField.username });
-        
 
-            // Save the updated user
-            await user.save();
-        }
+        user.username = updatedField.username;
+
+        // Update references to this user in the posts collection
+        await PostModel.updateMany({ createdBy: user.username }, { createdBy: updatedField.username });
+        await TokenModel.updateMany({ username: user.username }, { username: updatedField.username });
+
+
+        // Save the updated user
+        await user.save();
     }
-
-
     // Update each property in the user object based on the request body
     Object.keys(updatedField).forEach(key => {
         if (key !== '_id' && key !== 'username') { // Exclude _id  and username fields from being updated
@@ -74,6 +74,8 @@ const updateUser = async (username, updatedField) => { //update user username
     await user.save();
     return user;
 };
+
+
 
 
 const deleteUser = async (username) => {

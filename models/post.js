@@ -18,7 +18,7 @@ const Post = new Schema({
        
     },
     createdBy: {
-         //type: Schema.Types.ObjectId,
+        //type: Schema.Types.ObjectId,
         type: String,
         ref: 'User', // Reference to the User model
         required: true

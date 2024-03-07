@@ -97,6 +97,10 @@ const getPosts = async (username) => {
 
         combinedPosts.sort((a, b) => b.createdAt - a.createdAt);
 
+        //console.log('podts',combinedPosts)
+
+        return combinedPosts.slice(0, 25); // Limit to 25 posts
+
 
     } catch (error) {
         console.error('Error getting posts:', error);

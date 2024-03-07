@@ -38,73 +38,7 @@
     <script>
 
 
-<<<<<<< HEAD
-            // Get the text input value
-            const text = document.getElementById('text').value;
 
-            // Get user ID
-            const userId = document.getElementById('userIdInput').value;
-
-            // Create formData object with text only
-            const formData = {
-                text: text
-            };
-
-            // Get the selected image file from the file input
-            const fileInput = document.getElementById('picture');
-            const file = fileInput.files[0];
-
-            // Check if a file is selected
-            if (file) {
-                // Read the image file as base64
-                const reader = new FileReader();
-                reader.onloadend = async function () {
-                    const base64Data = reader.result.split(',')[1]; // Extract base64 data
-                    const base64String = `data:${file.type};base64,${base64Data}`; // Add data URL prefix
-
-                    // Add picture to formData
-                    formData.picture = base64String;
-
-                    // Send POST request to create post
-                    const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${jwtToken}`
-                        },
-                        body: JSON.stringify(formData)
-                    });
-
-                    if (response.ok) {
-                        const post = await response.json();
-                        console.log(`Post created successfully:`, post);
-                    } else {
-                        console.error("Failed to create post");
-                    }
-                };
-
-                // Read the file as Data URL
-                reader.readAsDataURL(file);
-            } else {
-                // No file selected, send request with text only
-                const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${jwtToken}`
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                if (response.ok) {
-                    const post = await response.json();
-                    console.log(`Post created successfully:`, post);
-                } else {
-                    console.error("Failed to create post");
-                }
-            }
-        };
-=======
 const createPost = async () => {
         const jwtToken = document.getElementById('token').value;
 
@@ -172,9 +106,6 @@ const createPost = async () => {
     //     // Read the file as ArrayBuffer
     //     reader.readAsArrayBuffer(file);
     // };
-
-
->>>>>>> 8339d3df
 
 
         async function getUserPosts() {
