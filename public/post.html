@@ -24,14 +24,13 @@
 
 
         <label for="picture">Picture:</label><br>
-        <input type="text" id="picture" name="picture" required>
-        <!-- <input type="file" id="picture" name="picture" required> -->
+        <!-- <input type="text" id="picture" name="picture" required> -->
+        <input type="file" id="picture" name="picture" required>
         <button onclick="update('picture')">Update</button><br>
 
 
         <button type="button" onclick=createPost()>Add Post</button>
-        <button type="button" onclick=deletePost()>Delete Post</button>
-
+        <button type="button" onclick=deletePost()>Delete Post</button><br><br>
 
     </form>
 
@@ -39,14 +38,23 @@
 
 
 
-const createPost = async () => {
-        const jwtToken = document.getElementById('token').value;
+        const createPost = async () => {
+            const jwtToken = document.getElementById('token').value;
 
-        const formData = {
-            text: document.getElementById('text').value,
-            picture: document.getElementById('picture').value
 
-        };
+            // Get the base64 representation of the image
+            const pictureInput = document.getElementById('picture');
+            const pictureFile = pictureInput.files[0]; // Assuming you're using input type="file"
+            const pictureBase64 = await convertFileToBase64(pictureFile);
+
+
+            const formData = {
+                text: document.getElementById('text').value,
+                // picture: document.getElementById('picture').value
+                picture: pictureBase64
+
+
+            };
 
             const userId = document.getElementById('userIdInput').value;
 
@@ -62,50 +70,23 @@ const createPost = async () => {
             if (response.ok) {
                 const post = await response.json();
                 console.log(`post created successfully:`, post);
+             
+
             } else {
                 console.error("Failed to create post");
             }
         };
 
+        // Function to convert file to base64
+        const convertFileToBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
+        };
 
-    //  const createPost = async () => {
-    //     const jwtToken = document.getElementById('token').value;
-
-    //     const formData = {
-    //         text: document.getElementById('text').value,
-    //     };
-
-    //     // Get the selected image file from the file input
-    //     const fileInput = document.getElementById('picture');
-    //     const file = fileInput.files[0];
-
-    //     const reader = new FileReader();
-    //     reader.onloadend = async function () {
-    //         const buffer = Buffer.from(reader.result);
-    //         formData.picture = buffer;
-
-    //         const userId = document.getElementById('userIdInput').value;
-
-    //         const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": `Bearer ${jwtToken}`
-    //             },
-    //             body: JSON.stringify(formData)
-    //         });
-
-    //         if (response.ok) {
-    //             const post = await response.json();
-    //             console.log(`post created successfully:`, post);
-    //         } else {
-    //             console.error("Failed to create post");
-    //         }
-    //     };
-
-    //     // Read the file as ArrayBuffer
-    //     reader.readAsArrayBuffer(file);
-    // };
 
 
         async function getUserPosts() {

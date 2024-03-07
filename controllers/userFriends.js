@@ -13,11 +13,12 @@ const getUserFriends = async (req, res) => {
          // Verify the token using the token service
          const loggedUsername = await tokenService.verifyToken(token);
 
-         console.log("logged on useranme: ", loggedUsername);
-         console.log("actual useranme: ", userId);
+         console.log("logged on useranme (userFriends): ", loggedUsername);
+         console.log("actual useranme (userFriends): ", userId);
  
 
         const friends = await UserFriendsService.getUserFriends(loggedUsername, userId);
+        console.log("friends in controller",friends)
         
         if (!friends) {
             return res.json({ friends: [] }); // Return an empty array

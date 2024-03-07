@@ -18,6 +18,7 @@ const getUserFriends = async (loggedUsername, username) => {
 
         // Access the friends field from the user document
         const friends = user.friends;
+        console.log("friends in service",friends)
 
         // Fetch the friend documents from the database based on the IDs stored in the friends field
         // const friends = await UserModel.find({ _id: { $in: friendIds } });
