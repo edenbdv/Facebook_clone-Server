@@ -10,6 +10,9 @@ app.use(express.json()); // req will be in json
 app.use(bodyParser.json({ limit: '180mb' }));
 app.use(bodyParser.urlencoded({ limit: '180mb', extended: true }));
 
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded());
+
 
 const cors = require('cors');
 app.use(cors());
