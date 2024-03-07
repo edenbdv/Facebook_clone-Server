@@ -91,8 +91,6 @@ const getPosts = async (username) => {
 
         nonFriendPosts = nonFriendPosts.slice(0, 5); 
 
-
-
          // Combine friend and non-friend posts, and sort them by creation date
          const combinedPosts = friendPosts.concat(nonFriendPosts);
 

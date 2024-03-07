@@ -16,7 +16,7 @@ const User = new Schema({
         required: true
     },
     profilePic: {
-        type: String, // Storing the image as a string
+        type: String, // Storing the image as a String
         required: true
 
     },

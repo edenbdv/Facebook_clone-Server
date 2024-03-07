@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const Post = new Schema({
     text: {
         type: String,
+        //required: true
         required: function() {
             return !this.picture; // Text is required if picture is not provided
         }
@@ -16,7 +17,8 @@ const Post = new Schema({
         }
     },
     createdBy: {
-        type: Schema.Types.ObjectId,
+         type: Schema.Types.ObjectId,
+        //type: String,
         ref: 'User', // Reference to the User model
         required: true
     },

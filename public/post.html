@@ -24,7 +24,8 @@
 
 
         <label for="picture">Picture:</label><br>
-        <input type="file" id="picture" name="picture" required>
+        <input type="text" id="picture" name="picture" required>
+        <!-- <input type="file" id="picture" name="picture" required> -->
         <button onclick="update('picture')">Update</button><br>
 
 
@@ -36,44 +37,75 @@
 
     <script>
 
-        const createPost = async () => {
-            const jwtToken = document.getElementById('token').value;
 
-            // Get the selected image file from the file input
-            const fileInput = document.getElementById('profilePic');
-            const file = fileInput.files[0];
+const createPost = async () => {
+        const jwtToken = document.getElementById('token').value;
 
-            // Read the image file as base64
-            const reader = new FileReader();
-            reader.onloadend = async function () {
-                const base64Data = reader.result.split(',')[1]; // Extract base64 data
-                const base64String = `data:${file.type};base64,${base64Data}`; // Add data URL prefix
+        const formData = {
+            text: document.getElementById('text').value,
+            picture: document.getElementById('picture'),
 
-                const formData = {
-                    text: document.getElementById('text').value,
-                    picture: base64String
-                };
-                const userId = document.getElementById('userIdInput').value;
+        };
 
-                const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${jwtToken}`
-                    },
-                    body: JSON.stringify(formData)
-                });
+            const userId = document.getElementById('userIdInput').value;
 
-                if (response.ok) {
-                    const post = await response.json();
-                    console.log(`post created successfully:`, post);
-                } else {
-                    console.error("Failed to create post");
-                }
-            };
-            // Read the file as Data URL
-            reader.readAsDataURL(file);
-        }; // Closing curly brace for the createPost function
+            const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                const post = await response.json();
+                console.log(`post created successfully:`, post);
+            } else {
+                console.error("Failed to create post");
+            }
+        };
+
+
+    //  const createPost = async () => {
+    //     const jwtToken = document.getElementById('token').value;
+
+    //     const formData = {
+    //         text: document.getElementById('text').value,
+    //     };
+
+    //     // Get the selected image file from the file input
+    //     const fileInput = document.getElementById('picture');
+    //     const file = fileInput.files[0];
+
+    //     const reader = new FileReader();
+    //     reader.onloadend = async function () {
+    //         const buffer = Buffer.from(reader.result);
+    //         formData.picture = buffer;
+
+    //         const userId = document.getElementById('userIdInput').value;
+
+    //         const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": `Bearer ${jwtToken}`
+    //             },
+    //             body: JSON.stringify(formData)
+    //         });
+
+    //         if (response.ok) {
+    //             const post = await response.json();
+    //             console.log(`post created successfully:`, post);
+    //         } else {
+    //             console.error("Failed to create post");
+    //         }
+    //     };
+
+    //     // Read the file as ArrayBuffer
+    //     reader.readAsArrayBuffer(file);
+    // };
+
 
 
 
