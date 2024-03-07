@@ -46,9 +46,27 @@ const updateUser = async (username, updatedField) => { //update user username
     const user = await getUserByUsername(username);
     if (!user) return null;
 
+
+     // Check if the updatedField contains the 'username' key
+     if (updatedField.hasOwnProperty('username')) {
+
+        if (updatedField.username !== user.username) {
+            
+            user.username = updatedField.username;
+
+            // Update references to this user in the posts collection
+            await Post.updateMany({ createdBy: user.username }, { createdBy: updatedField.username });
+        
+
+            // Save the updated user
+            await user.save();
+        }
+    }
+
+
     // Update each property in the user object based on the request body
     Object.keys(updatedField).forEach(key => {
-        if (key !== '_id') { // Exclude _id field from being updated
+        if (key !== '_id' && key !== 'username') { // Exclude _id  and usernamefield from being updated
             user[key] = updatedField[key];
         }
     });
