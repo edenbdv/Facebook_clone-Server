@@ -10,16 +10,16 @@ const getUserFriends = async (req, res) => {
         }
 
         const token = req.headers.authorization.split(' ')[1];
-         // Verify the token using the token service
-         const loggedUsername = await tokenService.verifyToken(token);
+        // Verify the token using the token service
+        const loggedUsername = await tokenService.verifyToken(token);
 
-         console.log("logged on useranme (userFriends): ", loggedUsername);
-         console.log("actual useranme (userFriends): ", userId);
- 
+        console.log("logged on useranme (userFriends): ", loggedUsername);
+        console.log("actual useranme (userFriends): ", userId);
+
 
         const friends = await UserFriendsService.getUserFriends(loggedUsername, userId);
-        console.log("friends in controller",friends)
-        
+        console.log("friends in controller", friends)
+
         if (!friends) {
             return res.json({ friends: [] }); // Return an empty array
         }
@@ -125,5 +125,44 @@ const deleteFriend = async (req, res) => {
 
 
 
+const getFriendRequests = async (req, res) => {
+    try {
 
-module.exports = { getUserFriends, addFriendReq, acceptReq, deleteFriend };
+        const username = req.params.id;
+        if (!username) {
+            return res.status(404).json({ errors: ['User ID not provided'] });
+        }
+
+        // Extract the token from the request headers
+        const token = req.headers.authorization.split(' ')[1];
+
+        // Verify the token using the token service
+        const loggedUsername = await tokenService.verifyToken(token);
+
+        console.log("logged on username:", loggedUsername);
+        console.log("actual username:", username);
+
+        // Check if the user is authorized to perform the update
+        if (username !== loggedUsername) {
+            return res.status(403).json({ errors: ['User is not authorized to see friend requests'] });
+        }
+
+        const friendReqs = await UserFriendsService.getFriendRequests(username);
+
+        if (!friendReqs) {
+            return res.json({ friends: [] }); // Return an empty array
+        }
+
+        if (friendReqs.error) {
+            return res.status(403).json({ error: friendReqs.error }); // Send error separately
+        }
+
+        res.json({ friendReqs });
+    } catch (error) {
+        console.error('Error fetching user friends:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+module.exports = { getUserFriends, addFriendReq, acceptReq, deleteFriend, getFriendRequests };

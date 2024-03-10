@@ -45,6 +45,8 @@
 
         <button onclick="acceptReq()">accept Friend Request</button>
         <button onclick="deleteFriend()">delete Friend/Friend Request</button>
+        <button onclick="getFriendRequests()">Get Friend Requests</button>
+
 
 
     </form>
@@ -70,7 +72,7 @@
             console.log(user)
         }
 
-   
+
         // async function create() {
         //     // Get the selected image file from the file input
         //     const fileInput = document.getElementById('profilePic');
@@ -186,7 +188,7 @@
                 });
 
                 const data = await response.json();
-                 console.log("data in client",data);
+                console.log("data in client", data);
 
                 if (data.error) {
                     console.error('Error fetching user friends:', data.error);
@@ -293,6 +295,35 @@
                 }
             } catch (error) {
                 console.error('Error deleting friend  /friend request:', error);
+            }
+        }
+
+        async function getFriendRequests() {
+            try {
+
+                const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+
+                const recieverId = await document.getElementById('userIdInput').value;
+
+
+                const url = `http://localhost:12345/api/users/${recieverId}/friends-requests`;
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${jwtToken}`
+                    },
+                });
+
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("reqs: ", data);
+                } else {
+                    console.error('Failed to send friend request');
+                }
+            } catch (error) {
+                console.error('Error adding friend request:', error);
             }
         }
 

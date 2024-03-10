@@ -1,5 +1,5 @@
 const userController = require('../controllers/user');
-const userFreindsController = require('../controllers/userFriends');
+const userFriendsController = require('../controllers/userFriends');
 const userPostsController = require('../controllers/userPosts');
 
 
@@ -21,13 +21,17 @@ router.route('/:id')
 
 //friends: 
 router.route('/:id/friends')
-    .get(userFreindsController.getUserFriends)
-    .post(userFreindsController.addFriendReq)
+    .get(userFriendsController.getUserFriends)
+    .post(userFriendsController.addFriendReq)
+
+//friend requests
+router.route('/:id/friends-requests')
+    .get(userFriendsController.getFriendRequests)
 
 
 router.route('/:id/friends/:fid')
-    .patch(userFreindsController.acceptReq)
-    .delete(userFreindsController.deleteFriend)
+    .patch(userFriendsController.acceptReq)
+    .delete(userFriendsController.deleteFriend)
 
 
 //posts: 

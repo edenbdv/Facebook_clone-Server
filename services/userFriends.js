@@ -20,8 +20,6 @@ const getUserFriends = async (loggedUsername, username) => {
         const friends = user.friends;
         console.log("friends in service",friends)
 
-        // Fetch the friend documents from the database based on the IDs stored in the friends field
-        // const friends = await UserModel.find({ _id: { $in: friendIds } });
 
 
 
@@ -207,5 +205,27 @@ const deleteFriend = async (senderUsername, receiverUsername) => {
     }
 }
 
+const getFriendRequests = async (username) => {
+    try {
+        // Retrieve the user document from the database based on the provided ID
+        const user = await UserService.getUserByUsername(username);
 
-module.exports = { getUserFriends, addFriendReq, acceptReq, deleteFriend, areFriends };
+        if (!user) {
+            return null; // Return null if user is not found
+        }
+
+        // Access the friends field from the user document
+        const friendReqs = user.friendRequests;
+        console.log("friends in service",friendReqs)
+
+
+        return friendReqs;
+    } catch (error) {
+        console.error('Error fetching user friends:', error);
+        throw error; // Propagate the error to the controller
+    }
+};
+
+
+
+module.exports = { getUserFriends, addFriendReq, acceptReq, deleteFriend, areFriends, getFriendRequests };
