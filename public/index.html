@@ -25,8 +25,8 @@
 
 
         <label for="profilePic">Profile Picture:</label><br>
-        <!-- <input type="text" id="profilePic" name="profilePic" required> -->
-        <input type="file" id="profilePic" name="profilePic" required>
+        <input type="text" id="profilePic" name="profilePic" required>
+        <!-- <input type="file" id="profilePic" name="profilePic" required> -->
         <button onclick="update('profilePic')">Update</button><br><br>
 
 
@@ -52,58 +52,58 @@
 
     <script>
 
-        // async function create() {
-        //     const data = await fetch('http://localhost:12345/api/users', {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify({
-        //             username: document.getElementById('username').value,
-        //             password: document.getElementById('password').value,
-        //             displayName: document.getElementById('displayName').value,
-        //             profilePic: document.getElementById('profilePic').value
-        //         })
-        //     });
+        async function create() {
+            const data = await fetch('http://localhost:12345/api/users', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value,
+                    displayName: document.getElementById('displayName').value,
+                    profilePic: document.getElementById('profilePic').value
+                })
+            });
 
-        //     user = await data.json()
-        //     console.log(user)
-        // }
+            user = await data.json()
+            console.log(user)
+        }
 
    
-        async function create() {
-            // Get the selected image file from the file input
-            const fileInput = document.getElementById('profilePic');
-            const file = fileInput.files[0];
+        // async function create() {
+        //     // Get the selected image file from the file input
+        //     const fileInput = document.getElementById('profilePic');
+        //     const file = fileInput.files[0];
 
-            // Read the image file as base64
-            const reader = new FileReader();
-            reader.onloadend = async function () {
-                const base64Data = reader.result.split(',')[1]; // Extract base64 data
-                const base64String = `data:${file.type};base64,${base64Data}`; // Add data URL prefix
+        //     // Read the image file as base64
+        //     const reader = new FileReader();
+        //     reader.onloadend = async function () {
+        //         const base64Data = reader.result.split(',')[1]; // Extract base64 data
+        //         const base64String = `data:${file.type};base64,${base64Data}`; // Add data URL prefix
 
 
-                // Send the form data including the base64 profile picture to the server
-                const data = await fetch('http://localhost:12345/api/users', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        username: document.getElementById('username').value,
-                        password: document.getElementById('password').value,
-                        displayName: document.getElementById('displayName').value,
-                        profilePic: base64String // Set profile picture as base64 data URL)
-                    })
-                });
+        //         // Send the form data including the base64 profile picture to the server
+        //         const data = await fetch('http://localhost:12345/api/users', {
+        //             method: "POST",
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //             },
+        //             body: JSON.stringify({
+        //                 username: document.getElementById('username').value,
+        //                 password: document.getElementById('password').value,
+        //                 displayName: document.getElementById('displayName').value,
+        //                 profilePic: base64String // Set profile picture as base64 data URL)
+        //             })
+        //         });
 
-                const user = await data.json();
-                console.log(user);
-            };
+        //         const user = await data.json();
+        //         console.log(user);
+        //     };
 
-            // Read the file as Data URL
-            reader.readAsDataURL(file);
-        }
+        //     // Read the file as Data URL
+        //     reader.readAsDataURL(file);
+        // }
 
 
         async function get() {

@@ -5,6 +5,8 @@ const tokenService = require('../services/token');
 
 const createUser = async (req, res) => {
    try {
+
+
       const newUser = await UserService.createUser(req.body.username, req.body.password, req.body.displayName, req.body.profilePic);
       res.json(newUser);
    } catch (error) {
@@ -23,7 +25,24 @@ const createUser = async (req, res) => {
 const getUser = async (req, res) => {
    try {
       const username = req.params.id; // Get username from request parameters
-      const dataUser = await UserService.getDataUserByUsername(username);
+      
+      user = await UserService.getUserByUsername(username);
+
+      if (!user) {
+         return res.status(404).json({ errors: ['User not found'] });
+      }
+
+      // Extract the token from the request headers
+      const token = req.headers.authorization.split(' ')[1];
+
+      // Verify the token using the token service
+      const loggedUsername = await tokenService.verifyToken(token);
+
+      console.log("logged on username: ", loggedUsername);
+      console.log("actual useranme: ", username);
+
+      const dataUser = await UserService.getDataUserByUsername(username, loggedUsername);
+
       if (!dataUser) {
          return res.status(404).json({ errors: ['User not found'] });
       }

@@ -7,8 +7,8 @@ const getUserByUsername = async (username) => {
     return await UserModel.findOne({ username: username });
 };
 
-const getDataUserByUsername = async (username) => {
 
+const getDataUserByUsername = async (username, loggedUsername) => {
     try {
         const user = await UserModel.findOne({ username: username });
         let userData = {
@@ -16,12 +16,18 @@ const getDataUserByUsername = async (username) => {
             displayName: user.displayName,
             profilePic: user.profilePic
         };
-        return userData;
 
+        // Check if the username matches the loggedUsername
+        if (username === loggedUsername) {
+            // Add password and friendRequests to userData
+            userData.password = user.password;
+            userData.friendRequests = user.friendRequests;
+        }
+        
+        return userData;
     } catch (error) {
         throw new Error('Error fetching user by username: ' + error.message);
     }
-
 };
 
 const createUser = async (username, password, displayName, profilePic) => {

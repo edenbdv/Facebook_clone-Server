@@ -174,40 +174,7 @@ const deleteFriend = async (senderUsername, receiverUsername) => {
             throw new Error(`User with username ${senderUsername} not found`);
         }
 
-        // senderId = senderUser._id;
-        // receiverId = recipientUser._id
-
-
-        //     // Check if sender and receiver are friends
-        //     if (recipientUser.friends.includes(senderId) && senderUser.friends.includes(receiverId)) {
-        //         // If they are friends, remove each other from their friend lists
-        //         recipientUser.friends.pull(senderId);
-        //         senderUser.friends.pull(receiverId);
-
-        //         // Save the updated user documents
-        //         await Promise.all([recipientUser.save(), senderUser.save()]);
-
-
-        //         console.log('Friendship deleted successfully');
-        //         return { message: 'Friendship deleted successfully' };
-        //     } else {
-        //         // If they are not friends, check if sender is in receiver's friend request list
-        //         if (recipientUser.friendRequests.includes(senderId)) {
-        //             // If sender is in receiver's friend request list, remove sender from the list
-        //             recipientUser.friendRequests.pull(senderId);
-        //             await recipientUser.save();
-        //             console.log('Friend request deleted successfully');
-        //             return { message: 'Friend request deleted successfully' };
-        //         } else {
-        //             // If sender is neither friend nor in friend request list, return an error
-        //             throw new Error('Sender is not a friend or in friend request list');
-        //         }
-        //     }
-        // } catch (error) {
-        //     console.error('Error deleting friend request:', error);
-        //     throw error; // Propagate the error to the caller
-        // }
-
+       
 
         // Check if sender and receiver are friends
         if (recipientUser.friends.includes(senderUsername) && senderUser.friends.includes(receiverUsername)) {

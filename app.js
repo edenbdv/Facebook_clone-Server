@@ -22,6 +22,7 @@ app.use(cors());
 // customEnv.env(process.env.NODE_ENV, './config');
 // console.log(process.env.CONNECTION_STRING)
 // console.log(process.env.PORT)
+
 CONNECTION_STRING = "mongodb://localhost:27017"
 PORT = 12345
 
