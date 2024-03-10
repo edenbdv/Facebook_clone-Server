@@ -108,11 +108,13 @@ const deleteUser = async (req, res) => {
       const token = req.headers.authorization.split(' ')[1];
 
       // Verify the token using the token service
-      const decodedToken = tokenService.verifyToken(token);
-      const loggedUsername = decodedToken.username;
+      const loggedUsername = tokenService.verifyToken(token);
 
       console.log("logged on username: ", loggedUsername);
+
       console.log("actual username: ", username);
+
+      
 
       // Check if the user is authorized to delete the profile
       if (username !== loggedUsername) {

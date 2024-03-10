@@ -38,7 +38,6 @@ const verifyToken = (token) => {
         const decoded = jwt.verify(token, secretKey);
         console.log(decoded)
         loggedUsername = decoded.username;
-        console.log(loggedUsername)
         return loggedUsername;
     } catch (error) {
         console.error('Token verification failed:', error);

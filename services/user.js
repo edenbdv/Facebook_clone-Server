@@ -97,6 +97,7 @@ const deleteUser = async (username) => {
         if (!user) {
             return null;
         }
+        
 
         const friendIds = user.friends;
 
