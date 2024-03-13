@@ -25,7 +25,7 @@ const createUser = async (req, res) => {
 const getUser = async (req, res) => {
    try {
       const username = req.params.id; // Get username from request parameters
-      
+
       user = await UserService.getUserByUsername(username);
 
       if (!user) {
@@ -60,7 +60,7 @@ const getUser = async (req, res) => {
 const updateUser = async (req, res) => {
    try {
       const username = req.params.id;
-      const updatedField = req.body;
+      const { fieldName, fieldValue } = req.body;
 
 
       user = await UserService.getUserByUsername(username);
@@ -73,6 +73,7 @@ const updateUser = async (req, res) => {
       // Extract the token from the request headers
       const token = req.headers.authorization.split(' ')[1];
 
+
       // Verify the token using the token service
       const loggedUsername = await tokenService.verifyToken(token);
 
@@ -84,12 +85,12 @@ const updateUser = async (req, res) => {
          return res.status(403).json({ errors: ['User is not authorized to update this profile'] });
       }
 
-      // Check if any fields are provided for update
-      if (Object.keys(updatedField).length === 0) {
-         return res.status(400).json({ errors: ['No fields provided for update'] });
+      // Check if fieldName is provided
+      if (!fieldName || !fieldValue) {
+         return res.status(400).json({ errors: ['No field name/value provided for update'] });
       }
 
-      const updatedUser = await UserService.updateUser(username, updatedField);
+      const updatedUser = await UserService.updateUser(username, fieldName, fieldValue);
       res.json(updatedUser);
 
 
@@ -115,7 +116,7 @@ const deleteUser = async (req, res) => {
 
       console.log("actual username: ", username);
 
-      
+
 
       // Check if the user is authorized to delete the profile
       if (username !== loggedUsername) {

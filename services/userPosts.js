@@ -64,11 +64,10 @@ const getUserPosts = async (loggedUsername, username) => {
 };
 
 
-const updatePost = async (postId, updatedField) => {
+const updatePost = async (postId,  fieldName, fieldValue) => {
 
     try {
-        const updatedPost = await PostModel.findByIdAndUpdate(postId, updatedField, { new: true });
-
+        const updatedPost = await PostModel.findByIdAndUpdate(postId, { [fieldName]: fieldValue }, { new: true });
         return updatedPost; // Return the updated post
     } catch (error) {
         console.error("Error updating post:", error);

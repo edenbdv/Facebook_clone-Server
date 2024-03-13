@@ -138,7 +138,7 @@
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${jwtToken}`
                 },
-                body: JSON.stringify({ [fieldName]: fieldValue }) // Dynamically set the field to update
+                body: JSON.stringify({ fieldName, fieldValue }) // Dynamically set the field to update
             });
 
             if (response.ok) {

@@ -23,7 +23,7 @@ const getDataUserByUsername = async (username, loggedUsername) => {
             userData.password = user.password;
             userData.friendRequests = user.friendRequests;
         }
-        
+
         return userData;
     } catch (error) {
         throw new Error('Error fetching user by username: ' + error.message);
@@ -50,41 +50,51 @@ const createUser = async (username, password, displayName, profilePic) => {
 };
 
 
-const updateUser = async (username, updatedField) => { //update user username
-    const user = await getUserByUsername(username);
-    if (!user) return null;
 
 
-    // Check if the updatedField contains the 'username' key
-    if (updatedField.hasOwnProperty('username')) {
+const updateUser = async (username, fieldName, fieldValue) => {
 
-        const newUsername = updatedField.username;
-
-        // Update references to this user in the posts and tokens collections
-        await PostModel.updateMany({ createdBy: user.username }, { createdBy: newUsername });
-        await TokenModel.updateMany({ username: user.username }, { username: newUsername });
-
-         // Update friends lists of other users
-         await UserModel.updateMany({ 'friends': username }, { $set: { 'friends.$': newUsername } });
-
-        // Update friendRequests lists of other users
-        await UserModel.updateMany({ 'friendRequests': username }, { $set: { 'friendRequests.$': newUsername } });
-
-        // just after all the updates:
-        user.username = newUsername
+    try {
+        const user = await UserModel.findOne({ username });
+        if (!user) return null;
 
 
-        // Save the updated user
-        await user.save();
-    }
-    // Update each property in the user object based on the request body
-    Object.keys(updatedField).forEach(key => {
-        if (key !== '_id' && key !== 'username') { // Exclude _id  and username fields from being updated
-            user[key] = updatedField[key];
+
+        // Check if the updatedField contains the 'username' key
+        if (fieldName == 'username') {
+
+            const newUsername = fieldValue;
+
+            // Update references to this user in the posts and tokens collections
+            await PostModel.updateMany({ createdBy: user.username }, { createdBy: newUsername });
+            await TokenModel.updateMany({ username: user.username }, { username: newUsername });
+
+            // Update friends lists of other users
+            await UserModel.updateMany({ 'friends': username }, { $set: { 'friends.$': newUsername } });
+
+            // Update friendRequests lists of other users
+            await UserModel.updateMany({ 'friendRequests': username }, { $set: { 'friendRequests.$': newUsername } });
+
+            // just after all the updates:
+            user.username = newUsername
+
+
+            // Save the updated user
+            await user.save();
+
+        } else {
+            // Update the specified field
+            user[fieldName] = fieldValue;
+
+            // Save the updated user
+            await user.save();
         }
-    });
-    await user.save();
-    return user;
+        console.log("updated user: ", user);
+        return user;
+    } catch (error) {
+        console.error("Error updating user:", error);
+        throw error;
+    }
 };
 
 
@@ -97,10 +107,10 @@ const deleteUser = async (username) => {
         if (!user) {
             return null;
         }
-        
+
 
         const friendsNames = user.friends;
-        console.log("friends of the deleted user" ,friendsNames);
+        console.log("friends of the deleted user", friendsNames);
 
         // For each friend in the list, Remove the user from their friend list
         for (const friendName of friendsNames) {
@@ -110,7 +120,8 @@ const deleteUser = async (username) => {
                 await UserModel.findByIdAndUpdate(friend._id, { $pull: { friends: user.username } });
             } else {
                 console.log(`User ${friendName} is not a friend of ${user.username}`);
-            }        }
+            }
+        }
 
         // Delete all posts created by the user
         await PostModel.deleteMany({ _id: { $in: user.posts } });
