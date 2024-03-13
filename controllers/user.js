@@ -42,6 +42,7 @@ const getUser = async (req, res) => {
       console.log("actual useranme: ", username);
 
       const dataUser = await UserService.getDataUserByUsername(username, loggedUsername);
+      console.log(dataUser);
 
       if (!dataUser) {
          return res.status(404).json({ errors: ['User not found'] });

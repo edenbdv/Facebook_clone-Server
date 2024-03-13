@@ -99,12 +99,18 @@ const deleteUser = async (username) => {
         }
         
 
-        const friendIds = user.friends;
+        const friendsNames = user.friends;
+        console.log("friends of the deleted user" ,friendsNames);
 
         // For each friend in the list, Remove the user from their friend list
-        for (const friendId of friendIds) {
-            await UserModel.findByIdAndUpdate(friendId, { $pull: { friends: user._id } });
-        }
+        for (const friendName of friendsNames) {
+            const friend = await UserModel.findOne({ username: friendName });
+
+            if (friend && friend.friends.includes(user.username)) {
+                await UserModel.findByIdAndUpdate(friend._id, { $pull: { friends: user.username } });
+            } else {
+                console.log(`User ${friendName} is not a friend of ${user.username}`);
+            }        }
 
         // Delete all posts created by the user
         await PostModel.deleteMany({ _id: { $in: user.posts } });

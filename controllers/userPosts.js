@@ -84,6 +84,7 @@ const updatePost = async (req, res) => {
 
     try {
         const updatedPost = await userPostsService.updatePost(postId, updatedField);
+        console.log("updated post controller: ",updatedPost );
 
         if (!updatedPost) {
             return res.status(404).json({ errors: ['Post not found'] });
@@ -116,6 +117,7 @@ const deletePost = async (req, res) => {
             return res.status(403).json({ errors: ['User is not authorized to update this post'] });
         }
         res.json(await userPostsService.deletePost(username, postId));
+
 
     } catch (error) {
         console.error('Error deleting post:', error);
