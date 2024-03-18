@@ -31,6 +31,8 @@ const createPost = async (req, res) => {
 };
 
 
+
+
 const getUserPosts = async (req, res) => {
     try {
         const username = req.params.id
