@@ -83,13 +83,16 @@ const deletePost = async (username, postId) => {
             throw new Error(`Username or post ID not provided`);
         }
 
+         // Find the post to be deleted
+         const deletedPost = await PostModel.findById(postId);
+
         // Remove post from Post collection
         await PostModel.findByIdAndDelete(postId);
 
         // Remove post ID from the list of posts of the user who created it
         await UserModel.updateOne({ username: username }, { $pull: { posts: postId } });
 
-        return { message: 'Post deleted successfully' };
+        return deletedPost ;
 
 
     } catch (error) {
