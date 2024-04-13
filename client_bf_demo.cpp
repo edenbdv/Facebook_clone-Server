@@ -54,15 +54,6 @@ void handleCommunication(int sock) {
         string input;
         getline(cin, input);
 
-        // // Send input to the server
-        // const char *data_addr = input.c_str();
-        // int data_len = strlen(data_addr);
-        // int sent_bytes = send(sock, data_addr, data_len, 0);
-        // if (sent_bytes < 0) {
-        //     perror("error sending data to server");
-        //     break; // Exit the loop if sending fails
-        // }
-
 
          // Send input to the server
         int sent_bytes = sendData(sock, input);
@@ -70,11 +61,11 @@ void handleCommunication(int sock) {
             break; // Exit the loop if sending fails
         }
 
-        cout << "about  to receive data from server " << endl;
+        //cout << "about  to receive data from server " << endl;
 
         // Receive response from the server
         string receivedData = receiveData(sock);
-        cout << "received data from server " << endl;
+        //cout << "received data from server " << endl;
 
         if (receivedData.empty()) {
             break; // Exit the loop if there's an error or the connection is closed
@@ -89,7 +80,7 @@ void handleCommunication(int sock) {
 
         // Check if the received data indicates a successful response
         if (receivedData == "SUCCESS") {
-            cout << "Received successful response from server." << endl;
+           // cout << "Received successful response from server." << endl;
 
             while(true) {
                 // Ask for additional input
@@ -109,51 +100,34 @@ void handleCommunication(int sock) {
                     break; // Exit the loop if there's an error or the connection is closed
                 }
 
-                 // Process received data normally
-                 cout << "Received from server: " << receivedData << endl;
+
+                 if (receivedData == "INVALID_INPUT") {
+                cout << "Error: Invalid input received from server." << endl;
+                // Continue waiting for user input
+                continue;
+                }
+
+                // case that the command is 1 (add to bloomfilter)
+                else if(receivedData == "SUCCESS")
+                {
+                 cout << "added url to black list." << endl;
+                  continue;
+
+                }
+                
+                
+                //case that the command is 2 (check if the url is in the blacklist)
+                else {
+                      // Process received data normally
+                 cout << receivedData << endl;
+                }
+
             }
         
         }
        
     }
         close(sock);
-
-
-
-        // // Receive response from the server
-        // char buffer[4096];
-        // int expected_data_len = sizeof(buffer);
-        // int read_bytes = recv(sock, buffer, expected_data_len, 0);
-        // cout << "received data from server " << endl;
-
-        // if (read_bytes == 0) {
-        //     // Connection is closed
-        //     cout << "Connection closed by server." << endl;
-        //     break; // Exit the loop if connection is closed
-        // } else if (read_bytes < 0) {
-        //     perror("error receiving data from server");
-        //     break; // Exit the loop if receiving fails
-        // } else {
-        //     // Check if the received data indicates an invalid input
-        //     std::string receivedData(buffer, read_bytes); // Construct string from buffer
-        //     cout << "received data:"<< receivedData << endl;
-
-        //     // Check if the received data indicates a successful response
-        //     if (receivedData == "SUCCESS") {
-        //         cout << "Received successful response from server." << endl;
-        //         // Continue waiting for user input
-        //         continue;
-        //     }
-
-        //     // Check if the received data is the special string for invalid input
-        //     else if (receivedData == "INVALID_INPUT") {
-        //         cout << "Error: Invalid input received from server." << endl;
-        //         // Continue waiting for user input
-        //         continue;
-        //     }
-        //     // Process received data normally
-        //     cout << "Received from server: " << buffer << endl;
-        // }  // close(Sock) ???
 
     
 }
