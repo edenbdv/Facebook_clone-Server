@@ -2,6 +2,35 @@ const PostModel = require('../models/post');
 const UserModel = require('../models/user');
 const UserService = require('../services/user');
 const UserFriendService = require('../services/userFriends');
+const connectBloomFilter = require('../client_bf');
+
+
+
+// Function to extract URLs from post text using a regular expression
+const extractUrls = (text) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.match(urlRegex) || []; 
+};
+
+
+
+const checkUrlsInBlacklist = async (urls) => {
+    for (const url of urls) {
+        const isInBlacklist = await connectBloomFilter.connectToServer('2', url);
+        if (isInBlacklist === "true true") {
+            // Do something if the URL is in the blacklist
+            console.log(`isInBlacklist: `, isInBlacklist);
+            console.log(`URL '${url}' is in the blacklist.`);
+            throw new Error(`forbidden url was found. `);
+
+        } else {
+            // Do something if the URL is not in the blacklist
+            console.log(`isInBlacklist: `, isInBlacklist);
+            console.log(`URL '${url}' is not in the blacklist.`);
+        }
+    }
+};
+
 
 
 const createPost = async (creatorUsername, text, picture) => {
@@ -14,6 +43,19 @@ const createPost = async (creatorUsername, text, picture) => {
              throw new Error(`User with username ${creatorUsername} not found`);
          }
 
+
+         // Extract URLs from the post text
+         const urls = extractUrls(text);
+         console.log(`url: `,urls);
+
+         console.log(`check if any url's is in the blacklist.`); //Eden - need to delete later
+
+
+         await checkUrlsInBlacklist(urls)
+          
+
+
+
         // const post = new PostModel({ text: text, picture: picture, createdBy: creatorId, comments: [] });
         const post = new PostModel({ text: text, picture: picture, createdBy: creatorUsername, comments: [] });
         const savedPost = await post.save();
@@ -25,7 +67,9 @@ const createPost = async (creatorUsername, text, picture) => {
         console.log('Post created:', savedPost);
         return savedPost;
     } catch (error) {
-        console.error('Error creating post:', error);
+
+        console.log('Error creating post:', error);
+
         throw error; // Rethrow the error to be handled by the controller
     }
 };
@@ -65,6 +109,19 @@ const getUserPosts = async (loggedUsername, username) => {
 
 
 const updatePost = async (postId,  fieldName, fieldValue) => {
+
+    if (fieldName == 'text') {
+
+     // Extract URLs from the post text
+    const urls = extractUrls(fieldValue);
+    console.log(`url: `,urls);
+
+    console.log(`check if any url's is in the blacklist.`); //Eden - need to delete later
+
+    await checkUrlsInBlacklist(urls);
+
+    }
+
 
     try {
         const updatedPost = await PostModel.findByIdAndUpdate(postId, { [fieldName]: fieldValue }, { new: true });
@@ -110,5 +167,6 @@ const getPostById = async (postId) => {
         throw error;
     }
 };
+
 
 module.exports = { createPost, getUserPosts, updatePost ,deletePost, getPostById };

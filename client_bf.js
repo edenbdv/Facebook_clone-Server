@@ -1,5 +1,8 @@
 const net = require('net');
 const readline = require('readline');
+const fs = require('fs');
+
+
 
 
 
@@ -23,28 +26,22 @@ function receiveData(socket) {
 
 
 
+
 // Function to handle communication with the server
-async function handleCommunication(socket) {
-
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-
-    // Read the configuration environment from the file
-    const configEnv = fs.readFileSync('config.env', 'utf8');
+async function handleCommunication(socket, command, url) {
 
 
-    
+  // Read the configuration environment from the file
+  const configEnv = fs.readFileSync('config.env', 'utf8');
+
+
+
+     
     while (true) {
-        // Read input from the user
-        console.log("Enter bloom filter array size and hash functions: ");
-        const input = await new Promise((resolve) => {
-            rl.question('', (input) => resolve(input));
-        });
+
 
         // Send input to the server
-        sendData(socket, input);
+        sendData(socket, configEnv);
 
         // Receive response from the server
         const receivedData = await receiveData(socket);
@@ -60,17 +57,15 @@ async function handleCommunication(socket) {
 
         // Check if the received data indicates a successful response
         if (receivedData === 'SUCCESS') {
+
+
             while (true) {
 
-                 // Ask for additional input
-                rl.setPrompt('Enter command and url: ');
-                rl.prompt();
-                const additionalInput = await new Promise((resolve) => {
-                    rl.once('line', (input) => resolve(input));
-                });
+            
 
-                 // Send additional input to the server
-                sendData(socket, additionalInput);
+
+             // Send additional input to the server
+             sendData(socket, `${command} ${url}`);
 
 
                 // Receive response for additional input
@@ -81,16 +76,21 @@ async function handleCommunication(socket) {
 
                 if (receivedData === 'INVALID_INPUT') {
                     console.log('Error: Invalid input received from server.');
-                    continue;
+                    return '0';
+
+                    //continue;
 
                   // case that the command is 1 (add to bloomfilter)
                 } else if (receivedData === 'SUCCESS') {
                     console.log('Added URL to blacklist.');
-                    continue;
+                    return '1';
+
+                    //continue;
 
                  //case that the command is 2 (check if the url is in the blacklist)
                 } else {
-                    console.log(receivedData);
+                    //console.log(receivedData);
+                    return receivedData;
                 }
             }
     }
@@ -100,22 +100,27 @@ async function handleCommunication(socket) {
 }
 
 
-
-
 // Create a TCP client and connect to the server
-const socket = net.createConnection({ host: '172.26.218.219', port: 5555 }, () => {
-    console.log('Connected to server!');
-    handleCommunication(socket).catch((err) => {
-        console.error('Error:', err.message);
-        socket.destroy();
-        process.exit(1);
+async function connectToServer(command, url) {
+
+   return new Promise((resolve, reject) => {
+        const IP_ADDRESS_BF = '172.26.218.219';
+        const socket = net.createConnection({ host: IP_ADDRESS_BF, port: 5555 }, async () => {
+            console.log('Connected to server!');
+            try {
+                const isInBlacklist = await handleCommunication(socket, command, url);
+                resolve(isInBlacklist);
+            } catch (error) {
+                reject(error);
+            }
+        });
+
+        socket.on('error', (err) => {
+            reject(new Error('Error connecting to server: ' + err.message));
+        });
     });
-});
-
-socket.on('error', (err) => {
-    console.error('Error connecting to server:', err.message);
-    process.exit(1);
-});
+}
 
 
-module.exports = {handleCommunication};
+
+module.exports = {connectToServer};
