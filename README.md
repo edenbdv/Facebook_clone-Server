@@ -30,7 +30,7 @@ Foo Bar is a mock server designed to mimic the functionalities of Facebook. It p
 ## Installation:
 
 1. Clone the repository from GitHub:
-   git clone https://github.com/your_username/foo-bar.git
+   git clone https://github.com/edenbdv/FooBar-Server
 
    
 2. Navigate into the project directory:
