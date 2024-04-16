@@ -43,6 +43,7 @@ Foo Bar is a mock server designed to mimic the functionalities of Facebook. It p
 ## Running the Server:
 
 To start the server, run the following command:
+
 node app.js
 
 
