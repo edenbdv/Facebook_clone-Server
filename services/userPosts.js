@@ -3,6 +3,8 @@ const UserModel = require('../models/user');
 const UserService = require('../services/user');
 const UserFriendService = require('../services/userFriends');
 const connectBloomFilter = require('../client_bf');
+const SocketSingleton = require('../SocketSingleton');
+//const socketSingleton = require('../SocketSingleton'); 
 
 
 
@@ -16,7 +18,12 @@ const extractUrls = (text) => {
 
 const checkUrlsInBlacklist = async (urls) => {
     for (const url of urls) {
-        const isInBlacklist = await connectBloomFilter.connectToServer('2', url);
+        
+
+        const bloomFilterSocket = SocketSingleton.getSocket();
+
+
+        const isInBlacklist = await connectBloomFilter.checkUrl(bloomFilterSocket,url);
         if (isInBlacklist === "true true") {
             // Do something if the URL is in the blacklist
             console.log(`isInBlacklist: `, isInBlacklist);

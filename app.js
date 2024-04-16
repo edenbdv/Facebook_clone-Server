@@ -26,6 +26,26 @@ app.use(cors());
 CONNECTION_STRING = "mongodb://localhost:27017"
 PORT = 12345
 
+
+const connectBloomFilter = require('./client_bf');
+const socketSingleton = require('./SocketSingleton'); 
+
+
+// Initialize the bloom filter connection and store the socket
+connectBloomFilter.connectToServer()
+  .then(socket => {
+
+   // Initialize the SocketSingleton with the socket instance
+    socketSingleton.initialize(socket);
+
+    console.log('Connected and initiliazed bloom filter server');
+
+  })
+  .catch(error => {
+    console.error('Error connecting to bloom filter server:', error.message);
+  });
+
+
 const mongoose = require('mongoose');
 mongoose.connect(CONNECTION_STRING);
 
@@ -49,3 +69,5 @@ app.use('/api/tokens', tokens);
 
 
 app.listen(PORT);
+
+
