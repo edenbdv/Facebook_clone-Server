@@ -1,8 +1,8 @@
 const net = require('net');
 const readline = require('readline');
 const fs = require('fs');
-
-
+const customEnv = require('custom-env');
+customEnv.env(process.env.NODE_ENV, './config');
 
 
 
@@ -30,18 +30,16 @@ function receiveData(socket) {
 // Function to handle communication with the server
 async function handleCommunication(socket, command, url) {
 
+    // Read the configuration environment from the file
+    const bloomFilterSettings = process.env.BLOOM_FILTER_SETTINGS;
+    const blacklistUrlsString = process.env.BLACKLIST_URLS;
+    const blacklistUrls = blacklistUrlsString.split(',').map(url => url.trim());
+    console.log(blacklistUrls)
 
-  // Read the configuration environment from the file
-  const configEnv = fs.readFileSync('config.env', 'utf8');
-
-
-
-     
     while (true) {
 
-
         // Send input to the server
-        sendData(socket, configEnv);
+        sendData(socket, bloomFilterSettings);
 
         // Receive response from the server
         const receivedData = await receiveData(socket);
@@ -60,8 +58,6 @@ async function handleCommunication(socket, command, url) {
 
 
             while (true) {
-
-            
 
 
              // Send additional input to the server
@@ -104,8 +100,10 @@ async function handleCommunication(socket, command, url) {
 async function connectToServer(command, url) {
 
    return new Promise((resolve, reject) => {
-        const IP_ADDRESS_BF = '172.26.218.219';
-        const socket = net.createConnection({ host: IP_ADDRESS_BF, port: 5555 }, async () => {
+
+        const ip = console.log(process.env.CONNECTION_STRING)
+        //const ip = '172.26.218.219';
+        const socket = net.createConnection({ host: ip, port: 5555 }, async () => {
             console.log('Connected to server!');
             try {
                 const isInBlacklist = await handleCommunication(socket, command, url);
