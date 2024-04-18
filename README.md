@@ -6,6 +6,8 @@ https://github.com/nogazit99/FB
 client android:
 https://github.com/nogazit99/FB-android
 
+the server-code for part 3 is in this repo under "users" branch
+
 ## Overview:
 
 Foo Bar is a mock server designed to mimic the functionalities of Facebook. It provides support for both Android and web clients, allowing developers to simulate interactions with the Facebook API without accessing the actual Facebook servers. The server is structured following the MVC (Model-View-Controller) architecture.
