@@ -34,15 +34,20 @@ Foo Bar is a mock server designed to mimic the functionalities of Facebook. It p
 1. Clone the repository from GitHub:
    git clone https://github.com/edenbdv/FooBar-Server
 
+
+2. Checkout to branch 'users'
+
    
-2. Navigate into the project directory:
+3. Navigate into the project directory:
    cd foobar
 
    
-3. Install dependencies using npm:
+4. Install dependencies using npm:
    npm install
 
 ## Running the Server:
+
+Before Running the server - make sure the env variables are correct for the running evironment.
 
 To start the server, run the following command:
 
