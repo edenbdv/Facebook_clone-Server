@@ -47,7 +47,7 @@ Foo Bar is a mock server designed to mimic the functionalities of Facebook. It p
 
 ## Running the Server:
 
-Before Running the server - make sure the env variables are correct for the running evironment.
+Before Running the server - make sure the env variables are correct for the running evironment. You can verify the connections in app.js and InintializeDB.js
 
 To start the server, run the following command:
 
