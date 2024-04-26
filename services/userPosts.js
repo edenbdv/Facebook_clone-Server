@@ -20,10 +20,8 @@ const checkUrlsInBlacklist = async (urls) => {
     for (const url of urls) {
         
 
-        const bloomFilterSocket = SocketSingleton.getSocket();
+        const isInBlacklist = await connectBloomFilter.checkUrl(url);
 
-
-        const isInBlacklist = await connectBloomFilter.checkUrl(bloomFilterSocket,url);
         if (isInBlacklist === "true true") {
             // Do something if the URL is in the blacklist
             console.log(`isInBlacklist: `, isInBlacklist);

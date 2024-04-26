@@ -56,8 +56,15 @@ const addFriendReq = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.error('Error adding friend request:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
+        const recieverId = req.params.id;
+
+        if (error.message === `User ${loggedUsername} and ${recieverId} are already friends `) {
+            res.status(400).json({ message: error.message });
+        } else if (error.message === `already has a pending friend request`) {
+            res.status(400).json({ message: error.message });
+        } else {
+            res.status(500).json({ message: 'Internal server error' });
+        }    }
 };
 
 
