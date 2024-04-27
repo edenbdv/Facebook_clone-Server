@@ -1,11 +1,9 @@
-
+const dotenv = require('dotenv');
+dotenv.config();
 const net = require('net');
 const readline = require('readline');
-const fs = require('fs');
 const customEnv = require('custom-env');
 customEnv.env(process.env.NODE_ENV, './config');
-
-
 
 // Function to send data to the server
 function sendData(socket, data) {
@@ -27,7 +25,7 @@ function receiveData(socket) {
 // Function to handle communication with the server
 async function checkUrl(url) {
 
-    const IP_ADDRESS_BF_SERVER = '172.26.218.219';
+    const IP_ADDRESS_BF_SERVER = process.env.IP_ADDRESS_BF_SERVER;
 
     const socket = net.createConnection({ host: IP_ADDRESS_BF_SERVER, port: 5555 }, async () => {
     console.log('Connected to server!');
@@ -119,7 +117,7 @@ async function initializeServer(socket) {
         async function connectToServer() {
             return new Promise((resolve, reject) => {
       
-                    const IP_ADDRESS_BF_SERVER = '172.26.218.219';
+                    const IP_ADDRESS_BF_SERVER = process.env.IP_ADDRESS_BF_SERVER;
 
                     const socket = net.createConnection({ host: IP_ADDRESS_BF_SERVER, port: 5555 }, async () => {
                     console.log('Connected to server!');
