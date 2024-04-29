@@ -89,6 +89,6 @@ Now you have both Android and Web projects set up for running Foobar.
 
 - [Android Repository](https://github.com/nogazit99/FB-android/tree/ex4_main)
 - [Web Client](https://github.com/nogazit99/FB/tree/ex4_main)
-- [Web Server]
+- [Web Server](https://github.com/edenbdv/tree/ste--tcp-client)
 - [BloomFilter](https://github.com/nogazit99/BloomFilter/tree/ex4_multithreaded)
 
