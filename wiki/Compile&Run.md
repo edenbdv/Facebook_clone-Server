@@ -29,15 +29,13 @@ you will know it started to run when you will see 'start' in the terminal.
 
 ## 2. Web Server
 
-If you want to run the android application there is no need to move the build files from the web client to 
-the public dir in the server. But if you want to use the web client tou do need to follow this procedure.
-
-So, for running web client - first go to step 3, compile the client code and copy
-the static files and the index.html to the public folder of the server adn then run the server 
-as written in step 2.
-
-If you want to run the android client there is no need to copy any files and you
-can just proceed with 2, ruun the server and then run the android client in step 4.
+Running the web server depends on which client you want to run.
+- Android:
+  - Procced in step 2 and run the server and then continue to step 3 and run the android app.
+- Web Client
+  - Start with step 4 to compile the web client.
+  - Copy the ststic files and index.html to the 'public' dir in the server.
+  - Procced in step 2 and run the server.
 
 ### Running the Server
 
