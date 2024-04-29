@@ -34,12 +34,12 @@ Running the web server depends on which client you want to run.
   - Procced in step 2 and run the server and then continue to step 3 and run the android app.
 - Web Client
   - Start with step 4 to compile the web client.
-  - Copy the static folder and index.html from the 'build' dir in the client to the server's public folder.
+  - Copy the content of the 'build' dir in the client to the server's public folder.
     
   - ![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/9252768d-6b2b-4ede-a273-a2f8dfae8484)
  
-  - ![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/101efcf9-969c-4f87-acce-aae8f6aebd96)
- 
+  - ![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/6f288f8e-8f45-4eb7-8df5-2f50bc2e02e4)
+
   - (optional) Delete from the index.html 
   - '<script src="../src/JSFiles/index.js"></script><script src="../src/JSFiles/App.js"></script>'
   - Procced in step 2 and run the server.
@@ -50,6 +50,12 @@ After compilation, run the web server:
 
 ```
 node app.js
+```
+
+and open on your web browser the url:
+
+```
+http://localhost:12345/
 ```
 
 ![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/a6a48ed7-43ea-4b4d-9f30-14ff8c5e68f8)
