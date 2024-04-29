@@ -34,7 +34,14 @@ Running the web server depends on which client you want to run.
   - Procced in step 2 and run the server and then continue to step 3 and run the android app.
 - Web Client
   - Start with step 4 to compile the web client.
-  - Copy the ststic files and index.html to the 'public' dir in the server.
+  - Copy the static folder and index.html from the 'build' dir in the client to the server's public folder.
+    
+  - ![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/9252768d-6b2b-4ede-a273-a2f8dfae8484)
+ 
+  - ![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/101efcf9-969c-4f87-acce-aae8f6aebd96)
+ 
+  - (optional) Delete from the index.html 
+  - '<script src="../src/JSFiles/index.js"></script><script src="../src/JSFiles/App.js"></script>'
   - Procced in step 2 and run the server.
 
 ### Running the Server
@@ -44,6 +51,13 @@ After compilation, run the web server:
 ```
 node app.js
 ```
+
+![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/a6a48ed7-43ea-4b4d-9f30-14ff8c5e68f8)
+
+This is how the terminal of the bloom filter will look after the server finished initializing the bloom filter:
+
+![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/d9f854cb-99f1-450f-898f-355f61ea93e7)
+
 
 ## 3. Android
 
@@ -63,12 +77,14 @@ Navigate to the web client directory and install dependencies:
 
 ```
 cd web-client
-npm install
+npm i
+npm run build
 ```
 
 ### Running the Client
 
-After installing dependencies, start the web client:
+After installing dependencies, start the web client (that is if you don't want any connection with the server - if you want to see the interaction you need
+to copy the buil dfiles to the server and run from there as explained in step 2.
 
 ```
 npm start
