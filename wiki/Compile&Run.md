@@ -14,6 +14,7 @@ g++ -o main.exe Main.cpp BloomFilter.cpp App.cpp Menu.cpp IHash.h ICommand.h Has
 Commands/AddUrlCommand.cpp Commands/ContainsUrlCommand.cpp -pthread
 ```
 
+![best](https://github.com/edenbdv/FooBar-Server/assets/148945751/f5ec4787-423a-4631-a336-5baabd5e7e83)
 
 
 ### Running the Server
