@@ -75,19 +75,16 @@ const addFriendReq = async (senderUsername, receiverUsername) => {
         }
 
 
-        // Check if sender and receiver are already friends or if there's an existing request
+        // Check if sender and receiver are already friends
         if (await areFriends(senderUsername, receiverUsername)) {
-            throw new Error(`User ${senderUsername} and ${receiverUsername} are already friends or have a pending friend request`);
+            throw new Error(`User ${senderUsername} and ${receiverUsername} are already friends `);
         }
 
-        // // Check if there is an existing pending request
-        // if (recipientUser.friendRequests.includes(senderUser._id)) {
-        //     throw new Error(`User ${receiverUsername} already has a pending friend request from ${senderUsername}`);
-        // }
+        
 
         // Check if there is an existing pending request
         if (recipientUser.friendRequests.includes(senderUsername)) {
-            throw new Error(`User ${receiverUsername} already has a pending friend request from ${senderUsername}`);
+            throw new Error(`already has a pending friend request`);
         }
 
 

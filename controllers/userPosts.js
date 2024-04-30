@@ -26,6 +26,9 @@ const createPost = async (req, res) => {
         res.status(201).json(newPost); // Respond with the created post
     } catch (error) {
         console.error('Error creating post:', error);
+        if (error.message === `forbidden url was found. `) {
+            return res.status(403).json({ error: error.message });
+        }
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
@@ -90,6 +93,8 @@ const updatePost = async (req, res) => {
             return res.status(403).json({ errors: ['User is not authorized to update this post'] });
         }
 
+        
+
         console.log("fieldname: ", fieldName)
         console.log("fieldvalue: ", fieldValue)
 
@@ -110,7 +115,13 @@ const updatePost = async (req, res) => {
 
         res.json(updatedPost);
     } catch (error) {
+
         console.error("Error updating post:", error);
+
+        if (error.message === `forbidden url was found. `) {
+            return res.status(403).json({ error: error.message });
+        }
+        
         res.status(500).json({ errors: ['Failed to update post'] });
     }
 }
