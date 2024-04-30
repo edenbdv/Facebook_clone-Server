@@ -48,7 +48,7 @@ Clone the Web repository from GitHub:
 ```
 git clone https://github.com/edenbdv/FooBar-Server.git
 ```
-The relevant and most up to date branch is 'step--tcp--client'.
+The relevant and most up to date branch is 'ex4_main'.
 
 ### Environment Variables
 
@@ -89,6 +89,6 @@ Now you have both Android and Web projects set up for running Foobar.
 
 - [Android Repository](https://github.com/nogazit99/FB-android/tree/ex4_main)
 - [Web Client](https://github.com/nogazit99/FB/tree/ex4_main)
-- [Web Server](https://github.com/edenbdv/FooBar-Server/tree/step--tcp-client)
+- [Web Server](https://github.com/edenbdv/FooBar-Server/tree/ex4_main)
 - [BloomFilter](https://github.com/nogazit99/BloomFilter/tree/ex4_multithreaded)
 
