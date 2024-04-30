@@ -80,6 +80,8 @@ git clone https://github.com/nogazit99/BloomFilter.git
 ```
 The relevant and most up to date branch is 'ex4_main'.
 
+#### It is very important to note that our bloomfilter and web server were built to support only urls that have the prefix 'http://'
+
 
 ## Summary
 
