@@ -60,10 +60,6 @@ http://localhost:12345/
 
 ![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/a6a48ed7-43ea-4b4d-9f30-14ff8c5e68f8)
 
-This is how the terminal of the bloom filter will look after the server finished initializing the bloom filter:
-
-![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/d9f854cb-99f1-450f-898f-355f61ea93e7)
-
 
 ## 3. Android
 
