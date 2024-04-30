@@ -78,7 +78,7 @@ Clone the Web repository from GitHub:
 ```
 git clone https://github.com/nogazit99/BloomFilter.git
 ```
-The relevant and most up to date branch is 'ex4_multithreaded'.
+The relevant and most up to date branch is 'ex4_main'.
 
 
 ## Summary
@@ -90,5 +90,5 @@ Now you have both Android and Web projects set up for running Foobar.
 - [Android Repository](https://github.com/nogazit99/FB-android/tree/ex4_main)
 - [Web Client](https://github.com/nogazit99/FB/tree/ex4_main)
 - [Web Server](https://github.com/edenbdv/FooBar-Server/tree/ex4_main)
-- [BloomFilter](https://github.com/nogazit99/BloomFilter/tree/ex4_multithreaded)
+- [BloomFilter](https://github.com/nogazit99/BloomFilter/tree/ex4_main)
 
