@@ -40,7 +40,7 @@ This command runs a Docker container based on the "ex1" image, exposing port 555
 
 
 # running the Docker from Docker Hub
- The lastest tag for now is v1.3.0
+ The lastest tag for now is v1.0.3
  Follow these steps to find the BloomFilter Docker image on Docker Hub and run it:
 
 
