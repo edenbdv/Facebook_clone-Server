@@ -31,8 +31,8 @@ This command builds a Docker image named "ex1" using the Dockerfile in the curre
 docker run -i -t -p 5555:5555 ex1
 
 ```
+<img width="532" alt="‏‏7" src="https://github.com/edenbdv/FooBar-Server/assets/94904176/e250c770-dcbf-478e-8a3c-fa3c87c45951">
 
-<img width="1920" alt="7" src="https://github.com/edenbdv/FooBar-Server/assets/94904176/989544c4-5852-460e-877a-1e631cfb5676">
 
 This command runs a Docker container based on the "ex1" image, exposing port 5555 on the host system to port 5555 in the container.
 
