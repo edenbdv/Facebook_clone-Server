@@ -49,7 +49,7 @@ This command runs a Docker container based on the "ex1" image, exposing port 555
 ```
  docker pull edenbdv/bloom_filter:<latest_tag>
 ```
-<img width="1913" alt="‏‏9" src="https://github.com/edenbdv/FooBar-Server/assets/94904176/987d5f27-9fca-4d7a-9b44-04a080417389">
+<img width="1081" alt="‏‏11" src="https://github.com/edenbdv/FooBar-Server/assets/94904176/cde5dcd8-8a2d-4fad-b14f-e9ece38dbfdc">
 
 
 
