@@ -14,7 +14,7 @@ g++ -o main.exe Main.cpp BloomFilter.cpp App.cpp Menu.cpp IHash.h ICommand.h Has
 Commands/AddUrlCommand.cpp Commands/ContainsUrlCommand.cpp -pthread
 ```
 
-### Running the Server
+### Running the Bloom Filter
 
 After compilation, run the bloom filter server:
 
@@ -22,9 +22,9 @@ After compilation, run the bloom filter server:
 ./main.exe
 ```
 
-you will know it started to run when you will see 'start' in the terminal.
+this is how it will look once the run started.
 
-![best](https://github.com/edenbdv/FooBar-Server/assets/148945751/12a84517-7511-4440-8687-ccd1fef8daa1)
+![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/c1a74440-4821-420e-bc75-e369035a09eb)
 
 
 ## 2. Web Server
