@@ -42,7 +42,7 @@ Foo Bar is a mock server designed to mimic the functionalities of Facebook. It p
 
    
 3. Navigate into the project directory:
-   cd foobar
+   cd Facebook_clone-Server
 
    
 4. Install dependencies using npm:
