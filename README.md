@@ -6,6 +6,9 @@ https://github.com/nogazit99/FB
 client android:
 https://github.com/nogazit99/FB-android
 
+Bloom-Filter server:
+https://github.com/edenbdv/BloomFilter.git
+
 the server-code for part 3 is in this repo under "users" branch
 
 ## Overview:
@@ -32,7 +35,7 @@ Foo Bar is a mock server designed to mimic the functionalities of Facebook. It p
 ## Installation:
 
 1. Clone the repository from GitHub:
-   git clone https://github.com/edenbdv/FooBar-Server
+   git clone [https://github.com/edenbdv/FooBar-Server](https://github.com/edenbdv/Facebook_clone-Server.git)
 
 
 2. Checkout to branch 'users'
@@ -47,7 +50,9 @@ Foo Bar is a mock server designed to mimic the functionalities of Facebook. It p
 
 ## Running the Server:
 
-Before Running the server - make sure the env variables are correct for the running evironment. You can verify the connections in app.js and InintializeDB.js
+Before starting the server, ensure that the environment variables in config/bloom_filter_config.env are properly configured for your current environment. For instance, if you are using the BloomFilter server, make sure to update the IP_ADDRESS_BF_SERVER variable accordingly.
+
+You can verify the connections in app.js and InintializeDB.js
 
 To start the server, run the following command:
 
