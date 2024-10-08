@@ -18,7 +18,7 @@ Bloom-Filter server:
 https://github.com/edenbdv/BloomFilter.git
 
 client android:
-https://github.com/nogazit99/FB-android
+https://github.com/edenbdv/Facebook-clone-android.git
 
 ## Overview:
 
