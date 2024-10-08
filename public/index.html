@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User</title>
+</head>
+
+<body>
+    <form id="userForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required>
+        <button onclick="update('username')">Update</button><br>
+        <!-- <button onclick="updateUsername()">Update</button><br> -->
+
+
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required>
+        <button onclick="update('password')">Update</button><br>
+        <!-- <button onclick="updatePassword()">Update</button><br> -->
+
+
+
+        <label for="displayName">Display Name:</label><br>
+        <input type="text" id="displayName" name="displayName" required>
+        <button onclick="update('displayName')">Update</button><br>
+        <!-- <button onclick="updateDisplayName()">Update</button><br> -->
+
+
+
+        <label for="profilePic">Profile Picture:</label><br>
+        <input type="text" id="profilePic" name="profilePic" required>
+        <!-- <input type="file" id="profilePic" name="profilePic" required> -->
+        <button onclick="update('profilePic')">Update</button><br><br>
+        <button onclick="updateProfilePic()">Update</button><br>
+
+
+        <button type="button" onclick="create()">Add User</button><br><br>
+
+        <input id="token" placeholder="token"><br><br>
+
+
+        <input id="friendIdInput" placeholder="Sender's username">
+        <button onclick="addFriendRequest()">Add Friend Request</button><br>
+        <input id="userIdInput" placeholder="Receiver's username"><button onclick="get()">Get one</button>
+        <button onclick="del()">Delete</button>
+        <button onclick="getUserFriends()">Get User Friends</button><br>
+
+
+
+        <button onclick="acceptReq()">accept Friend Request</button>
+        <button onclick="deleteFriend()">delete Friend/Friend Request</button>
+        <button onclick="getFriendRequests()">Get Friend Requests</button>
+
+
+
+    </form>
+
+
+    <script>
+
+        async function create() {
+            const data = await fetch('http://localhost:12345/api/users', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value,
+                    displayName: document.getElementById('displayName').value,
+                    profilePic: document.getElementById('profilePic').value
+                })
+            });
+
+            user = await data.json()
+            console.log(user)
+        }
+
+
+        async function get() {
+            const userId = await document.getElementById('userIdInput').value;
+            const jwtToken = document.getElementById('token').value;
+
+            const url = `http://localhost:12345/api/users/${userId}`;
+            const response = await fetch(url, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                }
+            });
+            const userData = await response.json();
+            console.log(userData)
+            return userData;
+        }
+
+
+        async function update(fieldName) {
+            const userId = document.getElementById('userIdInput').value; //thats also the username
+            const fieldValue = document.getElementById(fieldName).value;
+
+            const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+
+            const url = `http://localhost:12345/api/users/${userId}`;
+            const response = await fetch(url, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
+                body: JSON.stringify({ fieldName, fieldValue })
+
+            });
+
+            if (response.ok) {
+                const updatedUser = await response.json();
+                console.log(`${fieldName} updated successfully:`, updatedUser);
+            } else {
+                console.error("Failed to update", fieldName);
+            }
+        }
+
+
+
+        async function del() {
+
+            const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+            const userId = await document.getElementById('userIdInput').value;
+
+
+            const url = `http://localhost:12345/api/users/${userId}`;
+            const response = await fetch(url, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
+            });
+
+            if (response.ok) {
+                const deletedUser = await response.json(); // Parse the response JSON
+                console.log("User deleted successfully:", deletedUser); // Log the deleted article data
+            } else {
+                console.error("Failed to delete User");
+            }
+        }
+
+
+        async function getUserFriends() {
+            try {
+                const jwtToken = document.getElementById('token').value; // Noga should send from local storage
+                const userId = await document.getElementById('userIdInput').value;
+                const url = `http://localhost:12345/api/users/${userId}/friends`;
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${jwtToken}`
+                    },
+                });
+
+                const data = await response.json();
+                console.log("data in client", data);
+
+                if (data.error) {
+                    console.error('Error fetching user friends:', data.error);
+                    // Handle error here, such as displaying an error message to the user
+                    return;
+                }
+
+                // const friendUsernames = data.friends.map(friend => friend.username);
+                // console.log(friendUsernames); // Log the array of friend display names
+
+                return data;
+            } catch (error) {
+                console.error('Error fetching user friends:', error);
+                // Handle error here, such as displaying an error message to the user
+            }
+        }
+
+
+
+        async function addFriendRequest() {
+            try {
+
+                const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+
+                // Get the senderId and receiverId from the input fields
+                // const senderId = await document.getElementById('friendIdInput').value;
+
+                const recieverId = await document.getElementById('userIdInput').value;
+
+
+                const url = `http://localhost:12345/api/users/${recieverId}/friends`;
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${jwtToken}`
+                    },
+
+                });
+
+                if (response.ok) {
+                    console.log('Friend request sent successfully to: ', recieverId);
+                    // Optionally, you can reload the friend list or perform any other action
+                } else {
+                    console.error('Failed to send friend request');
+                }
+            } catch (error) {
+                console.error('Error adding friend request:', error);
+            }
+        }
+
+
+        async function acceptReq() {
+            try {
+                const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+
+                const senderId = await document.getElementById('friendIdInput').value;
+                const recieverId = await document.getElementById('userIdInput').value; //the receiver
+
+                const url = `http://localhost:12345/api/users/${recieverId}/friends/${senderId}`;
+                const response = await fetch(url, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${jwtToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    console.log('Friend request accept successfully');
+                    // Optionally, you can reload the friend list or perform any other action
+                } else {
+                    console.error('Failed to accept  friend request');
+                }
+            } catch (error) {
+                console.error('Error adding friend request:', error);
+            }
+        }
+
+
+
+        async function deleteFriend() {
+            try {
+                const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+
+
+                const senderId = await document.getElementById('friendIdInput').value;
+                const recieverId = await document.getElementById('userIdInput').value; //the receiver
+
+                const url = `http://localhost:12345/api/users/${recieverId}/friends/${senderId}`;
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${jwtToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    console.log('Friend /Friend request deleted successfully');
+                    // Optionally, you can reload the friend list or perform any other action
+                } else {
+                    console.error('Failed to delete  friend / friend request');
+                }
+            } catch (error) {
+                console.error('Error deleting friend  /friend request:', error);
+            }
+        }
+
+        async function getFriendRequests() {
+            try {
+
+                const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+
+                const recieverId = await document.getElementById('userIdInput').value;
+
+
+                const url = `http://localhost:12345/api/users/${recieverId}/friends-requests`;
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${jwtToken}`
+                    },
+                });
+
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("reqs: ", data);
+                } else {
+                    console.error('Failed to send friend request');
+                }
+            } catch (error) {
+                console.error('Error adding friend request:', error);
+            }
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
