@@ -25,6 +25,7 @@ Foo Bar is a mock server designed to mimic the functionalities of Facebook. It p
 - Bloom Filter:
     another server that prevent users from creating posts containing forbidden URLs, enhancing security by blocking access to restricted or harmful content. This functionality will be applied only if you are using the Bloom Filter server. By default, there is a blacklist containing three URLs: ['http://example.com', 'https://warning.com', 'http://danger.il']. If a user attempts to post any of these URLs, the post will not be published.
 
+
 ## Dependencies:
 
 - **Node.js**: JavaScript runtime environment for executing server-side code.
@@ -59,5 +60,4 @@ You can verify the connections in app.js and InintializeDB.js
 To start the server, run the following command:
 
 node app.js
-
 
