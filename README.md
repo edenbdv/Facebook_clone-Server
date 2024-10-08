@@ -75,6 +75,6 @@ node app.js
 When you run the server for the first time, a JavaScript script will set up the database with default users, their posts, and comments. After the process completes, you will see the message "Database initialized with default users and their posts." Please make sure that there are no existing collections named `users`, `posts`, or `comments`.
 
 ### Tip:
-For the best experience, log in using the credentials for user **Eden** (Password: **Eden1234**), although any account will function properly.
+For the best experience, log in using the credentials for user **Eden1@gmail.com** (Password: **Eden1234**), although any account will function properly.
 
 
