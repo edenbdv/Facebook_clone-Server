@@ -24,7 +24,7 @@ app.use(cors());
 // console.log(process.env.PORT)
 
 CONNECTION_STRING = "mongodb://localhost:27017"
-PORT = 12345
+PORT = 12346
 
 
 const connectBloomFilter = require('./client_bf');
