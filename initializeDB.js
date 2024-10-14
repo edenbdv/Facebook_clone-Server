@@ -48,6 +48,12 @@ const initializeUsers = async () => {
             posts: [
                 { text: 'Lets Dance', picture: await imageToBase64('pictures/david/thunder.jpg') },
             ]
+        },
+        {
+            username: 'Eden1@gmail.com',
+            password: 'Eden1234',
+            displayName: 'Eden',
+            profilePic: await imageToBase64('pictures/eden/eden.jpg'),
         }
     ];
 
