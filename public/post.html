@@ -59,7 +59,7 @@
 
             const userId = document.getElementById('userIdInput').value;
 
-            const response = await fetch(`http://localhost:12345/api/users/${userId}/posts`, {
+            const response = await fetch(`http://localhost:12346/api/users/${userId}/posts`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -96,7 +96,7 @@
 
             const userId = await document.getElementById('userIdInput').value;
 
-            const url = `http://localhost:12345/api/users/${userId}/posts`;
+            const url = `http://localhost:12346/api/users/${userId}/posts`;
 
             const response = await fetch(url, {
                 headers: {
@@ -129,7 +129,7 @@
             console.log(postId)
             const fieldValue = document.getElementById(fieldName).value;
 
-            const url = `http://localhost:12345/api/users/${userId}/posts/${postId}`;
+            const url = `http://localhost:12346/api/users/${userId}/posts/${postId}`;
 
             console.log("url:", url);
 
@@ -162,7 +162,7 @@
             const postId = await document.getElementById('postIdInput').value;
 
 
-            const response = await fetch(`http://localhost:12345/api/users/${userId}/posts/${postId}`, {
+            const response = await fetch(`http://localhost:12346/api/users/${userId}/posts/${postId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
