@@ -26,12 +26,12 @@
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('data is',data)
+                //console.log('data is',data)
                 postLst = []
                 for (const post of data) {
                     postLst.push(post);
                 }
-                console.log('post list is',postLst);
+                //console.log('post list is',postLst);
                 return postLst;
             } else {
                 console.error("Failed to get posts");

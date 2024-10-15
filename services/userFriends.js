@@ -18,7 +18,7 @@ const getUserFriends = async (loggedUsername, username) => {
 
         // Access the friends field from the user document
         const friends = user.friends;
-        console.log("friends in service",friends)
+        // console.log("friends in service",friends)
 
 
 
@@ -213,7 +213,7 @@ const getFriendRequests = async (username) => {
 
         // Access the friends field from the user document
         const friendReqs = user.friendRequests;
-        console.log("friends in service",friendReqs)
+        // console.log("friends in service",friendReqs)
 
 
         return friendReqs;

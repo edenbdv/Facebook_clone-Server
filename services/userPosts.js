@@ -24,8 +24,8 @@ const checkUrlsInBlacklist = async (urls) => {
 
         if (isInBlacklist === "true true") {
             // Do something if the URL is in the blacklist
-            console.log(`isInBlacklist: `, isInBlacklist);
-            console.log(`URL '${url}' is in the blacklist.`);
+            // console.log(`isInBlacklist: `, isInBlacklist);
+            // console.log(`URL '${url}' is in the blacklist.`);
             throw new Error(`forbidden url was found. `);
 
         } else {
@@ -51,9 +51,8 @@ const createPost = async (creatorUsername, text, picture) => {
 
          // Extract URLs from the post text
          const urls = extractUrls(text);
-         console.log(`url: `,urls);
-
-         console.log(`check if any url's is in the blacklist.`); //Eden - need to delete later
+        //  console.log(`url: `,urls);
+        //  console.log(`check if any url's is in the blacklist.`); 
 
 
          await checkUrlsInBlacklist(urls)
@@ -69,7 +68,7 @@ const createPost = async (creatorUsername, text, picture) => {
         await UserModel.findByIdAndUpdate(creatorId, { $push: { posts: savedPost._id } });
 
 
-        console.log('Post created:', savedPost);
+        //console.log('Post created:', savedPost);
         return savedPost;
     } catch (error) {
 
@@ -115,21 +114,31 @@ const getUserPosts = async (loggedUsername, username) => {
 
 const updatePost = async (postId,  fieldName, fieldValue) => {
 
+
     if (fieldName == 'text') {
 
      // Extract URLs from the post text
     const urls = extractUrls(fieldValue);
-    console.log(`url: `,urls);
-
-    console.log(`check if any url's is in the blacklist.`); //Eden - need to delete later
+    // console.log(`url: `,urls);
+    // console.log(`check if any url's is in the blacklist.`); 
 
     await checkUrlsInBlacklist(urls);
+    
 
     }
 
-
     try {
-        const updatedPost = await PostModel.findByIdAndUpdate(postId, { [fieldName]: fieldValue }, { new: true });
+        const updatedPost = await PostModel.findByIdAndUpdate(
+            postId, { [fieldName]: fieldValue }, { new: true });
+
+         // Check if the createdAt field has not changed
+         if (updatedPost && updatedPost.createdAt) {
+            console.log(`Post created at: ${updatedPost.createdAt}`);  // Confirm createdAt value
+        } else {
+            console.log('Error: createdAt field is missing or null');
+        }
+
+
         return updatedPost; // Return the updated post
     } catch (error) {
         console.error("Error updating post:", error);

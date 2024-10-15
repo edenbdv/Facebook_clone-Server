@@ -13,12 +13,12 @@ const getUserFriends = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        console.log("logged on useranme (userFriends): ", loggedUsername);
-        console.log("actual useranme (userFriends): ", userId);
+        // console.log("logged on useranme (userFriends): ", loggedUsername);
+        // console.log("actual useranme (userFriends): ", userId);
 
 
         const friends = await UserFriendsService.getUserFriends(loggedUsername, userId);
-        console.log("friends in controller", friends)
+        // console.log("friends in controller", friends)
 
         if (!friends) {
             return res.json({ friends: [] }); // Return an empty array
@@ -47,8 +47,8 @@ const addFriendReq = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        console.log("logged on useranme: ", loggedUsername);
-        console.log("actual useranme: ", recieverId);
+        // console.log("logged on useranme: ", loggedUsername);
+        // console.log("actual useranme: ", recieverId);
 
         // Call the service function to add the friend request
         const result = await UserFriendsService.addFriendReq(loggedUsername, recieverId);
@@ -79,8 +79,8 @@ const acceptReq = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        console.log("logged on useranme: ", loggedUsername);
-        console.log("actual useranme: ", recieverId);
+        // console.log("logged on useranme: ", loggedUsername);
+        // console.log("actual useranme: ", recieverId);
 
         // Check if the user is authorized to perform the update
         if (recieverId !== loggedUsername) {
@@ -113,8 +113,8 @@ const deleteFriend = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        console.log("logged on useranme: ", loggedUsername);
-        console.log("actual useranme: ", recieverId);
+        // console.log("logged on useranme: ", loggedUsername);
+        // console.log("actual useranme: ", recieverId);
 
         // Check if the user is authorized to perform the update
         if (recieverId !== loggedUsername) {
@@ -146,8 +146,8 @@ const getFriendRequests = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        console.log("logged on username:", loggedUsername);
-        console.log("actual username:", username);
+        // console.log("logged on username:", loggedUsername);
+        // console.log("actual username:", username);
 
         // Check if the user is authorized to perform the update
         if (username !== loggedUsername) {

@@ -89,7 +89,7 @@ const updateUser = async (username, fieldName, fieldValue) => {
             // Save the updated user
             await user.save();
         }
-        console.log("updated user: ", user);
+        //console.log("updated user: ", user);
         return user;
     } catch (error) {
         console.error("Error updating user:", error);
@@ -110,7 +110,7 @@ const deleteUser = async (username) => {
 
 
         const friendsNames = user.friends;
-        console.log("friends of the deleted user", friendsNames);
+        //console.log("friends of the deleted user", friendsNames);
 
         // For each friend in the list, Remove the user from their friend list
         for (const friendName of friendsNames) {

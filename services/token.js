@@ -36,7 +36,7 @@ const verifyToken = (token) => {
 
         // Verify the token
         const decoded = jwt.verify(token, secretKey);
-        console.log(decoded)
+        //console.log(decoded)
         loggedUsername = decoded.username;
         return loggedUsername;
     } catch (error) {

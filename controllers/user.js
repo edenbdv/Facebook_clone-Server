@@ -38,11 +38,11 @@ const getUser = async (req, res) => {
       // Verify the token using the token service
       const loggedUsername = await tokenService.verifyToken(token);
 
-      console.log("logged on username: ", loggedUsername);
-      console.log("actual useranme: ", username);
+      // console.log("logged on username: ", loggedUsername);
+      // console.log("actual useranme: ", username);
 
       const dataUser = await UserService.getDataUserByUsername(username, loggedUsername);
-      console.log(dataUser);
+      //console.log(dataUser);
 
       if (!dataUser) {
          return res.status(404).json({ errors: ['User not found'] });
@@ -77,8 +77,8 @@ const updateUser = async (req, res) => {
       // Verify the token using the token service
       const loggedUsername = await tokenService.verifyToken(token);
 
-      console.log("logged on userane: ", loggedUsername);
-      console.log("actual useranme: ", username);
+      // console.log("logged on userane: ", loggedUsername);
+      // console.log("actual useranme: ", username);
 
       // Check if the user is authorized to perform the update
       if (username !== loggedUsername) {
@@ -112,9 +112,8 @@ const deleteUser = async (req, res) => {
       // Verify the token using the token service
       const loggedUsername = tokenService.verifyToken(token);
 
-      console.log("logged on username: ", loggedUsername);
-
-      console.log("actual username: ", username);
+      // console.log("logged on username: ", loggedUsername);
+      // console.log("actual username: ", username);
 
 
 
