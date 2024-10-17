@@ -79,11 +79,14 @@ const acceptReq = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        // console.log("logged on useranme: ", loggedUsername);
-        // console.log("actual useranme: ", recieverId);
+        console.log("logged on useranme: ", loggedUsername);
+        console.log("actual useranme: ", recieverId);
+        console.log("senderId ", senderId);
+
 
         // Check if the user is authorized to perform the update
         if (recieverId !== loggedUsername) {
+            console.log("oopsi")
             return res.status(403).json({ errors: ['User is not authorized'] });
         }
 
