@@ -54,7 +54,9 @@ const initializeUsers = async () => {
             password: 'Eden1234',
             displayName: 'Eden',
             profilePic: await imageToBase64('pictures/eden/eden.jpg'),
-
+            posts: [
+                { text: "Exciting news! The Golden Retrievers Meetup 2024 is happening soon!", picture: await imageToBase64('pictures/eden/golden_retriver.jpeg')}
+            ]
         }
     ];
 
