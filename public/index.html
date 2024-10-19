@@ -76,7 +76,6 @@
             });
 
             user = await data.json()
-            //console.log(user)
         }
 
 
@@ -92,7 +91,6 @@
                 }
             });
             const userData = await response.json();
-            //console.log(userData)
             return userData;
         }
 
@@ -101,7 +99,7 @@
             const userId = document.getElementById('userIdInput').value; //thats also the username
             const fieldValue = document.getElementById(fieldName).value;
 
-            const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+            const jwtToken = document.getElementById('token').value;  
 
             const url = `http://localhost:12346/api/users/${userId}`;
             const response = await fetch(url, {
