@@ -4,7 +4,6 @@ const UserService = require('../services/user');
 const UserFriendService = require('../services/userFriends');
 const connectBloomFilter = require('../client_bf');
 const SocketSingleton = require('../SocketSingleton');
-//const socketSingleton = require('../SocketSingleton'); 
 
 
 
@@ -23,9 +22,6 @@ const checkUrlsInBlacklist = async (urls) => {
         const isInBlacklist = await connectBloomFilter.checkUrl(url);
 
         if (isInBlacklist === "true true") {
-            // Do something if the URL is in the blacklist
-            // console.log(`isInBlacklist: `, isInBlacklist);
-            // console.log(`URL '${url}' is in the blacklist.`);
             throw new Error(`forbidden url was found. `);
 
         } else {
@@ -48,13 +44,8 @@ const createPost = async (creatorUsername, text, picture) => {
              throw new Error(`User with username ${creatorUsername} not found`);
          }
 
-
          // Extract URLs from the post text
          const urls = extractUrls(text);
-        //  console.log(`url: `,urls);
-        //  console.log(`check if any url's is in the blacklist.`); 
-
-
          await checkUrlsInBlacklist(urls)
           
 
@@ -116,15 +107,8 @@ const updatePost = async (postId,  fieldName, fieldValue) => {
 
 
     if (fieldName == 'text') {
-
-     // Extract URLs from the post text
     const urls = extractUrls(fieldValue);
-    // console.log(`url: `,urls);
-    // console.log(`check if any url's is in the blacklist.`); 
-
     await checkUrlsInBlacklist(urls);
-    
-
     }
 
     try {

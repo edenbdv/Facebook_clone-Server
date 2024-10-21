@@ -2,27 +2,19 @@ const UserService = require('../services/user');
 
 const getUserFriends = async (loggedUsername, username) => {
     try {
-        // Retrieve the user document from the database based on the provided ID
+
         const user = await UserService.getUserByUsername(username);
 
         if (!user) {
-            return null; // Return null if user is not found
+            return null; 
         }
-
 
         if ((!await areFriends(loggedUsername, username)) && (username !== loggedUsername)) {
             console.log('not forbidden')
             return { error: 'User is not authorized to access the friend list' };
         }
 
-
-        // Access the friends field from the user document
         const friends = user.friends;
-        // console.log("friends in service",friends)
-
-
-
-
         return friends;
     } catch (error) {
         console.error('Error fetching user friends:', error);
@@ -43,11 +35,6 @@ const areFriends = async (username1, username2) => {
             return false;
         }
 
-
-        //   // Check if user2's ID is in user1's friends list
-        //   const bool = user1Friends.includes(user2._id.toString());
-
-        // Check if user2's username is in user1's friends list
         const bool = user1Friends.includes(username2);
 
         return bool;
@@ -61,47 +48,36 @@ const areFriends = async (username1, username2) => {
 const addFriendReq = async (senderUsername, receiverUsername) => {
     try {
 
-        // Find the user document of recieverId
         const recipientUser = await UserService.getUserByUsername(receiverUsername);
 
         if (!recipientUser) {
             throw new Error(`User with ID ${receiverUsername} not found`);
         }
 
-        // Find the user document of senderUsername
         const senderUser = await UserService.getUserByUsername(senderUsername)
         if (!senderUser) {
             throw new Error(`User with username ${senderUsername} not found`);
         }
-
 
         // Check if sender and receiver are already friends
         if (await areFriends(senderUsername, receiverUsername)) {
             throw new Error(`User ${senderUsername} and ${receiverUsername} are already friends `);
         }
 
-        
 
         // Check if there is an existing pending request
         if (recipientUser.friendRequests.includes(senderUsername)) {
             throw new Error(`already has a pending friend request`);
         }
 
-
-        // // Add senderId to the friendRequests array
-        // recipientUser.friendRequests.push(senderUser._id);
-
-        //Add senderUsername to the friendRequests array
         recipientUser.friendRequests.push(senderUsername);
 
-
-        // Save the updated user document
         await recipientUser.save();
 
-        return recipientUser; // Return the updated user document
+        return recipientUser; 
     } catch (error) {
         console.error('Error adding friend request:', error);
-        throw error; // Propagate the error to the caller
+        throw error; 
     }
 };
 
@@ -112,34 +88,24 @@ const acceptReq = async (senderUsername, receiverUsername) => {
     try {
         // Update list of friends for both of them:
 
-        // Find the user document of recieverId
         const recipientUser = await UserService.getUserByUsername(receiverUsername);
-
         if (!recipientUser) {
             throw new Error(`Recipient user with ID ${receiverUsername} not found`);
         }
 
 
-        // Find the user document of senderUsername
         const senderUser = await UserService.getUserByUsername(senderUsername)
         if (!senderUser) {
             throw new Error(`User with username ${senderUsername} not found`);
         }
 
-
-        // recipientUser.friends.push(senderUser._id);
-        // senderUser.friends.push(recipientUser._id);
-
         recipientUser.friends.push(senderUsername);
         senderUser.friends.push(receiverUsername);
 
-        // Remove the friend request
+        // Remove the friend requests:
         recipientUser.friendRequests.pull(senderUser._id);
-
-        // Remove the friend request
         recipientUser.friendRequests.pull(senderUsername);
 
-        // Save the updated user documents
         await Promise.all([recipientUser.save(), senderUser.save()]);
 
         console.log('Friend request accepted successfully');
@@ -147,7 +113,7 @@ const acceptReq = async (senderUsername, receiverUsername) => {
 
     } catch (error) {
         console.error('Error accepting friend request:', error);
-        throw error; // Propagate the error to the caller
+        throw error; 
     }
 };
 
@@ -168,8 +134,6 @@ const deleteFriend = async (senderUsername, receiverUsername) => {
         if (!senderUser) {
             throw new Error(`User with username ${senderUsername} not found`);
         }
-
-       
 
         // Check if sender and receiver are friends
         if (recipientUser.friends.includes(senderUsername) && senderUser.friends.includes(receiverUsername)) {
