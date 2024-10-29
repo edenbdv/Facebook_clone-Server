@@ -1,13 +1,13 @@
 # Facebook Clone -Server-Side
 
 **Login Page:**
-![image](https://github.com/user-attachments/assets/8dd01c14-2deb-4a70-b336-87779b76feb5)
+![login](https://github.com/user-attachments/assets/1016e229-0e81-4d5e-93a4-3b1f160ba173)
 
 **Sign Up Page:**
-![image](https://github.com/user-attachments/assets/f0c9c4f3-20bd-4cc9-b677-a5f4d6371ed9)
+![signup](https://github.com/user-attachments/assets/1b5d5754-1580-4194-9d46-5b257720f21c)
 
 **Feed Page:**
-![umberlla](https://github.com/user-attachments/assets/eb33fba3-cac0-44a0-a3d3-aa0aeeb5e542)
+![Feed](https://github.com/user-attachments/assets/d832eb9e-5e27-4b17-ba8a-6d966d6f3b25)
 
 ![‏‏comment](https://github.com/user-attachments/assets/bc47bdef-1bdd-48e5-b8af-fb7acf65312f)
 ## Links:
