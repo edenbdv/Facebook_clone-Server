@@ -62,7 +62,7 @@
     <script>
 
         async function create() {
-            const data = await fetch('http://localhost:12345/api/users', {
+            const data = await fetch('http://localhost:12346/api/users', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -76,7 +76,6 @@
             });
 
             user = await data.json()
-            console.log(user)
         }
 
 
@@ -84,7 +83,7 @@
             const userId = await document.getElementById('userIdInput').value;
             const jwtToken = document.getElementById('token').value;
 
-            const url = `http://localhost:12345/api/users/${userId}`;
+            const url = `http://localhost:12346/api/users/${userId}`;
             const response = await fetch(url, {
                 headers: {
                     "Content-Type": "application/json",
@@ -92,7 +91,6 @@
                 }
             });
             const userData = await response.json();
-            console.log(userData)
             return userData;
         }
 
@@ -101,9 +99,9 @@
             const userId = document.getElementById('userIdInput').value; //thats also the username
             const fieldValue = document.getElementById(fieldName).value;
 
-            const jwtToken = document.getElementById('token').value;  //noga should send from local storage
+            const jwtToken = document.getElementById('token').value;  
 
-            const url = `http://localhost:12345/api/users/${userId}`;
+            const url = `http://localhost:12346/api/users/${userId}`;
             const response = await fetch(url, {
                 method: "PATCH",
                 headers: {
@@ -116,7 +114,7 @@
 
             if (response.ok) {
                 const updatedUser = await response.json();
-                console.log(`${fieldName} updated successfully:`, updatedUser);
+                //console.log(`${fieldName} updated successfully:`, updatedUser);
             } else {
                 console.error("Failed to update", fieldName);
             }
@@ -130,7 +128,7 @@
             const userId = await document.getElementById('userIdInput').value;
 
 
-            const url = `http://localhost:12345/api/users/${userId}`;
+            const url = `http://localhost:12346/api/users/${userId}`;
             const response = await fetch(url, {
                 method: "DELETE",
                 headers: {
@@ -152,7 +150,7 @@
             try {
                 const jwtToken = document.getElementById('token').value; // Noga should send from local storage
                 const userId = await document.getElementById('userIdInput').value;
-                const url = `http://localhost:12345/api/users/${userId}/friends`;
+                const url = `http://localhost:12346/api/users/${userId}/friends`;
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
@@ -162,7 +160,7 @@
                 });
 
                 const data = await response.json();
-                console.log("data in client", data);
+                //console.log("data in client", data);
 
                 if (data.error) {
                     console.error('Error fetching user friends:', data.error);
@@ -193,7 +191,7 @@
                 const recieverId = await document.getElementById('userIdInput').value;
 
 
-                const url = `http://localhost:12345/api/users/${recieverId}/friends`;
+                const url = `http://localhost:12346/api/users/${recieverId}/friends`;
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
@@ -222,7 +220,7 @@
                 const senderId = await document.getElementById('friendIdInput').value;
                 const recieverId = await document.getElementById('userIdInput').value; //the receiver
 
-                const url = `http://localhost:12345/api/users/${recieverId}/friends/${senderId}`;
+                const url = `http://localhost:12346/api/users/${recieverId}/friends/${senderId}`;
                 const response = await fetch(url, {
                     method: 'PATCH',
                     headers: {
@@ -252,7 +250,7 @@
                 const senderId = await document.getElementById('friendIdInput').value;
                 const recieverId = await document.getElementById('userIdInput').value; //the receiver
 
-                const url = `http://localhost:12345/api/users/${recieverId}/friends/${senderId}`;
+                const url = `http://localhost:12346/api/users/${recieverId}/friends/${senderId}`;
                 const response = await fetch(url, {
                     method: 'DELETE',
                     headers: {
@@ -280,7 +278,7 @@
                 const recieverId = await document.getElementById('userIdInput').value;
 
 
-                const url = `http://localhost:12345/api/users/${recieverId}/friends-requests`;
+                const url = `http://localhost:12346/api/users/${recieverId}/friends-requests`;
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
@@ -292,7 +290,7 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log("reqs: ", data);
+                    //("reqs: ", data);
                 } else {
                     console.error('Failed to send friend request');
                 }

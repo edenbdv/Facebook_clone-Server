@@ -55,7 +55,7 @@ node app.js
 and open on your web browser the url:
 
 ```
-http://localhost:12345/
+http://localhost:12346/
 ```
 
 ![image](https://github.com/edenbdv/FooBar-Server/assets/148945751/a6a48ed7-43ea-4b4d-9f30-14ff8c5e68f8)

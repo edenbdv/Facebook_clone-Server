@@ -15,7 +15,7 @@
         async function getPosts() {
             const jwtToken = document.getElementById('token').value;
 
-            const response = await fetch(`http://localhost:12345/api/posts`, {
+            const response = await fetch(`http://localhost:12346/api/posts`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -26,12 +26,12 @@
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('data is',data)
+                //console.log('data is',data)
                 postLst = []
                 for (const post of data) {
                     postLst.push(post);
                 }
-                console.log('post list is',postLst);
+                //console.log('post list is',postLst);
                 return postLst;
             } else {
                 console.error("Failed to get posts");

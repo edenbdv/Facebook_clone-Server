@@ -58,7 +58,8 @@ const updateUser = async (username, fieldName, fieldValue) => {
         const user = await UserModel.findOne({ username });
         if (!user) return null;
 
-
+        console.log("fieldName",fieldName)
+        console.log("fieldValue",fieldValue)
 
         // Check if the updatedField contains the 'username' key
         if (fieldName == 'username') {
@@ -77,23 +78,19 @@ const updateUser = async (username, fieldName, fieldValue) => {
 
             // just after all the updates:
             user.username = newUsername
-
-
-            // Save the updated user
             await user.save();
 
         } else {
             // Update the specified field
             user[fieldName] = fieldValue;
 
-            // Save the updated user
             await user.save();
         }
-        console.log("updated user: ", user);
-        return user;
+        //console.log("updated user: ", user);
+        return { success: true, message: "User updated successfully", user }; 
     } catch (error) {
         console.error("Error updating user:", error);
-        throw error;
+        return { success: false, message: "Error updating user", error }; 
     }
 };
 
@@ -110,7 +107,7 @@ const deleteUser = async (username) => {
 
 
         const friendsNames = user.friends;
-        console.log("friends of the deleted user", friendsNames);
+        //console.log("friends of the deleted user", friendsNames);
 
         // For each friend in the list, Remove the user from their friend list
         for (const friendName of friendsNames) {

@@ -23,6 +23,7 @@ router.route('/:id')
 router.route('/:id/friends')
     .get(userFriendsController.getUserFriends)
     .post(userFriendsController.addFriendReq)
+    // .delete(userFriendsController.deleteFriendReq)
 
 //friend requests
 router.route('/:id/friends-requests')

@@ -14,8 +14,8 @@ const createPost = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        console.log("logged on username:", loggedUsername);
-        console.log("actual username:", username);
+        // console.log("logged on username:", loggedUsername);
+        // console.log("actual username:", username);
 
         // Check if the user is authorized to perform the update
         if (username !== loggedUsername) {
@@ -44,8 +44,8 @@ const getUserPosts = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        console.log("logged on useranme: ", loggedUsername);
-        console.log("actual useranme: ", username);
+        // console.log("logged on useranme: ", loggedUsername);
+        // console.log("actual useranme: ", username);
 
 
         const posts = await userPostsService.getUserPosts(loggedUsername, username);
@@ -67,8 +67,7 @@ const getUserPosts = async (req, res) => {
 const updatePost = async (req, res) => {
 
     try {
-
-        console.log("im in userPosts controller");
+        // console.log("im in userPosts controller");
         const username = req.params.id;
         const postId = req.params.pid;
         const { fieldName, fieldValue } = req.body;
@@ -85,29 +84,24 @@ const updatePost = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        console.log("logged on username:", loggedUsername);
-        console.log("actual username:", username);
+        // console.log("logged on username:", loggedUsername);
+        // console.log("actual username:", username);
 
         // Check if the user is authorized to perform the update
         if (username !== loggedUsername) {
             return res.status(403).json({ errors: ['User is not authorized to update this post'] });
         }
 
-        
-
-        console.log("fieldname: ", fieldName)
-        console.log("fieldvalue: ", fieldValue)
-
-
+    
+        // console.log("fieldname: ", fieldName)
+        // console.log("fieldvalue: ", fieldValue)
 
       // Check if fieldName is provided
       if (!fieldName || !fieldValue) {
         return res.status(400).json({ errors: ['No field name/value provided for update'] });
      }
-
-
+        
         const updatedPost = await userPostsService.updatePost(postId, fieldName, fieldValue);
-
 
         if (!updatedPost) {
             return res.status(404).json({ errors: ['Post not found'] });
@@ -138,8 +132,8 @@ const deletePost = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        console.log("logged on username:", loggedUsername);
-        console.log("actual username:", username);
+        // console.log("logged on username:", loggedUsername);
+        // console.log("actual username:", username);
 
         // Check if the user is authorized to perform the update
         if (username !== loggedUsername) {

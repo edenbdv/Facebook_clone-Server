@@ -12,10 +12,8 @@ const createUser = async (req, res) => {
    } catch (error) {
       // Check if the error message is the custom message for existing username
       if (error.message === 'Username already exists') {
-         // Send custom error message as response
          res.status(400).json({ error: 'Username already exists' });
       } else {
-         // For other errors, send a generic error message
          res.status(500).json({ error: 'Internal Server Error' });
       }
    }
@@ -24,7 +22,7 @@ const createUser = async (req, res) => {
 
 const getUser = async (req, res) => {
    try {
-      const username = req.params.id; // Get username from request parameters
+      const username = req.params.id; 
 
       user = await UserService.getUserByUsername(username);
 
@@ -32,17 +30,11 @@ const getUser = async (req, res) => {
          return res.status(404).json({ errors: ['User not found'] });
       }
 
-      // Extract the token from the request headers
       const token = req.headers.authorization.split(' ')[1];
 
-      // Verify the token using the token service
       const loggedUsername = await tokenService.verifyToken(token);
 
-      console.log("logged on username: ", loggedUsername);
-      console.log("actual useranme: ", username);
-
       const dataUser = await UserService.getDataUserByUsername(username, loggedUsername);
-      console.log(dataUser);
 
       if (!dataUser) {
          return res.status(404).json({ errors: ['User not found'] });
@@ -69,19 +61,15 @@ const updateUser = async (req, res) => {
          return res.status(404).json({ errors: ['User not found'] });
       }
 
-
-      // Extract the token from the request headers
       const token = req.headers.authorization.split(' ')[1];
-
-
-      // Verify the token using the token service
       const loggedUsername = await tokenService.verifyToken(token);
 
-      console.log("logged on userane: ", loggedUsername);
-      console.log("actual useranme: ", username);
+      // console.log("logged on userane: ", loggedUsername);
+      // console.log("actual useranme: ", username);
 
       // Check if the user is authorized to perform the update
       if (username !== loggedUsername) {
+         console.log("no permission!")
          return res.status(403).json({ errors: ['User is not authorized to update this profile'] });
       }
 
@@ -104,21 +92,15 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
    try {
-      const username = req.params.id; // Get username from request parameters
+      const username = req.params.id; 
 
-      // Extract the token from the request headers
       const token = req.headers.authorization.split(' ')[1];
-
-      // Verify the token using the token service
       const loggedUsername = tokenService.verifyToken(token);
 
-      console.log("logged on username: ", loggedUsername);
-
-      console.log("actual username: ", username);
-
+      // console.log("logged on username: ", loggedUsername);
+      // console.log("actual username: ", username);
 
 
-      // Check if the user is authorized to delete the profile
       if (username !== loggedUsername) {
          return res.status(403).json({ errors: ['User is not authorized to delete this profile'] });
       }
