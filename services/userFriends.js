@@ -118,6 +118,32 @@ const acceptReq = async (senderUsername, receiverUsername) => {
 };
 
 
+const deleteFriendReq = async (senderUsername, receiverUsername) => {
+
+    try {
+        // remove the sender from receiver's friendsReq list:
+
+        const recipientUser = await UserService.getUserByUsername(receiverUsername);
+        if (!recipientUser) {
+            throw new Error(`Recipient user with ID ${receiverUsername} not found`);
+        }
+
+        // Remove the friend requests:
+        recipientUser.friendRequests.pull(senderUser._id);
+        recipientUser.friendRequests.pull(senderUsername);
+
+        await Promise.all([recipientUser.save(), senderUser.save()]);
+
+        console.log('Friend request deleted successfully');
+        return { message: 'Friend request deleted successfully' };
+
+    } catch (error) {
+        console.error('Error deleteding friend request:', error);
+        throw error; 
+    }
+};
+
+
 const deleteFriend = async (senderUsername, receiverUsername) => {
 
     //only id can do it!!! (receiver)
@@ -189,4 +215,4 @@ const getFriendRequests = async (username) => {
 
 
 
-module.exports = { getUserFriends, addFriendReq, acceptReq, deleteFriend, areFriends, getFriendRequests };
+module.exports = { getUserFriends, addFriendReq, acceptReq, deleteFriendReq, deleteFriend, areFriends, getFriendRequests };
