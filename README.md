@@ -119,6 +119,10 @@ This user-friendly interface ensures that managing personal profiles and social 
 
 ## Running the Server:
 
+-**important note**: you will also need to clone and run the bloom-filter server (the web server comminucates with it) 
+you can see the instructuins for it right here:
+Bloom-Filter server: https://github.com/edenbdv/BloomFilter.git
+
 1. Before starting the server, ensure that the environment variables in config/bloom_filter_config.env are properly configured for your current environment. For instance, for using the BloomFilter server, make sure to update the IP_ADDRESS_BF_SERVER variable accordingly.
 You can verify the connections in app.js and InintializeDB.js
 
