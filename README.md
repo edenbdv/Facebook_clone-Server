@@ -1,13 +1,6 @@
 # Facebook Clone -Server-Side
 
-**Login Page:**
-![login](https://github.com/user-attachments/assets/1016e229-0e81-4d5e-93a4-3b1f160ba173)
-
-**Sign Up Page:**
-![signup](https://github.com/user-attachments/assets/1b5d5754-1580-4194-9d46-5b257720f21c)
-
-**Feed Page:**
-![Feed](https://github.com/user-attachments/assets/d832eb9e-5e27-4b17-ba8a-6d966d6f3b25)
+<img width="922" alt="‏‏Feed" src="https://github.com/user-attachments/assets/a122e367-369f-44a8-b253-3128fd96639d">
 
 ![‏‏comment](https://github.com/user-attachments/assets/bc47bdef-1bdd-48e5-b8af-fb7acf65312f)
 ## Links:
@@ -21,10 +14,77 @@ client android:
 https://github.com/edenbdv/Facebook-clone-android.git
 
 ## Overview:
+"Foobar" is a social networking application similar to Facebook, designed to connect people and support sharing of updates and photos.
+This repository is for the server, designed to mimic the functionalities of Facebook. It provides support for both Android and web clients, allowing developers to simulate interactions with the Facebook API without accessing the actual Facebook servers. The server is structured following the MVC (Model-View-Controller) architecture.
 
-Foo Bar is a mock server designed to mimic the functionalities of Facebook. It provides support for both Android and web clients, allowing developers to simulate interactions with the Facebook API without accessing the actual Facebook servers. The server is structured following the MVC (Model-View-Controller) architecture.
 
-## Features:
+  
+## Technologies Used (whole project)
+
+**Backend:** The backend of Foobar is designed to handle server-side logic and routing efficiently. Key features include:
+- **Node.js:** Utilizes a non-blocking, event-driven architecture for efficient handling of multiple connections.
+- **Express.js:** Simplifies server creation and routing, providing a robust set of features for web applications.
+- **MongoDB:** A NoSQL database used for storing user data and posts, offering flexibility and scalability.
+- **jsonwebtoken:** Implements JSON Web Tokens for secure user authentication and authorization, ensuring safe access to protected resources.
+- **WebSockets:** Enables real-time communication between clients (the web server) and the server (the bloom-filter/TCP server), facilitating instant updates.
+- **Multithreading:** Supports concurrent processing, allowing the server (the bloom-filter/TCP server) to handle multiple requests simultaneously for improved performance.
+- **TCP:** Utilizes Transmission Control Protocol for reliable and ordered data transmission.
+- **RESTful API:** Implements REST principles for structured and efficient communication between the frontend and backend.
+  
+**Frontend:** The frontend of Foobar is built with **JavaScript, React, HTML, and CSS**. Key features include:
+- **JavaScript:** Provides dynamic functionality and interactivity.
+- **React:** Used for building reusable components and managing state efficiently.
+- **HTML & CSS:** Structures and styles the user interface, ensuring a responsive design.
+
+## Features
+
+### **Login and Signup** 
+Foobar allows users to create accounts securely with a unique username and password. Key features include:
+- **Create Account:** 
+  - Users can securely create an account with a unique username and password.
+    - **Password Requirements:** Contains at least 8 characters,Includes both letters and number.
+
+  This secure and user-friendly process ensures a smooth onboarding experience for new users.
+
+- **Login:** 
+  - Users can log in to access their accounts and use the app's features.
+
+
+![login](https://github.com/user-attachments/assets/334173b9-571f-4a1e-a27c-9c672ea950aa)
+  
+![image](https://github.com/user-attachments/assets/60b2b411-2f21-4230-a27b-9eb5f9b74171)
+
+
+### **Feed**
+The core feature of Foobar is its feed, where users can view updates, posts, and media. Key features include:
+
+- **Posts:** Users can see, create, and edit posts.
+- **Comments and Likes:** Users can comment on and like posts.
+- **Search Functionality:** A search box is available at the top menu.
+- **Navigation Buttons:**
+  - **Log Out:** Redirects to the login page and logs out the current user.
+  - **Night Mode:** Switches the site's theme.
+
+<img width="922" alt="‏‏Feed" src="https://github.com/user-attachments/assets/b97d8a45-7bd7-4dd5-b956-e6f4f1cbc1be">
+<img width="952" alt="Feed2" src="https://github.com/user-attachments/assets/ab15f9d9-d73b-4803-adfd-62823b706e4c">
+
+
+### **Profile Page**
+The Profile page in Foobar provides users with an overview of their personal information and social connections. Key features include:
+
+- **Edit Personal Details:** Users can easily update their display name, profile picture, and other personal information to keep their profile current and engaging.
+
+- **View Friends:** Users can view a list of their friends, allowing them to keep track of their connections on the platform.
+
+- **Friend Requests Management:** The Profile page allows users to accept or decline incoming friend requests, facilitating seamless social interactions.
+
+- **User Interaction:** Users can explore additional options related to their friends and friend requests, enhancing their networking experience on Foobar.
+
+This user-friendly interface ensures that managing personal profiles and social connections is efficient and intuitive.
+  <img width="1131" alt="‏‏לכידה" src="https://github.com/user-attachments/assets/41f0069f-64d6-462e-a972-b2b7ff773ad1">
+
+
+### General Server Features:
 
 - Mocks essential Facebook functionalities like user authentication, profile management, friend requests, posts, and comments.
 - Supports both Android and web clients.
@@ -33,15 +93,14 @@ Foo Bar is a mock server designed to mimic the functionalities of Facebook. It p
 - Easy-to-use routes for handling API requests.
 - **Bloom Filter:** An additional server that prevents users from creating posts containing forbidden URLs, enhancing security by blocking access to restricted or harmful content. This functionality is applicable only when using the Bloom Filter server. By default, there is a blacklist containing three URLs: `['http://example.com', 'https://warning.com', 'http://danger.il']`. If a user attempts to post any of these URLs, the post will not be published.
 
-
 ## Dependencies:
 
-- **Node.js**: JavaScript runtime environment for executing server-side code.
-- **Express.js**: Minimalist web framework for Node.js used for building APIs.
-- **MongoDB**: NoSQL database for storing user data and other application-related information.
-- **Mongoose**: Elegant MongoDB object modeling for Node.js.
-- **Body-parser**: Middleware for parsing incoming request bodies.
-- **jsonwebtoken**: JSON Web Token implementation for securing API endpoints.
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- Body-parser
+- jsonwebtoken
 
 ## Installation:
 
@@ -61,7 +120,7 @@ Foo Bar is a mock server designed to mimic the functionalities of Facebook. It p
 
 ## Running the Server:
 
-1. Before starting the server, ensure that the environment variables in config/bloom_filter_config.env are properly configured for your current environment. For instance, if you are using the BloomFilter server, make sure to update the IP_ADDRESS_BF_SERVER variable accordingly.
+1. Before starting the server, ensure that the environment variables in config/bloom_filter_config.env are properly configured for your current environment. For instance, for using the BloomFilter server, make sure to update the IP_ADDRESS_BF_SERVER variable accordingly.
 You can verify the connections in app.js and InintializeDB.js
 
 2. Open MongoDB on your computer.
