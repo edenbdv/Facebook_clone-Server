@@ -2,7 +2,6 @@
 
 <img width="922" alt="‏‏Feed" src="https://github.com/user-attachments/assets/a122e367-369f-44a8-b253-3128fd96639d">
 
-![‏‏comment](https://github.com/user-attachments/assets/bc47bdef-1bdd-48e5-b8af-fb7acf65312f)
 ## Links:
 client web:
 https://github.com/edenbdv/Facebook_clone-Client.git
@@ -87,11 +86,11 @@ This user-friendly interface ensures that managing personal profiles and social 
 ### General Server Features:
 
 - Mocks essential Facebook functionalities like user authentication, profile management, friend requests, posts, and comments.
-- Supports both Android and web clients.
-- Built with a modular architecture following the MVC pattern for easy maintenance and extensibility.
+- Supports both **Android and web clients**.
+- Built with a modular architecture following the **MVC architecture** for easy maintenance and extensibility.
 - Utilizes a service layer to encapsulate business logic and ensure separation of concerns.
-- Easy-to-use routes for handling API requests.
-- **Bloom Filter:** An additional server that prevents users from creating posts containing forbidden URLs, enhancing security by blocking access to restricted or harmful content. This functionality is applicable only when using the Bloom Filter server. By default, there is a blacklist containing three URLs: `['http://example.com', 'https://warning.com', 'http://danger.il']`. If a user attempts to post any of these URLs, the post will not be published.
+- Easy-to-use routes for handling **API** requests.
+- **Bloom Filter:** An additional **multi-threaded server** that prevents users from creating posts containing forbidden URLs via **web sockets**, enhancing security by blocking access to restricted or harmful content. This functionality is applicable only when using the Bloom Filter server. By default, there is a blacklist containing three URLs: `['http://example.com', 'https://warning.com', 'http://danger.il']`. If a user attempts to post any of these URLs, the post will not be published.
 
 ## Dependencies:
 
