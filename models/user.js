@@ -23,13 +23,11 @@ const User = new Schema({
 
     friends: [{
         type: String, // Storing usernames as Strings
-        //type: Schema.Types.ObjectId,
         ref: 'User'
     }],
 
     friendRequests: [{
         type: String, // Storing usernames as Strings
-        //type: Schema.Types.ObjectId,
         ref: 'User'
     }],
 
@@ -38,6 +36,13 @@ const User = new Schema({
         ref: 'Post'
     }]
     
+});
+
+// Middleware to ensure unique entries in friends and friendRequests
+User.pre('save', function (next) {
+    this.friends = [...new Set(this.friends)];
+    this.friendRequests = [...new Set(this.friendRequests)];
+    next();
 });
 
 module.exports = mongoose.model('User', User);
