@@ -3,7 +3,6 @@ const UserService = require('../services/user');
 const UserModel = require('../models/user');
 
 
-
 const getPosts = async (username) => {
 
     try {
@@ -14,7 +13,6 @@ const getPosts = async (username) => {
         }
 
         const friends = currentUser.friends;
-        // console.log("friends:", friends)
 
         let friendPosts = [];
 
@@ -24,18 +22,16 @@ const getPosts = async (username) => {
         const friend = await UserService.getUserByUsername(friendUsername);
         const friendPostsData = friend.posts;
 
-        // Log the post IDs of the current friend
-        // console.log(`Friend ${friendUsername} has posts with IDs:`, friendPostsData);
 
         // Fetch each post using its ID
             const posts = await Promise.all(friendPostsData.map(async postId => {
                 try {
                     const post = await userPostsService.getPostById(postId);
 
-                    return post;  // Return the post or null if not found
+                    return post;  
                 } catch (error) {
                     console.error(`Error fetching post with ID ${postId}:`, error);
-                    return null;  // Return null if there's an error
+                    return null; 
                 }
                     console.log(`Fetching post with ID: ${postId}`);
               
@@ -57,16 +53,12 @@ const getPosts = async (username) => {
         friendPosts.sort((a, b) => b.createdAt - a.createdAt);
         friendPosts = friendPosts.slice(0, 20); // save only the newest 20 posts
 
-        // console.log(friendPosts)
-        // console.log("now non-friends:")
-
         // 5  non friends posts :
         const allUsers = await UserModel.find();
 
         // Filter out friends
         const nonFriendUsers = allUsers.filter(user => !friends.includes(user.username));
 
-        // console.log("non friends:", nonFriendUsers);
         let nonFriendPosts = [];
 
       
@@ -79,7 +71,7 @@ const getPosts = async (username) => {
                     return post;  // Return the post or null if not found
                 } catch (error) {
                     console.error(`Error fetching post with ID ${postId}:`, error);
-                    return null;  // Return null if there's an error
+                    return null;  
                 }
             }));
 
@@ -103,8 +95,6 @@ const getPosts = async (username) => {
 
         combinedPosts.sort((a, b) => b.createdAt - a.createdAt);
   
-        //console.log('podts',combinedPosts)
-
         return combinedPosts.slice(0, 25); // Limit to 25 posts
 
 

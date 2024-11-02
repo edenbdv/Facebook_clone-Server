@@ -64,6 +64,10 @@ app.use('/api/users', users);
 const posts = require('./routes/posts');
 app.use('/api/posts', posts);
 
+const comments = require('./routes/comments');
+app.use('/api', comments);
+
+
 const tokens = require('./routes/token');
 app.use('/api/tokens', tokens);
 

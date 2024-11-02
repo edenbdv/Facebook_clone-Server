@@ -25,7 +25,6 @@
 
         <label for="picture">Picture:</label><br>
         <input type="text" id="picture" name="picture" required>
-        <!-- <input type="file" id="picture" name="picture" required> -->
         <button onclick="update('picture')">Update</button><br>
 
 
@@ -37,23 +36,12 @@
     <script>
 
 
-
-
         const createPost = async () => {
             const jwtToken = document.getElementById('token').value;
-
-
-            // Get the base64 representation of the image
-            // const pictureInput = document.getElementById('picture');
-            // const pictureFile = pictureInput.files[0]; // Assuming you're using input type="file"
-            // const pictureBase64 = await convertFileToBase64(pictureFile);
-
 
             const formData = {
                 text: document.getElementById('text').value,
                 picture: document.getElementById('picture').value
-                //picture: pictureBase64
-
 
             };
 

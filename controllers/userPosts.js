@@ -14,9 +14,6 @@ const createPost = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        // console.log("logged on username:", loggedUsername);
-        // console.log("actual username:", username);
-
         // Check if the user is authorized to perform the update
         if (username !== loggedUsername) {
             return res.status(403).json({ errors: ['User is not authorized to crete post here'] });
@@ -43,10 +40,6 @@ const getUserPosts = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1];
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
-
-        // console.log("logged on useranme: ", loggedUsername);
-        // console.log("actual useranme: ", username);
-
 
         const posts = await userPostsService.getUserPosts(loggedUsername, username);
 
@@ -84,17 +77,12 @@ const updatePost = async (req, res) => {
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
 
-        // console.log("logged on username:", loggedUsername);
-        // console.log("actual username:", username);
 
         // Check if the user is authorized to perform the update
         if (username !== loggedUsername) {
             return res.status(403).json({ errors: ['User is not authorized to update this post'] });
         }
 
-    
-        // console.log("fieldname: ", fieldName)
-        // console.log("fieldvalue: ", fieldValue)
 
       // Check if fieldName is provided
       if (!fieldName || !fieldValue) {
@@ -123,17 +111,14 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req, res) => {
     try {
-        const username = req.params.id
-        const postId = req.params.pid
+        const username = req.params.id;
+        const postId = req.params.pid;
 
         // Extract the token from the request headers
         const token = req.headers.authorization.split(' ')[1];
 
         // Verify the token using the token service
         const loggedUsername = await tokenService.verifyToken(token);
-
-        // console.log("logged on username:", loggedUsername);
-        // console.log("actual username:", username);
 
         // Check if the user is authorized to perform the update
         if (username !== loggedUsername) {
