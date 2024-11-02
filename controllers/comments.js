@@ -86,6 +86,7 @@ const updateComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
     try {
+
         const postId = req.params.pid;
         const commentId = req.params.cid;
         const commentData = await commentsService.getDataCommentByCid(commentId);

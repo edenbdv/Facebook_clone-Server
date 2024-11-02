@@ -80,14 +80,14 @@
 
             if (response.ok) {
                 const data = await response.json();
-                commentLst = []
+                const commentLst = []
                 for (const comment of data) {
                     commentLst.push(comment);
                 }
                 console.log("commentLst:",commentLst);
                 return commentLst;
             } else {
-                console.error("Failed to get posts");
+                console.error("Failed to get comments");
             }
 
         }

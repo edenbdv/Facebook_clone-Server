@@ -19,7 +19,6 @@ const createComment = async (creatorUsername, text, postId) => {
         // Update the post's comment list with the newly created post ID
         await PostModel.findByIdAndUpdate(postId, { $push: { comments: savedComment._id } });
 
-        console.log('Comment created:', savedComment);
 
         return savedComment;
     } catch (error) {
@@ -89,7 +88,8 @@ const updateComment = async (commentId, text) => {
 
          // Check if the createdAt field has not changed
          if (updatedComment && updatedComment.createdAt) {
-            console.log(`Post created at: ${updatedComment.createdAt}`);
+            return updatedComment; 
+
         } else {
             console.log('Error: createdAt field is missing or null');
         }

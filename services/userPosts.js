@@ -117,7 +117,7 @@ const updatePost = async (postId,  fieldName, fieldValue) => {
 
          // Check if the createdAt field has not changed
          if (updatedPost && updatedPost.createdAt) {
-            console.log(`Post created at: ${updatedPost.createdAt}`);  // Confirm createdAt value
+            return updatedPost; // Return the updated post
         } else {
             console.log('Error: createdAt field is missing or null');
         }
