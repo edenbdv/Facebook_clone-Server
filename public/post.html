@@ -31,10 +31,14 @@
         <button type="button" onclick=createPost()>Add Post</button>
         <button type="button" onclick=deletePost()>Delete Post</button><br><br>
 
+        <button type="button" onclick="likePost()">Like Post</button><br><br>
+        <button type="button" onclick="unlikePost()">unLike Post</button><br><br>
+        <button type="button" onclick=getLikes()>Show Likes</button><br><br>
+
+
     </form>
 
     <script>
-
 
         const createPost = async () => {
             const jwtToken = document.getElementById('token').value;
@@ -168,6 +172,73 @@
 
         }
 
+
+        const likePost = async () => {
+            const jwtToken = document.getElementById('token').value;
+            const postId = document.getElementById('postIdInput').value;
+
+            const response = await fetch(`http://localhost:12346/api/posts/${postId}/likes`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
+            });
+
+            if (response.ok) {
+                const likes = await response.json();
+                console.log(`post liked successfully:`, likes);
+             
+
+            } else {
+                console.error("Failed to like a post");
+            }
+        };
+
+
+        const unlikePost = async () => {
+            const jwtToken = document.getElementById('token').value;
+            const postId = await document.getElementById('postIdInput').value;
+
+            const response = await fetch(`http://localhost:12346/api/posts/${postId}/likes`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
+            });
+
+            if (response.ok) {
+                const likes = await response.json();
+                console.log(`post unliked successfully:`, likes);
+            } else {
+                console.error("Failed to like a post");
+            }
+        }
+
+
+
+        const getLikes = async () => {
+            const jwtToken = document.getElementById('token').value;
+            const postId = document.getElementById('postIdInput').value;
+
+            const response = await fetch(`http://localhost:12346/api/posts/${postId}/likes`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
+            });
+
+            if (response.ok) {
+                const likes = await response.json();
+                console.log(`get likes successfully:`, likes);
+             
+
+            } else {
+                console.error("Failed to like a post");
+            }
+        };
 
     </script>
 </body>

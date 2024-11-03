@@ -29,6 +29,11 @@ const Post = new Schema({
     comments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment'
+    }],
+
+    likes: [{
+        type: String,
+        ref: 'User'
     }]
 });
 
