@@ -67,6 +67,7 @@ The core feature of Foobar is its feed, where users can view updates, posts, and
 <img width="922" alt="‏‏Feed" src="https://github.com/user-attachments/assets/b97d8a45-7bd7-4dd5-b956-e6f4f1cbc1be">
 <img width="952" alt="Feed2" src="https://github.com/user-attachments/assets/ab15f9d9-d73b-4803-adfd-62823b706e4c">
 <img width="948" alt="comments" src="https://github.com/user-attachments/assets/2744bee0-92ad-4024-9e76-1b59a2713751">
+<img width="951" alt="likes" src="https://github.com/user-attachments/assets/5f50a19c-db0a-4524-bbc6-e88b8678b68f">
 
 
 ### **Profile Page**
@@ -81,6 +82,8 @@ The Profile page in Foobar provides users with an overview of their personal inf
 - **User Interaction:** Users can explore additional options related to their friends and friend requests, enhancing their networking experience on Foobar.
 
 This user-friendly interface ensures that managing personal profiles and social connections is efficient and intuitive.
+
+  <img width="952" alt="edit-profile" src="https://github.com/user-attachments/assets/14517f31-2291-4268-8331-25d7fa299f63">
   <img width="1131" alt="‏‏לכידה" src="https://github.com/user-attachments/assets/41f0069f-64d6-462e-a972-b2b7ff773ad1">
 
 
