@@ -72,6 +72,13 @@ const initializeDatabase = async () => {
         await mongoose.connect('mongodb://localhost:27017', { useNewUrlParser: true, useUnifiedTopology: true });
         console.log('Connected to the database.');
 
+        const userCount = await UserModel.countDocuments();
+        if (userCount > 0) {
+            console.log('Database already initialized - users exist. Initialization skipped.');
+            return; // Exit the function if users already exist
+        }
+
+
         // Create users and their posts
         const users = await initializeUsers();
         for (const userData of users) {
