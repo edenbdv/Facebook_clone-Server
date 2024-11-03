@@ -18,9 +18,8 @@ const Post = new Schema({
        
     },
     createdBy: {
-        //type: Schema.Types.ObjectId,
         type: String,
-        ref: 'User', // Reference to the User model
+        ref: 'User', 
         required: true
     },
     createdAt: {
@@ -28,8 +27,8 @@ const Post = new Schema({
         default: Date.now // Set default value to the current timestamp when a post is created
     },
     comments: [{
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
     }]
 });
 

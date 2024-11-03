@@ -1,0 +1,159 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Comment</title>
+</head>
+
+<body>
+    <form id="postForm">
+        <input id="userIdInput" placeholder="username">
+        <button type="button" onclick=getPostComments()>Show Comments</button><br><br>
+
+        <input id="postIdInput" placeholder="post's Id"><br><br>
+        <input id="commentIdInput" placeholder="comment's Id"><br><br>
+
+        <input id="token" placeholder="token"><br><br>
+
+
+
+        <label for="text">Text:</label><br>
+        <input type="text" id="text" name="text" required>
+        <button onclick=update()>Update</button><br>
+
+
+        <button type="button" onclick=createPost()>Add Comment</button>
+        <button type="button" onclick=deleteComment()>Delete Comment</button><br><br>
+
+    </form>
+
+    <script>
+
+            //createComment
+        const createPost = async () => {
+            const jwtToken = document.getElementById('token').value;
+
+            const formData = {
+                text: document.getElementById('text').value,
+
+            };
+
+            const postId = document.getElementById('postIdInput').value;
+
+            const response = await fetch(`http://localhost:12346/api/posts/${postId}/comments`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                const post = await response.json();
+                console.log(`comment created successfully:`, post);
+             
+
+            } else {
+                console.error("Failed to create comment");
+            }
+        };
+
+      
+        async function getPostComments() {
+            const jwtToken = document.getElementById('token').value;
+
+            const postId = document.getElementById('postIdInput').value;
+
+            const url = `http://localhost:12346/api/posts/${postId}/comments`;
+
+            const response = await fetch(url, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                }
+            });
+
+
+            if (response.ok) {
+                const data = await response.json();
+                const commentLst = []
+                for (const comment of data) {
+                    commentLst.push(comment);
+                }
+                console.log("commentLst:",commentLst);
+                return commentLst;
+            } else {
+                console.error("Failed to get comments");
+            }
+
+        }
+
+
+        async function update() {
+
+            const jwtToken = document.getElementById('token').value;
+
+            const postId = document.getElementById('postIdInput').value;
+            const commentId = await document.getElementById('commentIdInput').value;
+
+            console.log(commentId)
+
+            const text = document.getElementById('text').value;
+
+            const url = `http://localhost:12346/api/posts/${postId}/comments/${commentId}`;
+
+            console.log("url:", url);
+
+            const response = await fetch(url, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
+                body: JSON.stringify({ text }) 
+            });
+
+            if (response.ok) {
+                
+                const updatedComment = await response.json();
+                console.log(`comment updated successfully:`, updatedComment);
+            } else {
+                const errorData = await response.json();
+                console.error("Failed to update comment", errorData);
+
+            }
+        }
+
+
+        async function deleteComment() {
+
+            const jwtToken = document.getElementById('token').value;
+            const postId = await document.getElementById('postIdInput').value;
+            const commentId = await document.getElementById('commentIdInput').value;
+
+            const response = await fetch(`http://localhost:12346/api/posts/${postId}/comments/${commentId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
+            });
+
+            if (response.ok) {
+                const comment = await response.json();
+                console.log(`comment deleted successfully:`, comment);
+            } else {
+                console.error("Failed to delete comment");
+            }
+
+        }
+
+
+    </script>
+</body>
+
+</html>
