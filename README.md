@@ -1,6 +1,6 @@
 # Facebook Clone -Server-Side
+<img width="946" alt="‏‏Feed" src="https://github.com/user-attachments/assets/f9e4679b-a200-4e7b-966a-2b4cb470ab9a">
 
-<img width="922" alt="‏‏Feed" src="https://github.com/user-attachments/assets/a122e367-369f-44a8-b253-3128fd96639d">
 
 ## Links:
 client web:
@@ -63,9 +63,9 @@ The core feature of Foobar is its feed, where users can view updates, posts, and
 - **Navigation Buttons:**
   - **Log Out:** Redirects to the login page and logs out the current user.
   - **Night Mode:** Switches the site's theme.
-
-<img width="922" alt="‏‏Feed" src="https://github.com/user-attachments/assets/b97d8a45-7bd7-4dd5-b956-e6f4f1cbc1be">
-<img width="952" alt="Feed2" src="https://github.com/user-attachments/assets/ab15f9d9-d73b-4803-adfd-62823b706e4c">
+  - 
+<img width="946" alt="‏‏Feed" src="https://github.com/user-attachments/assets/78dc1a43-8157-4d16-aa02-994c0f1e2bdc">
+<img width="946" alt="Feed2" src="https://github.com/user-attachments/assets/dcc8a2de-528d-4071-ba53-c736c4197590">
 <img width="948" alt="comments" src="https://github.com/user-attachments/assets/2744bee0-92ad-4024-9e76-1b59a2713751">
 <img width="951" alt="likes" src="https://github.com/user-attachments/assets/5f50a19c-db0a-4524-bbc6-e88b8678b68f">
 
