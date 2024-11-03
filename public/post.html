@@ -223,7 +223,7 @@
             const postId = document.getElementById('postIdInput').value;
 
             const response = await fetch(`http://localhost:12346/api/posts/${postId}/likes`, {
-                method: "POST",
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${jwtToken}`

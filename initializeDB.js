@@ -4,7 +4,7 @@ const UserModel = require('./models/user');
 const UserService = require('./services/user');
 const commentsService = require('./services/comments');
 const PostModel = require('./models/post');
-
+const likesService = require('./services/likes');
 
 const fs = require('fs').promises;
 
@@ -120,37 +120,47 @@ const initializeDatabase = async () => {
             await david.save(); 
         }
 
-        // comments on posts: 
+        // comments and likes on posts: 
         const edenPosts = await PostModel.find({ createdBy: eden.username });
         if (eden && david && edenPosts.length > 0) {
-            const edenFirstPost = edenPosts[0]; //  David comments on Eden's first post
+            const edenFirstPost = edenPosts[0]; // on Eden's first post
                 await commentsService.createComment( david.username, 'This is awesome news, Eden!', edenFirstPost._id );
+                await likesService.likePost( david.username, edenFirstPost._id);
+                await likesService.likePost( sharry.username, edenFirstPost._id);
             }
     
 
         const davidPosts = await PostModel.find({ createdBy: david.username });
         if (david && john && sharry &&  davidPosts.length > 0) {
-            const davidFirstPost = davidPosts[0]; //John comments on David's first post
+            const davidFirstPost = davidPosts[0]; // on David's first post
             await commentsService.createComment( john.username, 'Only if you lead the way! 🎸🕺', davidFirstPost._id );
             await commentsService.createComment( sharry.username,"Let's dance, but only to 'A Spoonful of Sugar!' 🎶", davidFirstPost._id );
-
+            await likesService.likePost( david.username, davidFirstPost._id);
+            await likesService.likePost( sharry.username, davidFirstPost._id);
+            await likesService.likePost( eden.username, davidFirstPost._id);
         }
 
         const johnPosts = await PostModel.find({ createdBy: john.username });
-        if (eden && sharry && john &&  johnPosts.length > 1) {
+        if (eden && sharry && john && david &&  johnPosts.length > 1) { // on John's  2 first posts
             await commentsService.createComment( eden.username, 'which breed is it?', johnPosts[0]._id );
+            await likesService.likePost( eden.username, johnPosts[0]._id);
+
             await commentsService.createComment( sharry.username, 'not kocher !', johnPosts[1]._id );
+            await likesService.likePost( eden.username, johnPosts[0]._id);
+            await likesService.likePost( david.username, johnPosts[0]._id);
         }
 
         const sharryPosts = await PostModel.find({ createdBy: sharry.username });
-        if (eden && sharry && john &&  sharryPosts.length > 1) {
+        if (eden && sharry && john &&  sharryPosts.length > 1) { // on sharry's  2 first posts
             await commentsService.createComment( eden.username, 'i can\'t say that 😠', sharryPosts[0]._id );
+
             await commentsService.createComment( john.username, 'You will catch a cold!', sharryPosts[1]._id );
             await commentsService.createComment( eden.username, ' Where did you get the umbrella?', sharryPosts[1]._id );
             await commentsService.createComment( sharry.username, ' Target', sharryPosts[1]._id );
+            await likesService.likePost( john.username, sharryPosts[1]._id);
+            await likesService.likePost( eden.username, sharryPosts[1]._id);
+
         }
-
-
 
         console.log('Database initialized with default users and their posts.');
     } catch (error) {
