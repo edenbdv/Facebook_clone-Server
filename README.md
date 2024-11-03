@@ -66,6 +66,7 @@ The core feature of Foobar is its feed, where users can view updates, posts, and
 
 <img width="922" alt="‏‏Feed" src="https://github.com/user-attachments/assets/b97d8a45-7bd7-4dd5-b956-e6f4f1cbc1be">
 <img width="952" alt="Feed2" src="https://github.com/user-attachments/assets/ab15f9d9-d73b-4803-adfd-62823b706e4c">
+<img width="948" alt="comments" src="https://github.com/user-attachments/assets/2744bee0-92ad-4024-9e76-1b59a2713751">
 
 
 ### **Profile Page**
