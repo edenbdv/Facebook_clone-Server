@@ -64,8 +64,11 @@ The core feature of Foobar is its feed, where users can view updates, posts, and
   - **Night Mode:** Switches the site's theme.
   - 
 <img width="916" alt="‏‏Feed" src="https://github.com/user-attachments/assets/df6134ee-8e84-4a26-99f9-36c00f3d00c3">
+
 <img width="946" alt="Feed2" src="https://github.com/user-attachments/assets/dcc8a2de-528d-4071-ba53-c736c4197590">
+
 <img width="948" alt="comments" src="https://github.com/user-attachments/assets/2744bee0-92ad-4024-9e76-1b59a2713751">
+
 <img width="951" alt="likes" src="https://github.com/user-attachments/assets/5f50a19c-db0a-4524-bbc6-e88b8678b68f">
 
 
@@ -83,6 +86,7 @@ The Profile page in Foobar provides users with an overview of their personal inf
 This user-friendly interface ensures that managing personal profiles and social connections is efficient and intuitive.
 
   <img width="952" alt="edit-profile" src="https://github.com/user-attachments/assets/14517f31-2291-4268-8331-25d7fa299f63">
+  
   <img width="1131" alt="‏‏לכידה" src="https://github.com/user-attachments/assets/41f0069f-64d6-462e-a972-b2b7ff773ad1">
 
 
