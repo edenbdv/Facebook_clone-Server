@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const userPostsService = require('./services/userPosts');
 const UserModel = require('./models/user');
 const UserService = require('./services/user');
+const commentsService = require('./services/comments');
+const PostModel = require('./models/post');
 
 
 const fs = require('fs').promises;
@@ -98,6 +100,8 @@ const initializeDatabase = async () => {
         const eden = await UserModel.findOne({ username: 'Eden1@gmail.com' });
         const david = await UserModel.findOne({ username: 'Davidmowie1@gmail.com' });
         const john = await UserModel.findOne({ username: 'JohnDoe@gmail.com' });
+        const sharry = await UserModel.findOne({ username: 'misUmbarella@gmail.com' });
+
 
 
         if (eden && david && john) {
@@ -108,6 +112,38 @@ const initializeDatabase = async () => {
             await eden.save();
             await david.save(); 
         }
+
+        // comments on posts: 
+        const edenPosts = await PostModel.find({ createdBy: eden.username });
+        if (eden && david && edenPosts.length > 0) {
+            const edenFirstPost = edenPosts[0]; //  David comments on Eden's first post
+                await commentsService.createComment( david.username, 'This is awesome news, Eden!', edenFirstPost._id );
+            }
+    
+
+        const davidPosts = await PostModel.find({ createdBy: david.username });
+        if (david && john && sharry &&  davidPosts.length > 0) {
+            const davidFirstPost = davidPosts[0]; //John comments on David's first post
+            await commentsService.createComment( john.username, 'Only if you lead the way! 🎸🕺', davidFirstPost._id );
+            await commentsService.createComment( sharry.username,"Let's dance, but only to 'A Spoonful of Sugar!' 🎶", davidFirstPost._id );
+
+        }
+
+        const johnPosts = await PostModel.find({ createdBy: john.username });
+        if (eden && sharry && john &&  johnPosts.length > 1) {
+            await commentsService.createComment( eden.username, 'which breed is it?', johnPosts[0]._id );
+            await commentsService.createComment( sharry.username, 'not kocher !', johnPosts[1]._id );
+        }
+
+        const sharryPosts = await PostModel.find({ createdBy: sharry.username });
+        if (eden && sharry && john &&  sharryPosts.length > 1) {
+            await commentsService.createComment( eden.username, 'i can\'t say that 😠', sharryPosts[0]._id );
+            await commentsService.createComment( john.username, 'You will catch a cold!', sharryPosts[1]._id );
+            await commentsService.createComment( eden.username, ' Where did you get the umbrella?', sharryPosts[1]._id );
+            await commentsService.createComment( sharry.username, ' Target', sharryPosts[1]._id );
+        }
+
+
 
         console.log('Database initialized with default users and their posts.');
     } catch (error) {
