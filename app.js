@@ -10,22 +10,20 @@ app.use(express.json()); // req will be in json
 app.use(bodyParser.json({ limit: '180mb' }));
 app.use(bodyParser.urlencoded({ limit: '180mb', extended: true }));
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded());
-
 
 const cors = require('cors');
 app.use(cors());
 
 
-// const customEnv = require('custom-env');
-// customEnv.env(process.env.NODE_ENV, './config');
-// console.log(process.env.CONNECTION_STRING)
-// console.log(process.env.PORT)
 
-CONNECTION_STRING = "mongodb://localhost:27017"
-PORT = 12346
+const customEnv = require('custom-env');
+customEnv.env(process.env.NODE_ENV, './config');
 
+CONNECTION_STRING = process.env.CONNECTION_STRING
+PORT = process.env.PORT
+
+// console.log("CONNECTION_STRING:",CONNECTION_STRING)
+// console.log("PORT:",PORT)
 
 const connectBloomFilter = require('./client_bf');
 const socketSingleton = require('./SocketSingleton'); 
