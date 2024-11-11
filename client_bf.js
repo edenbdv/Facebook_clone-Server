@@ -26,8 +26,9 @@ function receiveData(socket) {
 async function checkUrl(url) {
 
     const IP_ADDRESS_BF_SERVER = process.env.IP_ADDRESS_BF_SERVER;
+    const PORT_BF=process.env.PORT_BF;
 
-    const socket = net.createConnection({ host: IP_ADDRESS_BF_SERVER, port: 5555 }, async () => {
+    const socket = net.createConnection({ host: IP_ADDRESS_BF_SERVER, port: PORT_BF }, async () => {
     console.log('Connected to server!');
     })
 
@@ -102,7 +103,6 @@ async function initializeServer(socket) {
             }
 
            // Send a message indicating that initialization is complete
-           // sendData(socket, 'INIT_COMPLETE');
            console.log("sent data to close sclient socket");
            //sendData(socket, '');
            socket.end();
@@ -118,8 +118,10 @@ async function initializeServer(socket) {
             return new Promise((resolve, reject) => {
       
                     const IP_ADDRESS_BF_SERVER = process.env.IP_ADDRESS_BF_SERVER;
+                    const PORT_BF=process.env.PORT_BF;
 
-                    const socket = net.createConnection({ host: IP_ADDRESS_BF_SERVER, port: 5555 }, async () => {
+
+                    const socket = net.createConnection({ host: IP_ADDRESS_BF_SERVER, port: PORT_BF }, async () => {
                     console.log('Connected to server!');
                     try {
                         // Initialize the server

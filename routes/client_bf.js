@@ -65,6 +65,8 @@ async function initializeServer(socket) {
 
    // Read the configuration environment from the file
    const bloomFilterSettings = process.env.BLOOM_FILTER_SETTINGS;
+   const PORT_BF=process.env.PORT_BF;
+
 
    while (true) {
 
@@ -115,7 +117,7 @@ async function initializeServer(socket) {
       
                     const IP_ADDRESS_BF_SERVER = process.env.IP_ADDRESS_BF_SERVER;;
 
-                    const socket = net.createConnection({ host: IP_ADDRESS_BF_SERVER, port: 5555 }, async () => {
+                    const socket = net.createConnection({ host: IP_ADDRESS_BF_SERVER, port: PORT_BF }, async () => {
                     console.log('Connected to server!');
                     try {
                         // Initialize the server
