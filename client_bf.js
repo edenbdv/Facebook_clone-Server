@@ -4,6 +4,7 @@ const net = require('net');
 const readline = require('readline');
 const customEnv = require('custom-env');
 customEnv.env(process.env.NODE_ENV, './config');
+const SocketSingleton = require('./SocketSingleton'); 
 
 // Function to send data to the server
 function sendData(socket, data) {
@@ -25,11 +26,14 @@ function receiveData(socket) {
 // Function to handle communication with the server
 async function checkUrl(url) {
 
-    const IP_ADDRESS_BF_SERVER = process.env.IP_ADDRESS_BF_SERVER;
+    const socket = await SocketSingleton.getSocket();
 
-    const socket = net.createConnection({ host: IP_ADDRESS_BF_SERVER, port: 5555 }, async () => {
-    console.log('Connected to server!');
-    })
+    if (!socket) {
+        console.error('Unable to connect to Bloom filter server.');
+        return;
+    }
+
+
 
     while (true) {
         // Send additional input to the server
@@ -63,77 +67,6 @@ async function checkUrl(url) {
     }
 }
 
-async function initializeServer(socket) {
 
-   // Read the configuration environment from the file
-   const bloomFilterSettings = process.env.BLOOM_FILTER_SETTINGS;
-
-   while (true) {
-
-       // Send input to the server (setting of bf)
-       sendData(socket, bloomFilterSettings);
-
-       // Receive response from the server
-       const receivedData = await receiveData(socket);
-       if (receivedData === '') {
-           socket.end();
-           throw new Error('Connection closed by server');
-        }
-
-       if (receivedData === 'INVALID_INPUT') {
-           console.log('Error: Invalid input received from server.');
-           continue; // Continue waiting for user input
-       }
-
-       if (receivedData === 'SUCCESS'){
-            const blacklistUrlsString = process.env.BLACKLIST_URLS;
-            const blacklistUrls = blacklistUrlsString.split(',').map(url => url.trim());
-            console.log(blacklistUrls);
-
-            // Send additional input to the server (list of forbbiden url to add to bf)
-            for (const url of blacklistUrls) { 
-               sendData(socket,`1 ${url}`);
-
-               const result = await receiveData(socket);
-               if (result !== 'SUCCESS') {
-                   console.log(`Error adding URL '${url}' to blacklist.`);
-                   // Handle the error accordingly, like logging or throwing an exception!!!
-               }
-            }
-
-           // Send a message indicating that initialization is complete
-           // sendData(socket, 'INIT_COMPLETE');
-           console.log("sent data to close sclient socket");
-           //sendData(socket, '');
-           socket.end();
-
-           // All URLs added successfully, break the loop
-           break;
-
-            }
-          }
-        }
-   
-        async function connectToServer() {
-            return new Promise((resolve, reject) => {
-      
-                    const IP_ADDRESS_BF_SERVER = process.env.IP_ADDRESS_BF_SERVER;
-
-                    const socket = net.createConnection({ host: IP_ADDRESS_BF_SERVER, port: 5555 }, async () => {
-                    console.log('Connected to server!');
-                    try {
-                        // Initialize the server
-                        await initializeServer(socket);
-                        resolve(socket); // Resolve with the socket once initialized
-                    } catch (error) {
-                        reject(error);
-                    }
-                });
         
-                socket.on('error', (err) => {
-                    reject(new Error('Error connecting to server: ' + err.message));
-                });
-            });
-        }
-        
-module.exports = {connectToServer, checkUrl};
+module.exports = { checkUrl};

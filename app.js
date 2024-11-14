@@ -25,23 +25,23 @@ PORT = process.env.PORT
 // console.log("CONNECTION_STRING:",CONNECTION_STRING)
 // console.log("PORT:",PORT)
 
-const connectBloomFilter = require('./client_bf');
-const socketSingleton = require('./SocketSingleton'); 
+// const connectBloomFilter = require('./client_bf');
+// const socketSingleton = require('./SocketSingleton'); 
 
 
 // Initialize the bloom filter connection and store the socket
-connectBloomFilter.connectToServer()
-  .then(socket => {
+// connectBloomFilter.connectToServer()
+//   .then(socket => {
 
-   // Initialize the SocketSingleton with the socket instance
-    socketSingleton.initialize(socket);
+//    // Initialize the SocketSingleton with the socket instance
+//     socketSingleton.initialize(socket);
 
-    console.log('Connected and initiliazed bloom filter server');
+//     console.log('Connected and initiliazed bloom filter server');
 
-  })
-  .catch(error => {
-    console.error('Error connecting to bloom filter server:', error.message);
-  });
+//   })
+//   .catch(error => {
+//     console.error('Error connecting to bloom filter server:', error.message);
+//   });
 
 
 const mongoose = require('mongoose');
