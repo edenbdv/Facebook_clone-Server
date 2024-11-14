@@ -69,8 +69,8 @@ const initializeUsers = async () => {
 const initializeDatabase = async () => {
     try {
         // Connect to the database
-        await mongoose.connect('mongodb://localhost:27017', { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log('Connected to the database.');
+        // await mongoose.connect('mongodb://localhost:27017', { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log('Initializing database...');
 
         const userCount = await UserModel.countDocuments();
         if (userCount > 0) {
